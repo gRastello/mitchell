@@ -1,0 +1,225 @@
+\newpage
+\section{Additive functors}
+\label{sec:functors}
+Consider two sets and the functions between them; if we enrich these two sets in some way (e.g. we make them into groups) then only some of the old functions will be ``well-behaved'' with respect to the newly introduced structure (e.g. only those functions that are group homomorphisms). Functors are mappings between categories so it is to be expected that if the categories are enriched in some way (e.g. by requiring every hom-set to be a group, as in Definition \ref{def:preadditive_category}) we have to restrict the family of ``meaningful functors'' to those that respect the chosen enrichment. The notion of additive functor thus arises.
+
+\begin{definition}
+  \label{def:additive_functor}
+  A functor \(F\colon\cat{A}\to\cat{B}\) between preadditive categories is {\bf additive} if for all pairs of objects \(A,B\in\cat{A}\) the restriction of the funtor \(F_{A,B}\colon\cat{A}(A,B)\to\cat{B}(F(A),F(B))\) between the hom-sets is a group homomorphism.
+\end{definition}
+
+\begin{example}
+  \label{ex:additive_functor}
+  As we will prove in Proposition \ref{prop:representables_are_additive} the hom-functor \(\homset{\cat{C}}{A}{-}\) from an additive category \(\cat{C}\) to \(\catname{Ab}\), is additive.
+\end{example}
+
+\begin{proposition}
+  \label{prop:category_of_additive_functors}
+  Given two preadditive categories \(\cat{A},\cat{B}\) with \(\cat{A}\) small then the category \(\add{\cat{A}}{\cat{B}}\) of additive functors and natural transformations is preadditive. Moreover the preadditive structure is defined pointwise.
+\end{proposition}
+
+\begin{proof}
+  Given natural transformations \(\nat{\alpha,\beta}{F}{G}\) we define their sum \(\alpha + \beta\) by \((\alpha+\beta)_A=\alpha_A+\beta_A\).
+  We need to check that \(\nat{\alpha+\beta}{F}{G}\) is again a natural transformation. Let \(f\colon A\to B\) be an arrow in \(\cat{A}\); by using that \(\alpha,\beta\) are natural transformations we have:
+  \begin{align*}
+    (\alpha+\beta)_B \circ F(f) &= (\alpha_B + \beta_B)\circ F(f)\\
+                                &= (\alpha_B\circ F(f))+(\beta_B\circ F(f))\\
+                                &= (G(f)\circ\alpha_A)+(G(f)\circ\beta_A)\\
+                                &= G(f)\circ(\alpha_A+\beta_A)\\
+                                &= G(f)\circ(\alpha+\beta)_A
+  \end{align*}
+  so \(\alpha+\beta\) is a natural transformation between \(F\) and \(G\).
+  The identity element of \(\text{Nat}(F,G)\) is obviously the natural transformation \(\nat{0}{F}{G}\) obtained by setting \(0_A\) to be the identity element of the group \(\cat{B}(F(A),G(A))\); \(\nat{0}{F}{G}\) is a natural transformation because composing with a zero arrow yields another zero arrow and zero arrows are unique. The inverse of a natural transformation \(\nat{\alpha}{F}{G}\) is the natural transformation \(-\alpha\) defined by \((-\alpha)_A = -\alpha_A\); \(\nat{-\alpha}{F}{G}\) is a natural transformation because \(\alpha\) is.
+  Finally commutativity and associativity of the sum of natural transformations as well as bilinearity of their composition follow from the fact that \(\cat{B}\) is preadditive. It follows that \([\cat{A}, \cat{B}]\) is preadditive and, since it's a full subcategory, so is \(\add{\cat{A}}{\cat{B}}\).
+\end{proof}
+
+One could rightfully wonder why functors that preserve preadditive structure are not called ``preadditive functors''; as intuitively the name ``additive functor'' should be reserved for those functors between additive categories that preserve the additive structure. The following result shows that, between additive categories, ``preadditive functors'' are the same as additive ones.
+
+\begin{proposition}
+  \label{prop:additive_criteria}
+  For a functor \(F\colon\cat{A}\to\cat{B}\) between additive categories the following are equivalent:
+  \begin{enumerate}[label=(\arabic*)]
+  \item \(F\) is additive,
+  \item \(F\) preserves biproducts,
+  \item \(F\) preserves finite products,
+  \item \(F\) preserves finite coproducts.
+  \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+  \((3)\) and \((4)\) are equivalent by duality and imply the preservation of both binary products and binary coproducts thus biproducts i.e. \((2)\).\\
+  To prove that \((2)\Rightarrow(3)\) we first recall that binary products in an additive category are always biproducs (Proposition \ref{prop:existence_of_products}) and so are preserved by \(F\); to prove that all finite products are preserved we now need to prove that the product of the empty family (the terminal object \({\bf 0}\)) is preserved. For every \(B\in\cat{B}\) there is at least an arrow \(B\to F({\bf 0})\) because \(\cat{B}\) is additive and thus has the zero arrows. We consider the biproduct \({\bf 0}\oplus{\bf 0}\) in \(\cat{A}\), since \({\bf 0}\) is terminal we have that the two projections \(p_1,p_2\colon{\bf 0}\oplus{\bf 0}\to{\bf 0}\) are really the same arrow; so \(p_1=p_2\). Since \(F\) preserves biproducts by hypothesis we have \(F({\bf 0}\oplus{\bf 0})\cong F({\bf 0})\oplus F({\bf 0})\) and while for the projections we have \(q_1=F(p_1)\) and \(q_2=F(p_2)\) thus \(q_1= q_2\) (since \(p_1=p_2\)). Now given \(f,g\colon B\to F({\bf 0})\), by using Proposition \ref{prop:uniqueness_of_additive_structure}:
+  \begin{gather*}
+    f - g = \sigma_{F({\bf 0})}\circ\vvector{f}{g} = (q_1 - q_2)\circ\vvector{f}{g} = 0\circ\vvector{f}{g} = 0
+  \end{gather*}
+  so \(f - g = 0\) and thus \(f = g\). This proves that \(\text{Hom}(B, F({\bf 0}))\) is a singleton and thus \(F({\bf 0})\) is terminal.
+
+  \((1)\Rightarrow(2)\) follows trivially from the definition of a biproduct (see Definition \ref{def:biproduct}); it remains to prove that \((2)\Rightarrow(1)\). We have already proved that if \((2)\) holds then \(F\) preserves the zero object, so it preserves the zero arrows and thus the identity elements of the groups. To prove that \(F\) preserves the difference of arrows, by using Proposition \ref{prop:uniqueness_of_additive_structure} again (particularly the marked expression \((*)\) in its proof), it is sufficient to prove that \(F\) preserves the difference of the projections \(p_1-p_2\) for all \(A\oplus A\). Since \(F\) preserves biproducts \(F(s_1),F(s_2)\) are the injections of \(F(A)\oplus F(A)\) and we have:
+  \begin{gather*}
+    F(p_1 - p_2) \circ F(s_1) = F((p_1 - p_2)\circ s_1) = F(1_A- 0) = 1_{F(A)}\\
+    (F(p_1) - F(p_2))\circ F(s_1) = F(p_1\circ s_1) - F(p_2\circ s_1) = F(1_A) - 0 = 1_{F(A)}\\
+    F(p_1 - p_2) \circ F(s_2) = F((p_1 - p_2)\circ s_2) = F(0 - 1_A) = -1_{F(A)}\\
+    (F(p_1) - F(p_2))\circ F(s_2) = F(p_1\circ s_2) - F(p_2\circ s_2) = 0 - F(1_A) = -1_{F(A)}
+  \end{gather*}
+  so \(F(p_1 - p_2) = F(p_1) - F(p_2)\) and thus \((1)\) holds.
+\end{proof}
+
+\begin{example}
+  \label{ex:category_of_additive_functors}
+  With Example \ref{ex:ring_preadditive} in mind we will now show that, for any ring \(R\), the category \(\catname{Mod}_R\) of left \(R\)-modules is isomorphic to the category \(\text{Add}(\cat{R},\catname{Ab})\) of additive functors from \(\cat{R}\) to \(\catname{Ab}\) and natural transformations between them.
+  
+  Given a left \(R\)-module \(M\) we define a functor \(F\colon\cat{R}\to\catname{Ab}\) by setting \(F(*) = (M, +)\) and \(F(r)\colon M\to M,x\mapsto r\cdot x\) for \(r\in R\). The definition of R-module ensures that \(F\) is additive and so \(F\in\text{Add}(\cat{R},\catname{Ab})\). Given a linear function \(\fun{f}{M}{N}\) on \(R\)-modules let \(G\) be the functor associated to \(N\) while \(F\) is the functor associated to \(M\) as above. We define a natural transformation \(\nat{\varphi}{F}{G}\) by setting \(\varphi_* = f\). Let \(\fun{r}{*}{*}\) be an arrow of \(\cat{R}\) and \(x\in M\):
+  \begin{equation*}
+    (f\circ(r\cdot-))(x) = f(r\cdot x) = r\cdot f(x) = ((r\cdot-)\circ f)(x)
+  \end{equation*}
+  so \(\varphi\) is really a natural transformation.
+
+  Conversely an additive functor \(F\in\add{\cat{R}}{\catname{Ab}}\) gives us an abelian group \(F(*)\) and for every \(r\in R\) a group homomorphism \(\fun{F(r)}{F(*)}{F(*)}\). We can easily define a scalar multiplication on \(F(*)\) as follows
+  \fundef{\cdot}{R\times F(*)}{F(*)}{(r,x)}{r\cdot x = F(r)(x)}
+  From the fact that \(F(r)\) is a group homomorphism we obtain that \(r\cdot (x + y) = r\cdot x + r\cdot y\) and from the functoriality of \(F\) we obtain \((r\cdot s)\cdot x = r\cdot(s\cdot x)\) and \(1\cdot x = x\). Moreover from the additivity of \(F\) we have
+  \begin{align*}
+    (r + s)\cdot x &= F(r + s)(x)\\
+                   &= (F(r) + F(s))(x) \tag{\(*\)}\\
+                   &= F(r)(x) + F(s)(x)\\
+                   &= r\cdot x + s\cdot x
+  \end{align*}
+  and this completes the construction of an \(R\)-module out of \(F\).
+
+  Finally if \(\nat{\varphi}{F}{G}\) is a natural transformation then the group homomorphism \(\fun{\varphi_*}{F(*)}{G(*)}\) is such that \(\varphi_*\circ F(r) = G(r)\circ\varphi_*\) for every \(r\in R\). Taking \(x\in F(*)\) we have
+  \begin{equation*}
+    \varphi_*(r\cdot x) = \varphi_*(F(r)(x)) = G(r)(\varphi_*(x)) = r\cdot\varphi_*(x)
+  \end{equation*}
+  so \(\varphi_*\) is an \(R\)-linear map.
+
+  The two functors we have constructed are mutually inverse, so \(\catname{Mod}_R\) and \(\add{\cat{R}}{\catname{Ab}}\) are isomorphic.
+\end{example}
+
+\begin{remark}
+  \label{rem:uniqueness_is_cool}
+  Notice that in the above example, particularly at the marked line \((*)\), we utilize the fact that the sum of morphisms in \(\catname{Ab}\) is defined pointwise and we can safely do so because of Corollary \ref{corollary:ab_additive}.
+\end{remark}
+
+When working with a standard category \(\cat{C}\) every object \(C\in\cat{C}\) gives a (covariant) hom-functor \(\homset{\cat{C}}{C}{-}\) from \(\cat{C}\) to \(\catname{Set}\) defined in the usual way. A functor \(\fun{F}{\cat{C}}{\catname{Set}}\) is related to the hom-functors of \(\cat{C}\) by the Yoneda Lemma; that we can then use to realize a contravariant embedding of \(\cat{C}\) in \([\cat{C},\catname{Set}]\). The following results show that the same can be done for additive categories, without losing the group structure on the hom-sets.
+
+\begin{definition}
+  \label{def:representable_functor}
+  Consider the functor
+  \fundef{\homset{\cat{A}}{A}{-}}{\cat{A}}{\catname{Ab}}{B \ar[d, "\displaystyle f"']\\ C}{\homset{\cat{A}}{A}{B} \ar[d, "\displaystyle\postcomp{f}"']\\ \homset{\cat{A}}{A}{C}}
+  where \(\cat{A}\) is an additive category, \(A\) and \(B\) elements of \(\cat{A}\), \(\fun{f}{B}{C}\) an arrow of \(A\) and \(\fun{\postcomp{f}}{\homset{\cat{A}}{A}{B}}{\homset{\cat{A}}{A}{C}}\) the post-composition with \(f\). We call such a functor a {\bf hom-functor} and a functor naturally isomorphic to a hom-functor a {\bf representable-functor}.
+\end{definition}
+
+\begin{remark}
+  \label{rem:representable_natural_transformation}
+  Every morphism \(\fun{f}{A}{B}\) induces a natural transformation \(\nat{\homset{\cat{A}}{f}{-}}{\homset{\cat{A}}{B}{-}}{\homset{\cat{A}}{A}{-}}\) with components \(\homset{\cat{A}}{f}{-}_C = \homset{\cat{A}}{f}{C} = \precomp{f}\); where we denote with \(\precomp{f}\) the pre-composition with \(f\).
+\end{remark}
+
+\begin{proposition}
+  \label{prop:representables_are_additive}
+  The hom-functor \(\homset{\cat{A}}{A}{-}\) is additive.
+\end{proposition}
+
+\begin{proof}
+  Given \(f,g\colon X\to Y\) for \(h\in\cat{A}(A, X)\) we have:
+  \begin{align*}
+    \postcomp{(f+g)}(h) &= (f + g)\circ h\\
+                        &= (f\circ h) + (g\circ h)\\
+                        &= \postcomp{f}(h) + \postcomp{g}(h)\\
+                        &= (\postcomp{f} + \postcomp{g})(h)
+  \end{align*}
+  so \(\postcomp{(f + g)} = \postcomp{f} + \postcomp{g}\); it follows that \(\homset{\cat{A}}{A}{-}\) is additive.
+\end{proof}
+
+\begin{lemma}[Additive Yoneda Lemma]
+  \label{lemma:additive_yoneda_lemma}
+  If \(\cat{A}\) is a preadditive category, \(A\in\cat{A}\) and \(F\colon\cat{A}\to\catname{Ab}\) is an additive functor then there is an isomorphism of groups
+  \begin{gather*}
+    \theta_{F,A}\colon\text{Nat}(\cat{A}(A,-),F)\overset{\cong}{\longrightarrow}F(A)
+  \end{gather*}
+  moreover this isomorphism is natural in \(A\) and, when \(\cat{A}\) is small, also in \(F\).
+\end{lemma}
+
+\begin{proof}
+  We first prove the existence of a bijection between \(\text{Nat}(\cat{A}(A,-),F)\) and \(F(A)\) that is natural in both \(F\) and \(A\). Then we will prove that such bijection is really a group homomorphism, completing the proof.
+
+  Given a natural transformation \(\alpha\colon\cat{A}(A,-)\Rightarrow F\) we define \(\theta_{F,A}(\alpha) = \alpha_A(1_A)\). Given \(a\in F(A)\) and \(B\in\cat{A}\) we define a map
+  \fundef{\tau(a)_B}{\homset{\cat{A}}{A}{B}}{F(B)}{f}{F(f)(a)}
+  Using the additivity of \(F\) and the additive structure of \(\catname{Ab}\) we have
+  \begin{align*}
+    \tau(a)_B(f+g) &= F(f + g)(a)\\
+                   &= (F(f) + F(g))(a)\\
+                   &= F(f)(a) + F(g)(a)\\
+                   &= \tau(a)_B(f) + \tau(a)_B(g).
+  \end{align*}
+  So \(\tau(a)_B\) is a group homomorphism. Given an arrow \(g\colon B\to C\) in \(\cat{A}\) and an \(f\in\cat{A}(A,B)\) we obtain
+  \begin{align*}
+    (F(g)\circ\tau(a)_B)(f) &= (F(g)\circ F(f))(a)\\
+                            &= F(g\circ f)(a)\\
+                            &= \tau(a)_C(g\circ f)\\
+                            &= (\tau(a)_C\circ\postcomp{g})(f)
+  \end{align*}
+  so \(F(g)\circ\tau(a)_B = \tau(a)_C\circ\postcomp{g}\) and thus every \(a\in F(A)\) gives us a natural trasformation \(\nat{\tau(a)}{\homset{\cat{A}}{A}{-}}{F}\) with components \(\tau(a)_B\) for \(B\in\cat{A}\). Now we have that
+  \begin{itemize}
+  \item  if \(a\in F(A)\) then one has
+    \begin{equation*}
+      \theta_{F,A}(\tau(a)) = \tau(a)_A(1_A) = F(1_A)(a) = 1_{F(A)}(a) = a,
+    \end{equation*}
+  \item if \(\nat{\alpha}{\homset{\cat{A}}{A}{-}}{F}\) and \(\fun{f}{A}{B}\) then
+    \begin{align*}
+      \tau(\theta_{F,A}(\alpha))_B(f) &= \tau(\alpha_A(1_A))_B(f)\\
+                                      &= F(f)(\alpha_A(1_A))\\
+                                      &= \alpha_B(\postcomp{f}(1_A))\\
+                                      &= \alpha_B(f\circ 1_A)\\
+                                      &= \alpha_B(f).
+  \end{align*}
+  \end{itemize}
+  So \(\tau\) and \(\theta_{F,A}\) are mutually inverse assignments and thus bijections.
+
+  To prove the naturality in \(A\) we consider the functor
+  \fundef{N}{\cat{A}}{\catname{Ab}}
+  {A \ar[d, "\displaystyle f"']\\ B}
+  {\nathom{\homset{\cat{A}}{A}{-}}{F} \ar[d, "\displaystyle\precomp{\homset{\cat{A}}{f}{-}}"]\\ \nathom{\homset{\cat{A}}{B}{-}}{F}}
+  The following calculations, for \(\alpha\in\nathom{\homset{\cat{A}}{A}{-}}{F}\) show that \(\nat{\eta}{N}{F}\) defined by \(\eta_A = \theta_{F,A}\) is a natural transformation:
+  \begin{align*}
+    (\theta_{F,B}\circ N(f))(\alpha) &= \theta_{F,B}(\alpha\circ\cat{A}(f,-))\\
+                                     &= (\alpha\circ\cat{A}(f,-))_B(1_B) = \alpha_B(f),\\
+    (F(f)\circ\theta_{F,A})(\alpha)  &= F(f)(\alpha_A(1_A))\\
+                                     &= (\alpha_B\circ\postcomp{f})(1_A) = \alpha_B(f).
+  \end{align*}
+
+  If \(\cat{A}\) is small then it makes sense to consider \(\text{Add}(\cat{A},\catname{Ab})\); the category of additive functors from \(\cat{A}\) to \(\catname{Ab}\). Fixing an object \(A\in\cat{A}\) on one hand we consider the functor
+  \fundef{M}{\add{\cat{A}}{\catname{Ab}}}{\catname{Ab}}
+  {F \ar[d, "\displaystyle\gamma"']\\ G}
+  {\nathom{\homset{\cat{A}}{A}{-}}{F} \ar[d, "\displaystyle\postcomp{\gamma}"']\\ \nathom{\homset{\cat{A}}{A}{-}}{G}}
+  and on the other the ``evaluation at \(A\)'' functor
+  \fundef{\text{ev}_A}{\add{\cat{A}}{\catname{Ab}}}{\catname{Ab}}
+  {F \ar[d, "\displaystyle\gamma"']\\ G}
+  {F(A) \ar[d, "\displaystyle\gamma_A"']\\ G(A)}
+  Now we have:
+  \begin{gather*}
+    (\theta_{G,A}\circ M(\gamma))(\alpha) = \theta_{G,A}(\gamma\circ\alpha) = (\gamma\circ\alpha)_A(1_A)\\
+    (\text{ev}_A(\gamma)\circ\theta_{F,A})(\alpha) = \gamma_A(\alpha_A(1_A)) = (\gamma\circ\alpha)_A(1_A)
+  \end{gather*}
+  so \(\nat{\mu}{M}{ev_A}\) defined by \(\mu_F = \theta_{F,A}\) is a natural transformation.
+
+  To complete the proof we need to show that \(\tau\) is a group homomorphism. Given \(a,b\in F(A)\) one has
+  \begin{equation*}
+    \tau(a + b)_B(f) = F(f)(a + b) = F(f)(a) + F(f)(b) = \tau(a)_B(f) + \tau(b)_B(f)
+  \end{equation*}
+  so \(\tau(a + b) = \tau(a) + \tau(b)\); thus \(\tau\) is a group homomorphism.
+\end{proof}
+
+\begin{definition}
+  \label{def:yoneda_embedding}
+  For an additive category \(\cat{A}\) the contravariant functor
+  \fundef{\yo^{*}}{\cat{A}}{\add{\cat{A}}{\catname{Ab}}}
+  {B \ar[d, "\displaystyle f"']\\ C}
+  {\homset{\cat{A}}{B}{-} \\ \homset{\cat{A}}{C}{-} \ar[u, "\displaystyle\homset{\cat{A}}{f}{-}"']}
+  is called the (contravariant) {\bf Yoneda embedding} of \(\cat{A}\) in \(\add{\cat{A}}{\catname{Ab}}\).
+\end{definition}
+
+\begin{remark}
+  \label{rem:yoneda_embedding_full_and_faithful}
+  By the Yoneda Lemma the Yoneda embedding of \(\cat{A}\) in \(\add{\cat{A}}{\catname{Ab}}\) is fully faithful.
+\end{remark}
+
+The Yoneda Lemma and the Yoneda Embedding, while interesting in their own right, are useful and necessary tools for our goal. Indeed in \S\ref{sec:5} we make vast use of them to prove a number of results that will ultimately lead us to the Faithful Embedding Theorem (\ref{teo:faithful_embedding}) and, lastly, to Mitchell's Embedding Theorem (\ref{teo:mitchell}).

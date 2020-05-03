@@ -1,0 +1,151 @@
+\documentclass[12pt, letter paper, english, reqno]{article}
+% \usepackage[left=3.75cm, right=3.75cm, top=3cm, bottom=3cm]{geometry}
+\usepackage[utf8]{inputenc}
+
+\setlength{\evensidemargin}{0.1in}
+\setlength{\oddsidemargin}{0.1in}
+\setlength{\textwidth}{6.3in}
+\setlength{\topmargin}{0.0in}
+\setlength{\textheight}{8.5in}
+\setlength{\headheight}{0in}
+
+% Hyperlinks.
+\usepackage{xcolor}
+\definecolor{Myblue}{rgb}{0,0,0.6}
+\usepackage[a4paper,colorlinks,citecolor=Myblue,linkcolor=Myblue,urlcolor=Myblue,pdfpagemode=None]{hyperref}
+
+% Math-related things.
+\usepackage{mathtools}
+\usepackage{amsmath, amsthm, amssymb}
+\usepackage{mathrsfs}
+\usepackage[margin=1cm]{caption}
+\usepackage{enumitem}
+\usepackage{newunicodechar}
+
+% Tikz setup.
+\usepackage{tikz}
+\usetikzlibrary{cd, arrows, matrix}
+
+% Amsmath stuff.
+% \theoremstyle{definition}
+
+\newtheoremstyle{myteo}{\topsep}{\topsep}
+	{}
+	{}
+	{\bfseries}
+	{.}
+	{2pt}
+	{\thmname{#1}\thmnumber{ #2}\thmnote{ (#3)}}
+\theoremstyle{myteo}
+
+\newtheorem{definition}{Definition}[section]
+\newtheorem{example}[definition]{Example}
+\newtheorem{notation}[definition]{Notation}
+\newtheorem{remark}[definition]{Remark}
+\newtheorem{fact}[definition]{Fact}
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{corollary}[definition]{Corollary}
+\newtheorem{lemma}[definition]{Lemma}
+
+% Radom stuff.
+\usepackage{csquotes}
+
+% Custom commands.
+\newcommand{\cat}[1]{{\mathscr #1}}
+\newcommand{\catname}[1]{\text{\normalfont\textbf{#1}}}
+\newcommand{\vvector}[2]{\begin{pmatrix}#1\\ #2\end{pmatrix}}
+\newcommand{\hvector}[2]{\begin{pmatrix}#1 & #2\end{pmatrix}}
+\newcommand{\vvectorfour}[4]{\begin{pmatrix}#1\\ #2\\ #3\\ #4\end{pmatrix}}
+\newcommand{\vvectormini}[2]{\left(\begin{smallmatrix}#1\\ #2\end{smallmatrix}\right)}
+\newcommand{\hvectormini}[2]{\left(\begin{smallmatrix}#1 & #2\end{smallmatrix}\right)}
+\newcommand{\fun}[3]{#1\colon #2\to #3}
+\newcommand{\epi}[3]{#1\colon #2\twoheadrightarrow #3}
+\newcommand{\nat}[3]{#1\colon #2\Rightarrow #3}
+\newcommand{\add}[2]{\text{\normalfont Add}[#1, #2]}
+\newcommand{\functdef}[7]{\begin{align*}
+                            #1\colon #2 &\longrightarrow #3\\
+                            #4 &\longmapsto #5\\
+                            #6 &\longmapsto #7
+                          \end{align*}}
+\newcommand{\fundef}[5]{\begin{align*}
+                             #1\colon\begin{tikzcd}[sep=large]#2\end{tikzcd} &\longrightarrow \begin{tikzcd}[sep=large]#3\end{tikzcd}\\
+                             \begin{tikzcd}[sep=large]#4\end{tikzcd} &\longmapsto \begin{tikzcd}[sep=large]#5\end{tikzcd}
+                           \end{align*}}
+\newcommand{\homset}[3]{#1(#2,#3)}
+\newcommand{\precomp}[1]{{#1}^*}
+\newcommand{\postcomp}[1]{{#1}_*}
+\newcommand{\nathom}[2]{\text{\normalfont Nat}(#1,#2)}
+\newcommand{\eqtext}[1]{\stackrel{\mathclap{\scriptsize\mbox{#1}}}{=}}
+\newcommand{\op}[1]{#1^{\text{op}}}
+\newcommand{\hh}[1]{{}_={#1}}
+\newcommand{\vh}[1]{{#1}^{\parallel}}
+\newcommand{\rec}[1]{{}^{\Box}{#1}}
+\newcommand{\don}[1]{{#1}_{\Box}}
+
+% Custom operators.
+\DeclareMathOperator\coker{coker}
+\DeclareMathOperator\im{im}
+\DeclareMathOperator*\colim{colim}
+
+% Yoneda.
+\newcommand{\yo}{\text{\usefont{U}{min}{m}{n}\symbol{'210}}}
+\DeclareFontFamily{U}{min}{}
+\DeclareFontShape{U}{min}{m}{n}{<-> udmj30}{}
+
+% Figures stuff.
+\renewcommand{\figurename}{Diagram}
+\renewcommand{\thefigure}{\arabic{section}.\arabic{figure}}
+
+\begin{document}
+% \rhead{\thepage}
+% \lhead{\nouppercase{\leftmark}} 
+
+\title{Notes on Abelian Categories and Mitchell's Embedding Theorem}
+\author{Gabriele Rastello}
+\maketitle
+\tableofcontents
+
+\newpage
+\section*{Preface}
+% These notes are a digested read of (a part of) the first chapter of Borceux's Handbook of Categorical Algebra 2.
+% The intention is that of introducing Abelian Categories and then prove the celebrated Mitchell's Embedding Theorem (see \ref{teo:mitchell}).
+
+% The text is tailored toward beginners in Category Theory
+
+\medskip\noindent\emph{Why these notes exist.}
+Around September 2019, given my interest in Category Theory and my upcoming graduation, I asked a professor that works in this branch to be the advisor of my graduation thesis.
+After a brief meeting he assigned me the first chapter of Borceux's Handbook of Categorical Algebra (see \cite{handbook2}), with Mitchell's Embdedding Theorem as a specific goal.
+With this in mind I started reading the book and writing these notes, adding here and there some details to the proofs, examples and so on.
+Then the Covid19 pandemic hit and this document became the major way of communicating the progress I was making to my advisor.
+Eventually everything was approved and these notes were recombined into my undergraduate thesis.
+But in the process of doing so I realized that maybe someone, somewhere, could benefit from reading them and that publishing them wasn't hard at all (we have the internet) so this document was born.
+
+\medskip\noindent\emph{Who could benefit from reading these notes?}
+Anyone interested in learning the basics of Abelian Categories and seeing a proof of Mitchell's Embedding Theorem.
+As I've already said these notes contain more detailed proofs that \cite{handbook2} and so I feel that can be most useful to beginners in the study of Category Theory.
+Moreover they are more self-contained that \cite{handbook2} since most of the needed theorems that Borceux imports from his other book are re-stated and proven as well.
+This removes the annoyance of having to continually switch between books.
+However a minimal subset of results is not re-stated and re-proven; this mostly have to do with my advisor not requesting an explicit proof of them.
+I might decide to include them in a later version of the notes, but this is very unlikely since it will basically require to re-write much of \cite{handbook1}'s chapter 2; that is very accessible to beginners anyway.
+
+\medskip\noindent\emph{What do you mean with the term ``beginners''?}
+Basically anyone that has the same degree of knowledge of category theory that I had back in September 2019.
+Namely people that are comfortable with the notions of: categories, functors, natural transformations and (co)limits.
+In this last requirement I include the definition of (co)limits and all the standard ones (initial/terminal objects, products/coproducs, pullbacks/pushouts, equalizers/coequalizers).
+
+\medskip\noindent\emph{A word on section 6.}
+The sixth and last section was initially intended to be a brief example of application of Mitchell's Embdedding Theorem.
+However it grew into a quick introduction to the homology of (double) complexes followed by a proof of some classical lemmas.
+The reader can safely ignore this section. 
+
+\input{sections/preadditive_and_additive_categories.tex}
+\input{sections/abelian_categories.tex}
+\input{sections/additive_functors.tex}
+\input{sections/exact_sequences_and_exact_functors.tex}
+\input{sections/the_embedding_theorem.tex}
+\input{sections/salamanders.tex}
+
+\newpage
+\input{bibliography.tex}
+\end{document}

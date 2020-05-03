@@ -1,0 +1,425 @@
+\newpage
+\section{Applications: classical lemmas}
+\label{sec:salamanders}
+The classical lemmas of homological algebra (such as the \(3\times 3\) Lemma and the Snake Lemma) for abelian categories, as shown in \cite{salaman}, are quickly obtained from Lemma \ref{lemma:salamander}, called the ``Salamander Lemma''. As a practical demonstration of the power of Mitchell's Embedding Theorem we will prove this lemma and its consequences by working with modules only.\footnote{It should be said that this is in not the only way of obtaining such results; indeed one can work with pseudo-elements as in \cite[\S 1.9, \S 1.10]{handbook2} or \cite[\S VIII.4]{catwork}.}
+
+\begin{definition}
+  \label{def:chain_complex}
+  In an abelian category \(\cat{A}\) a {\bf chain complex} \(A_\bullet\) is a collection of objects and arrows \((A_n, \fun{f_n}{A_n}{A_{n-1}})_{n\in\mathbb{Z}}\) such that \(f_n\circ f_{n+1} = 0\) for all \(n\in\mathbb{Z}\).
+  \begin{center}
+    \begin{tikzcd}
+      \cdots \ar[r, "f_2"] & A_1 \ar[r, "f_1"] & A_0 \ar[r, "f_0"] & A_{-1} \ar[r, "f_{-1}"] & \cdots
+    \end{tikzcd}
+  \end{center}
+\end{definition}
+
+\begin{definition}
+  \label{def:chain_map}
+  Given two chain complexes \(A_\bullet = (A_n, f_n)_{n\in\mathbb{Z}}\) and \(B_\bullet = (B_n, g_n)_{n\in\mathbb{Z}}\) a {\bf chain map} \(h\colon A_\bullet\to B_\bullet\) is a collection of arrows \((\fun{h_n}{A_n}{B_n})_{n\in\mathbb{Z}}\) such that \(h_{n-1}\circ f_n = g_n\circ h_n\).
+  \begin{center}
+    \begin{tikzcd}
+      \cdots \ar[r, "f_2"] & A_1 \ar[r, "f_1"] \ar[d, "h_1"] & A_0 \ar[r, "f_0"] \ar[d, "h_0"] & A_{-1} \ar[r, "f_{-1}"] \ar[d, "h_{-1}"] & \cdots\\
+      \cdots \ar[r, "g_2"] & B_1 \ar[r, "g_1"] & B_0 \ar[r, "g_0"] & B_{-1} \ar[r, "g_{-1}"] & \cdots
+    \end{tikzcd}
+  \end{center}
+\end{definition}
+
+\begin{definition}
+  \label{def:homology}
+  Given a chain complex \(A_\bullet\) in an abelian category \(\cat{A}\) we define the {\bf chain homology} of \(A_\bullet\) of degree \(n\) as
+  \begin{equation*}
+    H_n(A_\bullet) = \ker(f_{n})/\im(f_{n+1}).
+  \end{equation*}
+
+  Where we use the quotient notation to indicate the cokernel of the factorization of the image of \(f_{n+1}\) through the kernel of \(f_{n}\) (the dashed arrow in Diagram \ref{diagram:quotient}).
+
+\end{definition}
+
+\begin{figure}[h]
+  \begin{center}
+    \begin{tikzcd}[column sep = tiny]
+      A_{n+1} \ar[rr, "f_{n+1}"] \ar[rd, two heads, "i"] & & A_{n} \ar[rr, "f_{n}"] & & A_{n-1} &\\
+      & \im(f_{n+1}) \ar[ru, tail, "j"] \ar[rr, dashed, tail, ""] & & \ker(f_{n}) \ar[lu, tail, ""] \ar[rr, two heads, ""] & & H_n(A_\bullet)
+    \end{tikzcd}
+  \end{center}
+  \caption{}
+  \label{diagram:quotient}
+\end{figure}
+
+\begin{remark}
+  \label{rem:exactness_and_homology}
+  Referencing Diagram \ref{diagram:quotient} note that if the pair \((f_{n+1},f_{n})\) is exact then \(\ker(f_{n}) = \im(f_{n+1})\) by definition and thus \(H_n(A_\bullet) = 0\).
+\end{remark}
+
+\begin{remark}
+  \label{rem:quotient_modules_maps}
+  Let \(X,Y,Z,W\) be \(R\)-modules with \(Y\) submodule of \(X\) and \(W\) submodule of \(Z\); moreover let \(\fun{f}{X}{Z}\) be an \(R\)-linear map such that \(f(Y)\subseteq W\). Then the map \(\fun{\hat{f}}{X/Y}{Z/W}\) defined by \([x]\mapsto [f(x)]\) is an \(R\)-linear map.
+\end{remark}
+
+\begin{remark}
+  \label{rem:induced_homology_maps}
+  Let \(A_\bullet\) and \(B_\bullet\) be chain complexes in an abelian category \(\cat{A}\) and \(\fun{h}{A_\bullet}{B_\bullet}\) a chain map between them. Consider now the following diagram in \(\cat{A}\); however we can, via Theorem \ref{teo:mitchell}, assume we're dealing with modules.
+    \begin{center}
+    \begin{tikzcd}
+      \cdots \ar[r, "f_2"] & A_1 \ar[r, "f_1"] \ar[d, "h_1"] & A_0 \ar[r, "f_0"] \ar[d, "h_0"] & A_{-1} \ar[r, "f_{-1}"] \ar[d, "h_{-1}"] & \cdots\\
+      \cdots \ar[r, "g_2"] & B_1 \ar[r, "g_1"] & B_0 \ar[r, "g_0"] & B_{-1} \ar[r, "g_{-1}"] & \cdots
+    \end{tikzcd}
+  \end{center}
+  If \(x\in\ker(f_0) \) then \(0 = (h_{-1}\circ f_0)(x) = (g_0\circ h_0)(x)\) so \(h_0(x)\in\ker(g_0)\). Moreover if \(x\in\im(f_1)\) then there is a \(x_1\in A_1\) such that \(f_1(x_1) = x\); now \((h_0\circ f_1)(x_1) = (g_1\circ h_1)(x_1)\) so \(h_0(x)\in\im(g_1)\). Applying Remark \ref{rem:quotient_modules_maps} we obtain that \(h_0\) induces a map \(H_0(A_\bullet)=\frac{\ker(f_0)}{\im(f_1)}\to\frac{\ker(g_0)}{\im(g_1)}=H_0(B_\bullet)\) between the homologies of order \(0\).
+
+  The previous argument can be repeated forevery \(n\) so, in the end, we have that a chain map \(\fun{h}{A_\bullet}{B_\bullet}\) induces maps between the homologies of the same order of the two complexes.
+\end{remark}
+
+\begin{definition}
+  \label{def:double_complex}
+  A {\bf double complex} in an abelian category \(\cat{A}\) is a chain complex of chain complexes i.e. an infinite 2-dimesional grid of objects of \(\cat{A}\) as in Diagram \ref{diagram:double_complex} where every square commutes and the composition of two vertical or horizontal arrows is a zero morphsism.
+\end{definition}
+
+\begin{figure}[h]
+  \begin{center}
+    \begin{tikzcd}
+      {} & {} \ar[d, ""] & {} \ar[d, ""] & {} \ar[d, ""] & {}\\
+      {} \ar[r, ""] & \bullet \ar[r, ""] \ar[d, ""] & \bullet \ar[r, ""] \ar[d, ""] & \bullet \ar[r, ""] \ar[d, ""] & {}\\
+      {} \ar[r, ""] & \bullet \ar[r, ""] \ar[d, ""] & \bullet \ar[r, ""] \ar[d, ""] & \bullet \ar[r, ""] \ar[d, ""] & {}\\
+      {} \ar[r, ""] & \bullet \ar[r, ""] \ar[d, ""] & \bullet \ar[r, ""] \ar[d, ""] & \bullet \ar[r, ""] \ar[d, ""] & {}\\
+      {} & {} & {} & {} & {}
+    \end{tikzcd}
+  \end{center}
+  \caption{}
+  \label{diagram:double_complex}
+\end{figure}
+
+\begin{remark}
+  \label{rem:finite_double_complexes}
+  Double complexes are by definition infinite but it is fine to consider finite ``pieces'' of a double complex as well since one can make them into full double complexes by ``attaching'' zeroes/kernels/cokernels to all sides.
+\end{remark}
+
+\begin{definition}
+  \label{def:donor_receptor}
+  Given an object \(A\) in a double complex label the surrounding arrows as follows.
+  \begin{center}
+    \begin{tikzcd}[sep=huge]
+      \bullet \ar[dr, "p" ] & \bullet \ar[d, "a" ] & \bullet\\
+      \bullet \ar[r, "d" ] & A \ar[dr, "q" ] \ar[d, "c"]  \ar[r, "b" ]& \bullet\\
+      \bullet & \bullet & \bullet
+    \end{tikzcd}
+  \end{center}
+  We now define:
+  \begin{itemize}
+  \item the {\bf horizontal homology} \(\hh{A} = \frac{\ker(b)}{\im(d)}\),
+  \item the {\bf vertical homology} \(\vh{A} = \frac{\ker(c)}{\im(a)}\),
+  \item the {\bf receptor} \(\rec{A} = \frac{\ker(b)\cap\ker(c)}{\im(p)}\),
+  \item the {\bf donor} \(\don{A} = \frac{\ker(q)}{\im(a) + \im(d)}\).
+  \end{itemize}
+\end{definition}
+
+\begin{definition}
+  \label{def:intramural_maps}
+  By applying Remark \ref{rem:quotient_modules_maps} to the identity \(1_A\) we obtain the following maps:
+  \begin{center}
+    \begin{tikzcd}
+      & \rec{A} \ar[dr, ""] \ar[dl, ""] & \\
+      \vh{A} \ar[dr, ""] & & \hh{A} \ar[dl, ""]\\
+      & \don{A} &
+    \end{tikzcd}
+  \end{center}
+  that we call {\bf intramural maps}.      
+\end{definition}
+
+\begin{lemma}
+  \label{lemma:extramural_maps}
+  Let \(\fun{f}{A}{B}\) be an arrow of a double complex; then this arrow induces a map \(\don{A}\to\rec{B}\) that sends \([x]\) to \([f(x)]\).
+\end{lemma}
+
+\begin{proof}
+  Again we can suppose that \(A, B\) are modules and \(f\) a module homomorphism. The situation can be represented in the double complex as
+  \begin{center}
+    \begin{tikzcd}
+      & C \ar[d, "c"] & &\\
+      D \ar[r, "d"] & A \ar[r, "f"] & B \ar[r, "b"] \ar[d, "a"] & \bullet\\
+      & & \bullet &
+    \end{tikzcd}
+  \end{center}
+  so that \(\don{A}=\frac{\ker(a\circ f)}{\im(c) + \im(d)}\) and \(\rec{B}=\frac{\ker(a)\cap\ker(b)}{\im(f\circ c)}\).
+
+  Let \(x\in\ker(a\circ f)\) so we have \(a(f(x)) = 0\) and \(b(f(x)) = 0\) since \(b\circ f = 0\) by definition of double complex; thus \(f(x)\in\ker(a)\cap\ker(b)\). Moreover if \(x\in\im(c)+\im(d)\) then there are elements \(\overline{c}\in C,\overline{d}\in D\) such that \(x = c(\overline{c}) + d(\overline{d})\), now \(f(x) = f(c(\overline{c})) + f(d(\overline{d})) = f(c(\overline{c}))\) because \(f\circ d = 0\) and so \(f(x)\in\im(f\circ c)\). This gives us, by Remark \ref{rem:quotient_modules_maps}, the map \(\don{A}\to\rec{B},[x]\mapsto [f(x)]\).
+\end{proof}
+
+\begin{definition}
+  \label{def:extramural_maps}
+  Arrows \(\don{A}\to\rec{B}\) induced by an arrow \(\fun{f}{A}{B}\) in a double complex as in Lemma \ref{lemma:extramural_maps} are called {\bf extramural maps}.
+\end{definition}
+
+\begin{lemma}
+  \label{lemma:induced_and_extramural}
+  Given an arrow \(\fun{f}{A}{B}\) in a double complex the induced arrow of Remark \ref{rem:induced_homology_maps} between the (vertical or horizontal) homologies is the appropriate composition of the following extramural and intramural maps:
+  \begin{equation*}
+    \vh{A}\to\don{A}\to\rec{B}\to\vh{B},\ \hh{A}\to\don{A}\to\rec{B}\to\hh{B}.
+  \end{equation*}
+\end{lemma}
+
+\begin{proof}
+  From Lemma \ref{lemma:extramural_maps}, Definition \ref{def:intramural_maps} and \ref{rem:quotient_modules_maps} we know how intramural and extramural maps operate. By chasing \([x]\in\vh{A}\) through the left composition in the Lemma's statement we obtain
+  \begin{equation*}
+    [x]\mapsto [x]\mapsto[f(x)]\mapsto[f(x)]
+  \end{equation*}
+  that is the map \([x]\mapsto[f(x)]\) i.e. exactly the map induced between the vertical homologies by \(f\). Nearly verbatim one handles the case of the right composition.
+\end{proof}
+
+\begin{lemma}[Salamander Lemma]
+  \label{lemma:salamander}
+  Consider the following diagram in a double complex:
+  \begin{center}
+    \begin{tikzcd}
+      & C \ar[d, "c"] & \bullet \ar[d, ""] & \\
+      E \ar[r, "e"] & A \ar[r, "f"] \ar[d, ""] & B \ar[d, "d"] \ar[r, "g"] & \bullet\\
+      & \bullet & D & 
+    \end{tikzcd}
+  \end{center}
+  then the following sequence of extramural and intramural maps is exact.
+  \begin{center}
+    \begin{tikzcd}[sep=small]
+      \don{C} \ar[rr, ""] \ar[rd, ""] & & \hh{A} \ar[r, ""] & \don{A} \ar[r, ""] & \rec{B} \ar[r, ""] & \hh{B} \ar[rr, ""] \ar[rd, ""]& & \rec{D}\\
+      & \rec{A} \ar[ru, ""] & & & & & \don{B} \ar[ru, ""]&
+    \end{tikzcd}
+  \end{center}  
+\end{lemma}
+
+\begin{proof}
+  We know by the previous lemmas and definitions how those maps operate, so it is only a matter of checking exactness at each point of the sequence.
+  \begin{enumerate}
+  \item Exactness of \(\don{C}\to\hh{A}\to\don{A}\).
+    
+    Let \([x]\in\ker(\hh{A}\to\don{A})\). This means that \(x = c(\overline{c}) + e(\overline{e})\) for some \(\overline{c}\in C\) and \(\overline{e}\in E\). We immediately obtain \(x - c(\overline{c})\in\im(e) \) and thus \([x] = [c(\overline{c})]\) in \(\hh{A}\); hence \(\ker(\hh{A}\to\don{A})\subseteq\im(\don{C}\to\hh{A})\).
+
+    On the other hand elements in \(\im(\don{C}\to\hh{A})\) are classes of elements in the image of \(c\) and since \(\don{A} = \frac{\ker(d\circ f)}{\im(c) + \im(e)}\) they are also elements of \(\ker(\hh{A}\to\don{A})\).
+  \item Exactness of \(\hh{A}\to\don{A}\to\rec{B}\).
+
+    Let \([x]\in\ker(\don{A}\to\rec{B})\) so there is a \(\overline{c}\in C\) such that \(f(x) = (f\circ c)(\overline{c})\); from this relation we obtain that \(f(x - c(\overline{c})) = 0\) hence \([x - c(\overline{c})]\in\hh{A}\). Moreover \([x] = [x - c(\overline{c})]\) in \(\don{A}\) because \(x - x + c(\overline{c}) \in\im(c)\); this shows that \([x] = (\hh{A}\to\don{A})([x - c(\overline{c})])\).
+
+    Now let \([x]\in\hh{A}\) so \(x\in\ker(f)\); we have
+    \begin{equation*}
+      (\don{A}\to\rec{B})(\hh{A}\to\don{A})([x]) = (\don{A}\to\rec{B})([x]) = [f(x)] = 0.
+    \end{equation*}
+    Thus \(\im(\hh{A}\to\don{A})\subseteq\ker(\don{A}\to\rec{B})\).
+  \item  Exactness of \(\don{A}\to\rec{B}\to\hh{B}\).
+
+    Let \([x]\in\ker(\rec{B}\to\hh{B})\), then there is \(\overline{a}\in A\) such that \(f(\overline{a}) = x\). But since \([x]\in\rec{B}\) we have \(d(x) = 0\) thus \((d\circ f)(\overline{a}) = 0\) so \([\overline{a}]\in\don{A}\). Finally we have \((\don{A}\to\rec{B})([\overline{a}]) = [f(\overline{a})] = [x]\) so \(\ker(\rec{B}\to\hh{B})\) is contained in \(\im(\don{A}\to\rec{B})\).
+
+    Obviously every element of \(\im(\don{A}\to\rec{B})\) is an element of \(\ker(\rec{B}\to\hh{B})\) since \(\hh{B}\) is a quotient over \(\im(f)\).
+  \item Exactness of \(\rec{B}\to\hh{B}\to\rec{D}\).
+
+    Let \([x]\in\ker(\hh{B}\to\rec{D})\) so there is an element \(\overline{a}\in A\) such that \((d\circ f)(\overline{a}) = d(x)\). From this last relation we obtain \(d(x - f(\overline{a})) = 0\) and moreover \(g(x - f(\overline{a})) = 0\) so \(x - f(\overline{a})\in\ker(d)\cap\ker(g)\), thus \([x - f(\overline{a})] \in\rec{B}\). Since \(x - x + f(\overline{a})\in\im(f)\) then \([x] = [x - f(\overline{a})]\) in \(\hh{B}\) so \(\ker(\hh{B}\to\rec{D})\subseteq\im(\rec{B}\to\hh{B})\).
+
+    On the other hand if \([x]\in\im(\rec{B}\to\hh{B})\) then \([x] = [\overline{b}]\) with \(\overline{b}\in\ker(d)\cap\ker(g)\). Now \((\hh{B}\to\rec{D})([\overline{b}]) = [d(\overline{b})] = 0\) so \([x]\in\ker(\hh{B}\to\rec{D})\).
+
+  \end{enumerate}
+\end{proof}
+
+\begin{remark}
+  \label{rem:other_salamander}
+  We can prove, in a totally analogous way, a ``vertical'' version of the Salamander Lemma. That is: a diagram like
+  \begin{center}
+    \begin{tikzcd}
+      C \ar[r, ""] & A \ar[d, "f"] & {}\\
+      {} & B \ar[r, ""] & D
+    \end{tikzcd}
+  \end{center}
+  in a double complex leads to an exact sequence
+  \begin{center}
+    \begin{tikzcd}[sep=small]
+      \don{C} \ar[r, ""] & \vh{A} \ar[r, ""] & \don{A} \ar[r, ""] & \rec{B} \ar[r, ""] & \vh{B} \ar[r, ""] & \rec{D}
+    \end{tikzcd}.
+  \end{center}
+  We use the name ``Salamander Lemma'' to refer to either the vertical of the horizontal version of the result as we see fit.
+\end{remark}
+
+The following two corollaries of the Salamander Lemma give sufficient conditions for the extramural and intramural maps of Definitions \ref{def:intramural_maps} and \ref{def:extramural_maps} to be isomorphisms. This will then allow us to connect far homologies in a double complex.
+
+\begin{corollary}
+  \label{coro:extramural_isomorphisms}
+  If \(\fun{f}{A}{B}\) is a horizontal arrow in a double complex and \(\hh{A}=0,\hh{B}=0\) then the extramural map \(\don{A}\to\rec{B}\) is an isomorphism. Similarly if \(f\) is vertical and \(\vh{A}=0,\vh{B}=0\) then the extramural map is an isomorphism.
+\end{corollary}
+
+\begin{proof}
+  We prove only the horizontal case. By the Salamander Lemma
+  \begin{center}
+    \begin{tikzcd}
+      \rec{C} \ar[r, ""] & \hh{A} \ar[r, ""] & \don{A} \ar[r, ""] & \rec{B} \ar[r, ""] & \hh{B} \ar[r, ""] & \rec{D}
+    \end{tikzcd}
+  \end{center}
+  is exact (with \(C\) and \(D\) ``head'' and ``tail'' of the salamander). As it is a subsequence \(\hh{A}\to\don{A}\to\rec{B}\to\hh{B}\) is exact and by applying the hypothesis we obtain that \(0\to\don{A}\to\rec{B}\to0\) is exact. By using Proposition \ref{prop:sequences_with_zero} on the two ``pieces'' of this last sequence we obtain that \(\don{A}\to\rec{B}\) is both a mono and an epi thus iso (Proposition \ref{prop:iso_mono_epi}).
+\end{proof}
+
+\begin{corollary}
+  \label{coro:intramural_isomorphisms}
+  In the following diagrams in a double complex if the marked arrows form an exact sequence then some intramural maps (precisely the ones indicated in the squares) are isomorphisms.
+  \begin{center}
+    \begin{tabular}{cccc}
+    \begin{tikzcd}[sep=small]
+      0 \ar[r, ""] & A \ar[r, ""] \ar[d, ""] & \bullet \ar[d, ""]\\
+      0 \ar[r, "\circ" marking] & B \ar[r, "\circ" marking] & \bullet
+    \end{tikzcd}& \(\implies\) &
+    \begin{tikzcd}[sep=small]
+      \rec{A} \ar[d, ""] \ar[r, "\cong"] & \hh{A} \ar[d, ""]\\
+      \vh{A} \ar[r, "\cong"] & \don{A}
+    \end{tikzcd} & \((1)\)\\
+    \begin{tikzcd}[sep=small]
+      0 \ar[d, ""] & 0 \ar[d, "\circ" marking]\\
+      A \ar[d, ""] \ar[r, ""] & B \ar[d, "\circ" marking]\\
+      \bullet \ar[r, ""] & \bullet
+    \end{tikzcd}& \(\implies\) &
+    \begin{tikzcd}[sep=small]
+      \rec{A} \ar[d, "\cong"] \ar[r, ""] & \hh{A} \ar[d, "\cong"]\\
+      \vh{A} \ar[r, ""] & \don{A}
+    \end{tikzcd} & \((2)\)
+    \end{tabular}
+  \end{center}
+\end{corollary}
+
+\begin{proof}
+  We prove the result only in case \((1)\) as the other can be proved in the same way reversing the role of rows and colums or the direction of the arrows.
+
+  By exactness of the marked pair we have \(\hh{B} = 0\), moreover \(\hh{0}=0\) and so, via Corollary \ref{coro:extramural_isomorphisms}, \(0 = \don{0} \cong \rec{B}\). Now applying the Salamander Lemma to the diagram
+  \begin{center}
+    \begin{tikzcd}
+      0 \ar[d, ""] & \\
+      0 \ar[r, ""] & A \ar[d, ""]\\
+      & B
+    \end{tikzcd}
+  \end{center}
+  we obtain that
+  \begin{center}
+    \begin{tikzcd}[sep=small]
+      \don{0} \ar[r, ""] & \hh{0} \ar[r, ""] & \don{0} \ar[r, ""] & \rec{A} \ar[r, ""] & \hh{A} \ar[r, ""] & \rec{B}
+    \end{tikzcd}
+  \end{center}
+  is exact. Thus \(0\to\rec{A}\to\hh{A}\to\rec{B} = 0\) is exact so the intramural map \(\rec{A}\to\hh{A}\) is an isomorphism by Proposition \ref{prop:sequences_with_zero}. The second isomorphism is obtained in the same way, applying the Salamander Lemma to the diagram
+  \begin{center}
+    \begin{tikzcd}
+      0 \ar[r, ""] & A \ar[d, ""]&\\
+      {} & B \ar[r, ""] & \bullet
+    \end{tikzcd}.
+  \end{center}
+\end{proof}
+
+\begin{lemma}
+  \label{lemma:nn}
+  Consider the complex in Diagram \ref{diagram:nn} where all rows and all columns but the first ones are exact. Then \(\hh{A_{0k}}\cong\vh{A_{k0}}\). The result holds analogously in a complex with zeroes on the bottom and the right.
+\end{lemma}
+
+\begin{figure}[h]
+  \begin{center}
+    \begin{tikzcd}
+      {} & 0 \ar[d, ""] & 0 \ar[d, ""] & 0 \ar[d, ""] & {}\\
+      0 \ar[r, ""] & A_{00} \ar[r, ""] \ar[d, ""] & A_{01} \ar[r, ""] \ar[d, ""] & A_{02} \ar[r, ""] \ar[d, ""] & \cdots\\
+      0 \ar[r, ""] & A_{10} \ar[r, ""] \ar[d, ""] & A_{11} \ar[r, ""] \ar[d, ""] & A_{12} \ar[r, ""] \ar[d, ""] & \cdots\\
+      0 \ar[r, ""] & A_{20} \ar[r, ""] \ar[d, ""] & A_{21} \ar[r, ""] \ar[d, ""] & A_{22} \ar[r, ""] \ar[d, ""] & \cdots\\
+      {} & \vdots & \vdots & \vdots & {}
+    \end{tikzcd}
+  \end{center}
+  \caption{}
+  \label{diagram:nn}
+\end{figure}
+
+\begin{proof}
+  We shall prove only that \(\hh{A_{00}}\cong\vh{A_{00}}\) and \(\hh{A_{01}}\cong\vh{A_{10}}\) since, after that, it will be obvious how the result generalizes to the other pairs. The intramural maps
+  \begin{center}
+    \begin{tikzcd}
+      & \don{A_{00}}&\\
+      \hh{A_{00}} \ar[ru, ""]& & \vh{A_{00}} \ar[lu, ""]
+    \end{tikzcd}
+  \end{center}
+  are isomorphisms by Corollary \ref{coro:intramural_isomorphisms} so \(\hh{A_{00}}\cong\vh{A_{00}}\). Consider now the following diagram of extramural and intramural maps.
+  \begin{center}
+    \begin{tikzcd}
+                  & \don{A_{01}} \ar[dr, ""] &              & \don{A_{10}} \ar[dl, ""] & \\
+      \hh{A_{01}} \ar[ru, ""]&              & \rec{A_{11}} &              & \vh{A_{10}} \ar[lu, ""]
+    \end{tikzcd}
+  \end{center}
+  Using the hypothesis of exactness of rows and columns together with Corollaries \ref{coro:extramural_isomorphisms} and \ref{coro:intramural_isomorphisms} we obtain that every map considered is an isomorphism thus \(\hh{A_{01}}\cong\vh{A_{10}}\).
+\end{proof}
+
+\begin{lemma}[\(3\times 3\) Lemma]
+  \label{lemma:33}
+  Consider Diagram \ref{diagram:33} where everything commutes and suppose all columns and all rows but the first are exact. Then the first row is exact as well. Analogously in the case with zeroes at the right and bottom of the diagram if all the columns and the first two rows are exact then so is the third.
+\end{lemma}
+
+\begin{figure}[h]
+  \begin{center}
+    \begin{tikzcd}
+      {} & 0 \ar[d, ""] & 0 \ar[d, ""] & 0 \ar[d, ""]\\
+      0 \ar[r, ""] & A_{00} \ar[r, ""] \ar[d, ""] & A_{01} \ar[r, ""] \ar[d, ""] & A_{02} \ar[d, ""]\\
+      0 \ar[r, ""] & A_{10} \ar[r, ""] \ar[d, ""] & A_{11} \ar[r, ""] \ar[d, ""] & A_{12} \ar[d, ""]\\
+      0 \ar[r, ""] & A_{20} \ar[r, ""] & A_{21} \ar[r, ""] & A_{22} \\
+    \end{tikzcd}
+  \end{center}
+  \caption{}
+  \label{diagram:33}
+\end{figure}
+
+\begin{proof}
+  By exactness of all the columns the arrows from the first row to the second are all mono. By application of Proposition \ref{prop:precomposition_with_mono} the first row is a chain complex so the whole diagram is a double complex. Now by Lemma \ref{lemma:nn} the homologies of the first row are isomorphic to those of the first column, that are all 0 because the column is exact by hypothesis. It follows that the first row is exact.
+\end{proof}
+
+\begin{remark}
+  \label{rem:lemma_nn}
+  Looking at Lemma \ref{lemma:nn} and at the proof of the \(3\times3\) Lemma it's obvious that there is a \(4\times 4\) Lemma, a \(5\times 5\) Lemma and more generally a \(n\times n\) Lemma for any \(n\in\mathbb{N}\).
+\end{remark}
+
+\begin{lemma}[Snake Lemma]
+  \label{lemma:snake}
+  Consider the Diagram \ref{diagram:snake} where the two central rows are exact, the two central squares commute, the \(K_n\)s are kernels and the \(C_n\)s are cokernels. Then there is an exact sequence
+  \begin{equation*}
+    K_1\to K_2\to K_3\to C_1\to C_2\to C_3
+  \end{equation*}
+\end{lemma}
+
+\begin{figure}[h]
+  \begin{center}
+    \begin{tikzcd}
+      & K_1 \ar[d, ""] \ar[r, ""] & K_2 \ar[d, ""] \ar[r, ""] & K_3 \ar[d, ""] & \\
+      & X_1 \ar[d, ""] \ar[r, ""] & X_2 \ar[d, ""] \ar[d, phantom, ""{coordinate, name=Z}] \ar[r, ""] & X_3 \ar[d, ""] \ar[r, ""] & 0\\
+      0 \ar[r, ""] & Y_1 \ar[d, ""] \ar[r, ""] & Y_2 \ar[d, ""] \ar[r, ""] & Y_3 \ar[d, ""] &\\
+      & C_1 \ar[r, ""] \arrow[from=uuurr, rounded corners, crossing over, dashed, to path={ -- ([xshift=2.5ex]\tikztostart.east) |- (Z) [near end]\tikztonodes -| ([xshift=-2.5ex]\tikztotarget.west) -- (\tikztotarget)}] & C_2 \ar[r, ""] & C_3 &
+    \end{tikzcd}
+  \end{center}
+  \caption{}
+  \label{diagram:snake}
+\end{figure}
+
+\begin{proof}
+  First of all notice that the maps between the kernels are just the appropriate factorizations; so, by adding zeroes around everything we obtain a double complex. The three columns of Diagram \ref{diagram:snake} are obviously exact.
+
+  By Corollaries \ref{coro:extramural_isomorphisms} (exactness of the columns and of the two central rows) and \ref{coro:intramural_isomorphisms} (see Diagram \ref{diagram:extra2}) the following chain of extramutal and intramural isomorphisms is really a chain of isomorphisms and thus we obtain exactness at \(K_2\).
+  \begin{equation*}
+    \hh{K_2}\cong\don{K_2}\cong\rec{X_2}\cong\don{X_1}\cong\rec{Y_1}\cong\don{0}=0
+  \end{equation*}
+  Similarly exactness at \(C_2\) is obtained.
+
+  Now we need to find a map \(K_3\to C_1\) that makes the sequence exact at \(K_3\) and \(C_1\). This means equivalently that we need an isomorphism between \(\coker(K_2\to K_3) = \hh{K_3}\) and \(\ker(C_1\to C_2)= \hh{C_1}\). Such an isomorphism is provided by the following chain of intramural and extramural maps that are really isomorphisms by Corollaries \ref{coro:intramural_isomorphisms} (refer again to Diagram \ref{diagram:extra2}) and \ref{coro:extramural_isomorphisms} (exactness of the columns and the two central rows).
+  \begin{equation*}
+    \hh{K_3}\cong\don{K_3}\cong\rec{X_3}\cong\don{X_2}\cong\rec{Y_2}\cong\don{Y_1}\cong\rec{C_1}\cong\hh{C_1}
+  \end{equation*}
+
+  \begin{figure}[h]
+    \begin{center}
+      \begin{tikzcd}[sep=small]
+        0 \ar[d, ""] & 0 \ar[d, ""]\\
+        K_2 \ar[d, ""] \ar[r, ""] & K_3 \ar[d, ""]\\
+        X_2 \ar[r, ""] & K_3
+      \end{tikzcd}\hspace{2cm}
+      \begin{tikzcd}[sep=small]
+        0 \ar[d, ""] & 0 \ar[d, ""]\\
+        K_3 \ar[d, ""] \ar[r, ""] & 0 \ar[d, ""]\\
+        X_3 \ar[r, ""] & 0
+      \end{tikzcd}\hspace{2cm}
+      \begin{tikzcd}[sep=small]
+        0 \ar[r, ""] & C_1 \ar[d, ""] \ar[r, ""] & C_2 \ar[d, ""]\\
+        0 \ar[r, ""] & 0 \ar[r, ""] & 0
+      \end{tikzcd}
+    \end{center}
+    \caption{}
+    \label{diagram:extra2}
+  \end{figure}
+\end{proof}

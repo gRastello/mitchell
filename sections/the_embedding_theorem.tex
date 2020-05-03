@@ -1,0 +1,896 @@
+\newpage
+\section{Embedding theorems}
+\label{sec:embedding}
+This section's objective is that of presenting and proving two important embedding results for abelian categories. The first one, the Faithful Embedding Theorem, shows (as the name implies) that any abelian category can be faithfully and exactly (in the sense of Definition \ref{def:exact_functor}) embedded in \(\catname{Ab}\). The second one, called Mitchell's Embedding Theorem (or the Freyd-Mitchell Embedding Theorem), provides a fully faithful exact embedding of any abelian category in \(\catname{Mod}_R\) for a suitable ring \(R\).
+
+We start by presenting some necessary results about (co)limits and, particularly, (co)limits of functors.
+
+\begin{definition}
+  \label{def:filtered_category}
+  A category \(\cat{C}\) is {\bf filtered} when:
+  \begin{enumerate}[label=(\arabic*)]
+  \item it is not empty,
+  \item for every pair of objects \(A,B\in\cat{C}\) there is an object \(C\in\cat{C}\) and two arrows \(A\to C, B\to C\),
+  \item for every pair of arrows \(\fun{f,g}{A}{B}\) in \(\cat{C}\) there is an arrow \(\fun{h}{B}{C}\) such that \(h\circ f = h\circ g\).
+  \end{enumerate}
+  Dually \(\cat{C}\) is {\bf cofiltered} when \(\op{\cat{C}}\) is filtered.
+\end{definition}
+
+\begin{lemma}
+  \label{lemma:filtered_category}
+  Let \(\cat{C}\) be a filtered category and \(\cat{D}\) a finite one.
+  Then every functor \(\fun{F}{\cat{D}}{\cat{C}}\) has a cocone.
+\end{lemma}
+
+\begin{proof}
+  See \cite[Lemma 2.13.2]{handbook1}.
+\end{proof}
+
+\begin{proposition}[Interchange of (co)limits]
+  \label{prop:interchange_of_limits}
+  If \(\cat{A}\) is a (co)complete category, \(\cat{C},\cat{D}\) are two small categories and \(\fun{F}{\cat{C}\times\cat{D}}{\cat{A}}\) a functor out of the product category \(\cat{C}\times\cat{D}\) then the following holds.
+  \begin{itemize}
+  \item If \(\cat{A}\) is complete
+    \[\lim_{C\in\cat{C}}\left(\lim_{D\in\cat{D}}F(C, D)\right) \cong \lim_{D\in\cat{D}}\left(\lim_{C\in\cat{C}}F(C, D)\right).\]
+  \item If \(\cat{A}\) is cocomplete
+    \[\colim_{C\in\cat{C}}\left(\colim_{D\in\cat{D}}F(C, D)\right) \cong \colim_{D\in\cat{D}}\left(\colim_{C\in\cat{C}}F(C, D)\right).\]
+  \end{itemize}
+\end{proposition}
+
+\begin{proof}
+  See \cite[Proposition 2.12.1]{handbook1}.
+\end{proof}
+
+\begin{proposition}
+  \label{prop:limits_and_filtered_colimits}
+  In \(\catname{Ab}\) finite limits commute with filtered colimits. That is if \(\cat{C}\) is a small filtered category, \(\cat{D}\) is a finite category and \(\fun{F}{\cat{C}\times\cat{D}}{\catname{Ab}}\) is a functor then the following holds.
+  \begin{equation*}
+    \colim_{C\in\cat{C}}\left(\lim_{D\in\cat{D}}F(C,D)\right) \cong \lim_{D\in\cat{D}}\left(\colim_{C\in\cat{C}}F(C,D)\right)
+  \end{equation*}
+\end{proposition}
+
+\begin{proof}
+  See \cite[Theorem 2.13.4]{handbook1}.
+\end{proof}
+
+\begin{proposition}
+  \label{prop:pointwise_limits}
+  Let \(\cat{C},\cat{D}\) be small categories and \(\fun{F}{\cat{D}}[\cat{C},\cat{A}]\) a functor where \(\cat{A}\) is a category such that the (co)limit of \(\fun{F(-)(C)}{\cat{D}}{\cat{A}}\) exists for all \(C\in\cat{C}\). Under these hypotheses \(F\) has a (co)limit too and this (co)limit is calculated pointwise; that is: \((\lim_{D\in\cat{D}}F(D))(C) = \lim_{D\in\cat{D}}(F(D)(C))\) (and similarly for colimits).
+\end{proposition}
+
+\begin{proof}
+  Each object \(C\in\cat{C}\) induces a functor
+  \fundef{F(-)(C)}{\cat{D}}{\cat{A}}{D \ar[d, "f"]\\ D'}{F(D)(C) \ar[d, "F(f)_C"]\\ F(D')(C)}
+  and each arrow \(\fun{f}{C}{C'}\) in \(\cat{C}\) induces a natural transformation \(F(-)(f)\) from \(F(-)(C)\) to \(F(-)(C')\) with components \(F(-)(f)_D = F(D)(f)\) for all \(D\in\cat{D}\). Let \((L(C), (p^C_D)_{D\in\cat{D}})\) be the limit of \(F(-)(C)\) for all \(C\in\cat{C}\); now the natural transformation \(F(-)(f)\) induces a factorization \(\fun{L(f)}{L(C)}{L(C')}\) and the relation \(F(D)(f)\circ p^C_D = p^{C'}_D\circ L(f)\) holds. We now have that \(\fun{L}{\cat{C}}{\cat{A}}\) is a functor and \(\nat{p_D}{L}{F(D)}\) a natural transformation with components \(p^C_D\). In order to prove our thesis we need to prove that \((L, (p_D)_{D\in\cat{D}})\) is the limit of \(F\); the pointwise character of this limit is already evinced by the construction of \(L(C)\).
+
+  To show that \((L, (p_D)_{D\in\cat{D}})\) is a cone on \(F\) consider an arrow \(\fun{d}{D}{D'}\) in \(\cat{D}\). Since the \(p^C_D\)'s are projections of the limit of \(F(-)(C)\) we have \(F(d)(C)\circ p^C_D=p^C_{D'}\). This immediately gives us that \(F(d)\circ p_D = p_{D'}\) and so \((L, (p_D)_{D\in\cat{D}})\) is a cone on \(F\).
+
+  Finally let \((M, (q_D)_{D\in\cat{D}})\) be a cone on \(F\). Each \((M(C), (q^C_D)_{D\in\cat{D}})\), where we indicate with \(q^C_D\) the component of \(q_D\) indexed by \(C\), is a cone on \(F(-)(C)\) because we have, for any \(\fun{d}{D}{D'}\) in \(\cat{D}\), that \(F(d)\circ q_D = q_{D'}\) and so \(F(d)(C)\circ q^C_D = q^C_{D'}\). This fact yields a unique \(\fun{r_C}{M(C)}{L(C)}\) such that \(q^C_D = p^C_D\circ r_C\); moreover those \(r_C\)'s are the components of a natural transformation \(\nat{r}{M}{L}\). This follows by the following computation together with the uniqueness of the factozation tough a limit. Given \(\fun{f}{C}{C'}\) then we have
+  \begin{align*}
+    p^{C'}_D\circ L(f)\circ r_C &= F(D)(f)\circ p^C_D\circ r_C\\
+                             &= F(D)(f)\circ q^C_D\\
+                             &= q^{C'}_D\circ M(f)\\
+                             &= p^{C'}_D\circ r_{C'}\circ M(f).
+  \end{align*}
+  Clearly we have \(q_D=p_D\circ r\) and \(r\) is the only natural transformation with such property because the \(r_C\)'s are unique.
+
+  One can argue in an analogous way for colimits, thus the proof is complete.
+\end{proof}
+
+\begin{theorem}
+  \label{teo:pointwise_limits}
+  If \(\cat{D}\) is a (co)complete category and \(\cat{C}\) a small category then the category \([\cat{C},\cat{D}]\) is (co)complete. Moreover (co)limits in \([\cat{C}, \cat{D}]\) are computed pointwise.
+\end{theorem}
+
+\begin{proof}
+  Immediate from Proposition \ref{prop:pointwise_limits}.
+\end{proof}
+
+\begin{proposition}
+  \label{prop:limits_of_additive_functors}
+  Let \(\cat{A},\cat{B}\) be additive categories and \(\fun{F_i}{\cat{A}}{\cat{B}}\) a diagram of additive functors (i.e. a diagram in \(\add{\cat{A}}{\cat{B}}\)) then \(\lim_iF_i\) and \(\colim_iF_i\) (when they exists) are again additive.
+\end{proposition}
+
+\begin{proof}
+  To prove that \(\colim_iF_i\) is additive it is sufficient to prove that it preserves finite coproducts by Proposition \ref{prop:additive_criteria}. Let \(P_j\) with \(j\in\cat{J}\) be a finite family of objects of \(\cat{A}\); by using Proposition \ref{prop:interchange_of_limits} (keeping in mind that coproducts are particular colimits), Theorem \ref{teo:pointwise_limits} and the fact that each \(F_i\) is additive (thus preserves finite coproducts) we carry out the following computation.
+  \begin{align*}
+    \left(\colim_iF_i\right)\left(\coprod_{j\in\cat{J}}P_j\right) &= \colim_i\left(F_i\left(\coprod_{j\in\cat{J}}P_j\right)\right)\\
+                                                                  &\cong\colim_i\left(\coprod_{j\in\cat{J}}F_i(P_j)\right)\\
+                                                                  &\cong\coprod_{j\in\cat{J}}\left(\colim_i\left(F_i(P_j)\right)\right)\\
+                                                                  &=\coprod_{j\in\cat{J}}\left(\left(\colim_iF_i\right)(P_j)\right)
+  \end{align*}
+  This shows that \(\colim_iF_i\) preserves finite coproducts and thus is additive. Proving that \(\lim_iF_i\) is additive is accomplished in the same way using products instead of coproducts.
+\end{proof}
+
+\begin{corollary}
+  \label{coroll:add_complete}
+  Given a small additive category \(\cat{A}\) and a finitely (co)com\-plete additive category \(\cat{B}\) we have that \(\add{\cat{A}}{\cat{B}}\) is finitely (co)complete with (co)limits in it calculated pointwise.
+\end{corollary}
+
+\begin{proof}
+  Immediate from Theorem \ref{teo:pointwise_limits} and \ref{prop:limits_of_additive_functors}.
+\end{proof}
+
+\begin{proposition}
+  \label{prop:exactness_and_additiveness_of_filtered_diagrams}
+  Let \(\cat{A}\) be a small abelian category and \(\fun{F_i}{\cat{A}}{\catname{Ab}}\) a filtered diagram of left-exact functors; then \(\colim_iF_i\) is again left-exact.
+\end{proposition}
+
+\begin{proof}
+  First notice that, according to Definition \ref{def:exact_functor}, a left-exact functor must necessarily be additive; this is taken care of by Proposition \ref{prop:limits_of_additive_functors}. To prove that \(\colim_iF_i\) is left-exact we shall prove that it preserves finite limits, as this is an equivalent condition by Proposition \ref{prop:characterization_of_exact_functors}. Let \(\fun{G}{\cat{B}}{\cat{A}}\) be a functor with \(\cat{B}\) finite; by using Proposition \ref{prop:limits_and_filtered_colimits}, Theorem \ref{teo:pointwise_limits} and the fact that each \(F_i\) is left-exact (thus preserves finite limits) we carry out the following computation.
+    \begin{align*}
+      \left(\colim_iF_i\right)\left(\lim_{B\in\cat{B}}G(B)\right) &=\colim_i\left(F_i\left(\lim_{B\in\cat{B}}G(B)\right)\right)\\
+                                                                  &\cong\colim_i\left(\lim_{B\in\cat{B}}F_i(G(B))\right)\\
+                                                                  &\cong\lim_{B\in\cat{B}}\left(\colim_iF_i(G(B))\right)\\
+                                                                  &=\lim_{B\in\cat{B}}\left(\left(\colim_iF_i\right)(G(B))\right)\\
+                                                                  &=\lim_{B\in\cat{B}}\left(\left(\left(\colim_iF_i\right)\circ G\right)(B)\right)
+    \end{align*}
+    So \(\colim_iF_i\) preserves finite limits and is thus a left-exact functor.
+  \end{proof}
+
+  \begin{definition}
+    \label{def:category_of_elements}
+    Given a functor \(\fun{F}{\cat{C}}{\catname{Set}}\) we construct a new category whose objects are all the pairs \((C,c)\) with \(C\in\cat{C}\) and \(c\in F(C)\) and an arrow \((C,c)\to(C',c')\) is an arrow \(\fun{f}{C}{C'}\) of \(\cat{C}\) such that \(F(f)(c)=c'\).
+    The category of elements of \(F\) is denoted with \(\int F\).
+    Every category of elements has an associated forgetful functor \(\fun{\Phi_{F}}{\int F}{\cat{C}}\) that sends \((C,c)\) to \(C\).
+  \end{definition}
+
+\begin{theorem}[density]
+  \label{teo:density}
+  If \(\cat{C}\) is a small preadditive category and \(\fun{F}{\cat{C}}{\catname{Ab}}\) an additive (covariant) functor then \(F\) is the colimit in \(\add{\cat{C}}{\catname{Ab}}\) of a diagram of representable (covariant) functors and natural transformations between them.
+\end{theorem}
+
+\begin{proof}
+  Consider the following composition of functors
+  \begin{equation*}
+    \begin{tikzcd}[sep=large]
+      \int F \ar[r, "\displaystyle\Phi_F"] & \cat{C} \ar[r, "\displaystyle\yo^*"] & \add{\cat{C}}{\catname{Ab}}
+    \end{tikzcd}
+  \end{equation*}
+  where \(\int F\) is the category of elements of \(F\) and \(\Phi_F\) the associated forgetful functor. We will prove that \(F\) is the colimit of \(\yo^*\circ\Phi_F\) i.e. the colimit of a diagram of representable covariant functors.
+
+  Let \((A, a)\) be an element of \(\int F\) so we have that \(a\in F(A)\) and thus \(a\) corresponds to a natural transformation \(\nat{s_{(A,a)}}{\homset{\cat{C}}{A}{-}}{F}\) by the Yoneda Lemma (see \ref{lemma:additive_yoneda_lemma}). Given an arrow \(\fun{f}{(A,a)}{(B,b)}\) in \(\int F\) one has \(F(f)(a) = b\) and thus, by naturality of the Yoneda isomorphisms, \(s_{(A,a)}\circ\homset{\cat{C}}{f}{-} = s_{(B,b)}\). This last fact shows that \((F, (s_{(A,a)})_{(A,a)\in\int F})\) is a cocone on \(\yo^*\circ\Phi_F\).
+
+  Now let \((G, (t_{(A,a)})_{(A,a)\in\int F})\) be a cocone on \(\yo^*\circ\Phi_F\). We wish to find a natural transformation \(\nat{\alpha}{F}{G}\) that uniquely factorizes this cocone. For every element \(x\in F(C)\) we consider the object \((C, x)\in\int F\); the natural transformation \(\nat{t_{(C,x)}}{\homset{\cat{C}}{C}{-}}{G}\) correspond, via Yoneda, to an element of \(G(C)\) so we set \(\alpha_C(x)\) to be that element. In this way an arrow \(\fun{\alpha_C}{F(C)}{G(C)}\) is defined for every \(C\in\cat{C}\); we shall now prove that the family of those arrows is a natural transformation.
+
+  Consider an arrow \(\fun{g}{C}{D}\) in \(\cat{C}\) so \(\fun{g}{(C,x)}{(D, F(g)(x))}\) is an arrow in \(\int F\). Since the \(t_{(A,a)}\)'s constitute a cocone on \(\yo^*\circ\Phi_F\) we have \(t_{(C,x)}\circ\homset{\cat{C}}{g}{-}=t_{(D, F(g)(x))}\) that via Yoneda reveals that \(G(g)(\alpha_C(x)) = \alpha_D(F(g)(x))\) and thus \(\alpha\) is really a natural transformation.
+
+  Finally given \((C,x)\in\int F\) we need to prove that \(\alpha\circ s_{(C,x)} = t_{(C,x)}\). By the naturality of the Yoneda Lemma in the functorial variable we have the following diagram
+  \begin{center}
+    \begin{tikzcd}[column sep=3cm, row sep=1.5cm]
+      \nathom{\homset{\cat{C}}{C}{-}}{F} \ar[d, "\theta_{C, F}"] \ar[r, "\postcomp{\alpha}"] & \nathom{\homset{\cat{C}}{C}{-}}{G} \ar[d, "\theta_{C, G}"]\\
+      F(C) \ar[r, "\alpha_C"] & G(C)
+    \end{tikzcd}
+  \end{center}
+  from which the needed relation follows immediately. Lastly if \(\nat{\beta}{F}{G}\) is a natural transformation such that \(\beta\circ s_{(C,x)}=t_{(C,x)}\) again by the naturality of the Yoneda isomorphisms we obtain \(\beta_C(x) = \alpha_C(x)\) and so \(\alpha\) is unique.
+\end{proof}
+
+Let \(\cat{A}\) be a small abelian category; an embedding of \(\cat{A}\) in \(\catname{Ab}\) is an additive functor \(\fun{U}{\cat{A}}{\catname{Ab}}\) and thus, by Theorem \ref{teo:density}, \(U\) is the colimit of a diagram of representable functors \(\homset{\cat{A}}{A_i}{-}\) in \(\add{\cat{A}}{\catname{Ab}}\). Representable functors are by definition in a one-to-one correspondence with the objects of \(\cat{A}\) and thus \(U\) can be seen as the colimit of the following composition of functors.
+\begin{equation*}\begin{tikzcd}[sep=large]
+  \cat{D} \ar[r, "\displaystyle\phi"] & \cat{A} \ar[r, "\displaystyle\yo^*"] & \add{\cat{A}}{\catname{Ab}}
+\end{tikzcd}\end{equation*}
+Where \(\phi\) is just a functor from an arbitrary category \(\cat{D}\) to \(\cat{A}\) and \(\yo^*\) is the contravariant Yoneda Embedding (see \ref{def:yoneda_embedding}). We shall now construct \(\cat{D}\) and \(\phi\) in such a way that the resulting colimit functor \(U = \colim_{D\in\cat{D}}\homset{\cat{A}}{\phi(D)}{-}\) has the wanted properties; namely faithfullness and exactness.
+
+\begin{notation}
+  \label{not:useful_notation}
+  From now on, unless specified differently, the symbols \(U, \phi\), \(\cat{D}\) and \(\cat{A}\) are to be interpreted as in the discussion above.
+\end{notation}
+
+\begin{proposition}
+  \label{prop:strange_relation}
+  Let \(\cat{C}\) be a small filtered category and \(\fun{F}{\cat{C}}{\catname{Set}}\) a functor. For \(x\in F(C)\) and \(x'\in F(C')\) where \(C,C'\in\cat{C}\) we set \(x\sim x'\) if and only if there are arrows \(\fun{f}{C}{C''}\) and \(\fun{g}{C'}{C''}\) in \(\cat{C}\) such that \(F(f)(x) = F(g)(x')\); this is an equivalence relation.
+
+  Remembering that the coproduct in \(\catname{Set}\) is the disjoint union we have that the colimit \((L, (s_c)_{C\in\cat{C}})\) of \(F\) is \(\left(\coprod_{C\in\cat{C}}F(C)\right)/\sim\) and the injections \(\fun{s_C}{F(C)}{L}\) are the functions that send each \(x\in F(C)\) to the class \([x]\in L\).
+\end{proposition}
+
+\begin{proof}
+  See \cite[Proposition 2.13.3]{handbook1}.
+\end{proof}
+  
+\begin{proposition}
+  \label{prop:ab_forgetful}
+  The forgetful functor \(\fun{\Phi}{\catname{Ab}}{\catname{Set}}\) preserves and reflects limits. It also preserves and reflects filtered colimits.
+\end{proposition}
+
+\begin{proof}
+  The forgetful functor \(\Phi\) obviously preserves limits, as they are constructed in the same way in the two categories, and reflects isomorphisms, thus by \cite[Proposition 2.9.7]{handbook1} it reflects limits as well. We shall now prove that \(\Phi\) preserves filtered colimits.
+
+  Let \(\fun{F}{\cat{C}}{\catname{Ab}}\) be a functor from a small filtered category \(\cat{C}\) and let \((L, (s_C)_{C\in\cat{C}})\) be the colimit of \(\Phi\circ F\) in \(\catname{Set}\).
+  This object can be described as in Proposition \ref{prop:strange_relation}; we are interested in constructing a group structure on it in such a way that the injections \(s_C\) become group homomorphisms.
+  Consider two classes \([x],[y]\in L\) with \(x\in F(C)\) and \(y\in F(C')\).
+  We can pick, by filteredness of \(\cat{C}\), two arrows \(\fun{f}{C}{C''},\fun{g}{C'}{C''}\) in \(\cat{C}\) and we now have \([x] = [F(f)(x)]\) and \([y] = [F(g)(y)]\).
+  Since all the \(F(C)\) for \(C\in\cat{C}\) are groups we can use these two arrows to define an operation on \(L\) as follows.
+  \[[x] + [y] = [F(f)(x) + F(g)(y)]\]
+  We have to check that this operation does not depend upon the choice of the arrows \(f\) and \(g\) nor upon the choice of the representatives \(x\) and \(y\).
+
+  Let \(\fun{f'}{C}{C'''}\) and \(\fun{g'}{C'}{C'''}\) be arrows of \(\cat{C}\) and \(L\) the vertex of a cocone on Diagram \ref{diagram:rel1} with canonical injections denoted by \(\fun{t_C}{C}{L}\) for \(C\) element of the diagram (a cocone must exist because of Lemma \ref{lemma:filtered_category}).
+  \begin{figure}[h]
+    \begin{center}
+      \begin{tikzcd}[sep=huge]
+        C \ar[r, "f"] \ar[dr, "f'" near end] & C''\\
+        C' \ar[r, "g'"] \ar[ru, "g" near end] & C'''
+      \end{tikzcd}
+    \end{center}
+    \caption{}
+    \label{diagram:rel1}
+  \end{figure}
+
+  \noindent We now have
+  \begin{align*}
+    &F(t_{C''})(F(f)(x)+F(g)(y))\\
+    &= F(t_{C''}\circ f)(x) + F(t_{C''}\circ g)(y)\\
+    &= F(t_C)(x) + F(t_{C'})(y)\\
+    &= F(t_{C'''}\circ f')(x) + F(t_{C'''}\circ g')(y)\\
+    &= F(t_{C'''})(F(f')(x) + F(g')(y))
+  \end{align*}
+  and thus \([F(f)(x)+F(g)(y)]=[F(f')(x)+F(g')(y)]\).
+  On the other hand if we pick a second representative \(x'\in F(D)\) of \([x]\) then we have arrows \(e,e'\) as in Diagram \ref{diagram:rel2} such that \(F(e)(x)=F(e')(x')\).
+  Let \(f'\) and \(g'\) be the arrows used to define \([x']+[y]\) and \(L\) be a cocone of the diagram with injections labeled as before.
+  \begin{figure}[h]
+    \begin{center}
+      \begin{tikzcd}[sep=huge]
+        C \ar[d, "f"'] \ar[dr, "e"' near end] & C' \ar[dl, "g" near end] \ar[dr, "g'"' near end] & D \ar[d, "f'"] \ar[dl, "e'" near end]\\
+        C'' & E & D'
+      \end{tikzcd}
+    \end{center}
+    \caption{}
+    \label{diagram:rel2}
+  \end{figure}
+
+  \noindent One has
+  \begin{align*}
+    &F(t_{C''})(F(f)(x)+F(g)(y))\\
+    &=F(t_{C''}\circ f)(x) + F(t_{C''}\circ g)(y)\\
+    &=F(t_C)(x) + f(t_{C'})(y)\\
+    &=F(t_E\circ e)(x) + F(t_{D'}\circ g')(y)\\
+    &=F(t_E\circ e')(x') + F(t_{D'}\circ g')(y)\\
+    &=F(t_D)(x') + F(t_{D'}\circ g')(y)\\
+    &=F(t_{D'}\circ f')(x') + F(t_{D'}\circ g')(y)\\
+    &=F(t_{D'})(F(f')(x') + F(g')(y))
+  \end{align*}
+  so \([x]+[y] = [x']+[y]\).
+  Similarly the choice of a representative for \([y]\) does not matter either.
+  
+  With this \(L\) becomes a group and the injections \(s_C\) become group homomorphisms. Indeed we have, for \(x_1,x_2\in F(C)\) (choosing \(f = g = 1_C\)):
+  \begin{align*}
+    s_C(x_1 + x_2) &= [x_1 + x_2]\\
+    &= [F(1_C)(x_1 + x_2)]\\
+    &= [F(1_C)(x_1) + F(1_C)(x_2)]\\
+    &= [x_1] + [x_2]\\
+    &= s_C(x_1) + s_C(x_2).
+  \end{align*}
+  Moreover the \(s_C\)'s in \(\catname{Ab}\) constitute a cocone on \(F\) because the underlying maps in \(\catname{Set}\) do. Now, to prove that \(L\in\catname{Ab}\) is a colimit, consider a cocone \((M, (t_C)_{C\in\cat{C}})\) on \(F\) and the unique factorization \(\fun{t}{L}{M}\) that exists in \(\catname{Set}\). The following computation shows that \(t\) is a group homomorphism and thus that \(L\) is the colimit of \(F\).
+  \begin{align*}
+    t([x] + [y]) &= t([F(f)(x) + F(g)(y)])\\
+    &= t(s_{C''}(F(f)(x) + F(g)(y)))\\
+    &= t_{C''}(F(f)(x) + F(g)(y))\\
+    &= t_{C''}(F(f)(x)) + t_{C''}(F(g)(y))\\
+    &= t(s_{C''}(F(f)(x))) + f(s_{C''}(F(g)(y)))\\
+    &= t([F(f)(x)]) + t([F(g)(y)])\\
+    &= t([x]) + t([y])
+  \end{align*}
+  By how \(\Phi\) operates it is now clear that the colimit \(L\) is preserved; thus \(\Phi\) preserves filtered colimits.
+  Finally one can easily adapt the proof of \cite[Proposition 2.9.7]{handbook1} to the case of filtered colimits and so we obtain that \(\Phi\) reflects filtered colimits as well.
+\end{proof}
+
+\begin{proposition}
+  \label{prop:mod_ab_limits_colimits}
+  The forgetful functor \(\fun{\Phi}{\catname{Mod}_R}{\catname{Ab}}\) preserves and reflects limits and colimits.
+\end{proposition}
+
+\begin{proposition}
+  \label{prop:hom_preserves_limits}
+  The hom-functor \(\homset{\cat{C}}{C}{-}\) from a category \(\cat{C}\) to \(\catname{Set}\) preserves limits.
+\end{proposition}
+
+\begin{proof}
+  Consider a functor \(\fun{F}{\cat{D}}{\cat{C}}\) that has limit \((L, (p_D)_{D\in\cat{D}})\). Clearly \((\homset{\cat{C}}{C}{L}, \homset{\cat{C}}{C}{p_D}_{D\in\cat{D}})\) is a cone over \(\homset{\cat{C}}{C}{F(-)}\) by functoriality of the hom-functor; to prove its universality consider another cone \((M, (q_D)_{D\in\cat{D}})\) in \(\catname{Set}\) over the functor \(\homset{\cat{C}}{C}{F(-)}\).
+
+  For every \(m\in M\) the family \((\fun{q_D(m)}{C}{F(D)})_{D\in\cat{D}}\) is a cone on \(F\) and thus there is a unique arrow \(\fun{q(m)}{C}{L}\) of \(\cat{C}\) such that \(p_D\circ q(m) = q_D(m)\).
+  This association of an element \(m\in M\) with a factorization \(q(m)\) defines a map \(\fun{q}{M}{\homset{\cat{C}}{C}{L}}\) such that \(\homset{\cat{C}}{C}{p_D}\circ q = q_D\).
+  Moreover this \(q\) is unique since all the \(q(m)\)'s are.
+  We have proved that \(\homset{\cat{C}}{C}{L}\) is the limit of \(\homset{\cat{C}}{C}{F(-)}\) and so that \(\homset{\cat{C}}{C}{-}\) preserves limits.
+\end{proof}
+
+\begin{lemma}
+  \label{lemma:left_exactness_of_U}
+  If \(\cat{D}\) is cofiltered then \(U\) is left-exact.
+\end{lemma}
+
+\begin{proof}
+  Suppose \(\fun{\homset{\cat{A}}{A}{-}}{\cat{A}}{\catname{Ab}}\) is left-exact for any \(A\in\cat{A}\) then, since \(\cat{D}\) is cofiltered and \(\yo^*\) is contravariant, the image of \(\cat{D}\) through \(\yo^*\circ\phi\) is a filtered diagram of left-exact additive functors in \(\add{\cat{A}}{\catname{Ab}}\); thus by Proposition \ref{prop:exactness_and_additiveness_of_filtered_diagrams} we obtain that \(U = \colim_{D\in\cat{D}}\homset{\cat{A}}{\phi(D)}{-}\) is a left-exact additive functor.
+
+  It remains to prove that \(\homset{\cat{A}}{A}{-}\) is indeed left-exact. Consider a functor \(\fun{F}{\cat{C}}{\cat{A}}\) and let \(L\in\cat{A}\) be its limit. From Proposition \ref{proposition:hom_preserves_limits} \(\homset{\cat{A}}{A}{L}\in\catname{Set}\) is the limit of \(\fun{\homset{\cat{A}}{A}{-}\circ F}{\cat{C}}{\catname{Set}}\). This is however equivalent to saying that \(\homset{\cat{A}}{A}{L}\) is the limit of the composite functor
+  \begin{equation*}
+    \begin{tikzcd}[sep=huge]
+      \cat{C} \ar[r, "\displaystyle F"] & \cat{A} \ar[r, "\displaystyle\homset{\cat{A}}{A}{-}"] & \catname{Ab} \ar[r, "\displaystyle\Phi"] & \catname{Set}
+    \end{tikzcd}.
+  \end{equation*}
+  But since \(\Phi\) reflects limits \(\homset{\cat{A}}{A}{L}\) as a group (i.e. an element of \(\catname{Ab}\)) is the limit of \(\fun{\homset{\cat{A}}{A}{-}\circ F}{\cat{C}}{\catname{Ab}}\) so the hom functor \(\homset{\cat{A}}{A}{-}\) from \(\cat{A}\) to \(\catname{Ab}\) preserves limits. By Proposition \ref{prop:characterization_of_exact_functors} we obtain that representables are left-exact and this concludes the proof.
+\end{proof}
+
+\begin{lemma}
+  \label{lemma:U_preserves_epis}
+  \(U\) preserves epimorphisms as long as \(\cat{D}\) is cofiltered and every epimorphism of the form \(\fun{f}{A}{\phi(D)}\) in \(\cat{A}\) can be written as \(f = \phi(d)\) for a suitable arrow \(\fun{d}{D'}{D}\) in \(\cat{D}\).
+\end{lemma}
+
+\begin{proof}
+  An arrow in \(\catname{Ab}\) is an epimorphism if and only if it is surjective, so if \(\fun{g}{B}{C}\) is an arrow in \(\cat{A}\) its image \(U(g)\) is epi if and only if it is surjective. Filtered colimits are computed in \(\catname{Ab}\) exactly as in \(\catname{Set}\) by Proposition \ref{prop:ab_forgetful} thus we can use Proposition \ref{prop:strange_relation}.
+
+  Let \(x\in U(C) = \colim_{D\in\cat{D}}\homset{\cat{A}}{\phi(D)}{C}\); but from the discussion above we have that \(\colim_{D\in\cat{D}}\homset{\cat{A}}{\phi(D)}{C} = \left(\coprod_{D\in\cat{D}}\homset{\cat{A}}{\phi(D)}{C}\right)/\sim\) so \(x\) is the class of some arrow \(\fun{\gamma}{\phi(D)}{C}\) for some \(D\in\cat{D}\). To show that \(U(g)\) is a surjection we must find some \(y\in U(B) = \colim_{D\in\cat{D}}\homset{\cat{A}}{\phi(D)}{B}\) such that \(U(g)(y) = x\). Repeating the previous argument such a \(y\) must be the class of an arrow \(\fun{\beta}{\phi(D')}{B}\) and now the condition \(U(g)(y) = x\) becomes \(U(g)([\beta]) = [g\circ\beta] = [\gamma]\); finally this amounts to finding arrows \(\fun{d}{D''}{D}\) and \(\fun{d'}{D''}{D'}\) in \(\cat{D}\) such that
+  \begin{equation*}
+    \homset{\cat{A}}{\phi(d')}{C}(g\circ\beta) = \homset{\cat{A}}{\phi(d)}{C}(\gamma)
+  \end{equation*}
+  that is in turn equivalent to showing that \(g\circ\beta\circ\phi(d') = \gamma\circ\phi(d)\).
+
+  Now consider the pullback of \(g\) along \(\gamma\) of Diagram \ref{diagram:pullback_eq}; we obtain immediately that \(f\) is epi by Proposition \ref{prop:pullback_of_epi}. By assumption we can write \(f\) as \(f = \phi({d})\) for an appropriate \(\fun{d}{D''}{D}\) and thus
+  \begin{align*}
+    \gamma\circ\phi(d) &= \gamma\circ f = g\circ\alpha = g\circ\alpha\circ\phi(1_{D''}).
+  \end{align*}
+   This proves that \(U(g)\) is surjective and so the proof is complete.
+
+  \begin{figure}[h]
+    \input{diagrams/pullback_equivalence.tex}
+    \caption{}
+    \label{diagram:pullback_eq}
+  \end{figure}
+\end{proof}
+
+\begin{lemma}
+  \label{lemma:U_faithful}
+  If \(\cat{D}\) is cofiltered and
+  \begin{enumerate}[label=(\arabic*)]
+  \item every \(A\in\cat{A}\) can be written as \(A = \phi(D)\) for some \(D\in\cat{D}\) i.e. \(\phi\) is surjective on objects,
+  \item for every morphism \(d\in\cat{D}\) the image \(\phi(d)\in\cat{A}\) is always epi,
+  \end{enumerate}
+  then \(U\) is faithful.
+\end{lemma}
+
+\begin{proof}
+  Let \(\fun{f,g}{A}{B}\) be morphisms in \(\cat{A}\) such that \(U(f) = U(g)\). By Proposition \ref{prop:strange_relation} we have that
+  \begin{equation*}
+    U(A) = \colim_{D\in\cat{D}}\homset{\cat{A}}{\phi(D)}{A}=\left(\coprod_{D\in\cat{D}}\homset{\cat{A}}{\phi(D)}{A}\right)/\sim
+  \end{equation*}
+  and thus an element \(a\in U(A)\) is the class of an arrow \(\fun{\alpha}{\phi(D)}{A}\) for some \(D\in\cat{D}\). By assumption \(U(f) = U(g)\) and thus \(U(f)(a) = U(g)(a)\); this last relation can be re-read in terms of classes of arrows as \([f\circ\alpha] = [g\circ\alpha]\) that in turn ensures the existence of arrows \(\fun{x,x'}{X}{D}\) in \(\cat{D}\) such that
+  \begin{equation*}
+    \homset{\cat{A}}{\phi(x)}{B}(f\circ\alpha) = \homset{\cat{A}}{\phi(x')}{B}(g\circ\alpha).
+  \end{equation*}
+  By cofilteredness of \(\cat{D}\) there is an arrow \(\fun{d'}{D'}{X}\) such that \(x\circ d' = x'\circ d'\); thus we can define \(d = x\circ d' = x'\circ d'\). This is an arrow from \(D'\) to \(D\) such that
+  \begin{equation*}
+    \homset{\cat{A}}{\phi(d)}{B}(f\circ\alpha) = \homset{\cat{A}}{\phi(d)}{B}(g\circ\alpha)
+  \end{equation*}
+  that is \(f\circ\alpha\circ\phi(d) = g\circ\alpha\circ\phi(d)\).
+
+  Now by hypothesis (1) we have that \(A = \phi(\overline{D})\) for some \(\overline{D}\in\cat{D}\). Moreover \(1_A\in\homset{\cat{A}}{\phi(\overline{D})}{A}\) so it represents a class \(\overline{a}\in U(A)\) and thus by the previous discussion there is an arrow \(d\in\cat{D}\) such that
+    \begin{equation*}
+      f\circ 1_A\circ\phi(d) = g\circ 1_A\circ\phi(d)
+    \end{equation*}
+    from which we obtain \(f\circ\phi(d) = g\circ\phi(d)\). By hypothesis (2) \(\phi(d)\) is epi and thus \(f = g\); this proves that \(U\) is faithful.
+\end{proof}
+
+\begin{theorem}
+  \label{teo:faithful_embedding}
+  Every small abelian category admits a faithful and exact embedding in \(\catname{Ab}\).
+\end{theorem}
+
+\begin{proof}
+  We shall construct a category \(\cat{D}\) and a functor \(\phi\) such that all the hypothesis of Lemmas \ref{lemma:left_exactness_of_U}, \ref{lemma:U_preserves_epis} and \ref{lemma:U_faithful} are satisfied; this way \(U\) will be a faithful functor from \(\cat{A}\) to \(\catname{Ab}\) that is left-exact and preserves epimorphisms, thus is exact by Proposition \ref{prop:left_condition}.
+
+  Let \(\cat{D}_0\subseteq\cat{D}_1\subseteq\ldots\) be a sequence of posets (regarded as categories in the usual way) and \(\phi_0,\phi_1,\ldots\) a sequence of corresponding functors of type \(\cat{D}_n\to\cat{A}\) such that
+  \begin{enumerate}[label=(\arabic*)]
+  \item \(\cat{D}_n\) is a meet-semilattice,
+  \item if \(n\leq m\) then \(\phi_m\) and \(\phi_n\) coincide on \(\cat{D}_n\) (in symbols \(\phi_m\upharpoonright\cat{D}_n=\phi_n\)),
+  \item for every arrow \(d\in\cat{D}_n\) the image \(\phi_n(d)\in\cat{A}\) is always epi,
+  \item for every \(A\in\cat{A}\) there is a \(D\in\cat{D}_1\) such that \(\phi_1(D) = A\),
+  \item for every \(A\in\cat{A}\), \(D\in\cat{D}_n\) and \(f\colon A\twoheadrightarrow\phi_n(D)\) in \(\cat{A}\) there is an arrow \(d\in\cat{D}_{n+1}\) such that \(\phi_{n+1}(d) = f\).
+  \end{enumerate}
+  Once such a sequence is found we can set \(\cat{D} = \bigcup_n\cat{D}_n\) and \(\phi\) the natural extension of all the \(\phi_n\). For such a pair we have that
+  \begin{itemize}
+  \item \(\cat{D}\) is a meet-semilattice thus it is cofiltered and the hypothesis of Lemma \ref{lemma:left_exactness_of_U} hold,
+  \item condition (5) ensures that the hypothesis of Lemma \ref{lemma:U_preserves_epis} hold,
+  \item conditions (3), (4) ensure that the hypothesis of Lemma \ref{lemma:U_faithful} hold.
+  \end{itemize}
+  This is exactly what we want: Lemma \ref{lemma:left_exactness_of_U} and Lemma \ref{lemma:U_preserves_epis} ensure that \(U\) is left-exact and preserves epimorphisms thus, by Proposition \ref{prop:left_condition}, it is exact; faithfulness of \(U\) is taken care of by Lemma \ref{lemma:U_faithful}. All that's left is to construct such a sequence of posets and functors.
+
+  We set \(\cat{D}_0\) to be the discrete category \(\{*\}\) and \(\phi_0(*)\) to be the zero object \({\bf 0}\) of \(\cat{A}\); \(\phi_0(1_*) = 1_{\bf 0}\) is clearly epi and, being a singleton, \(\cat{D}_0\) is clearly a meet-semilattice.
+
+  The poset \(\cat{D}_{n+1}\) is constructed by induction. Suppose \(\cat{D}_0\subseteq\ldots\subseteq\cat{D}_n\) have been defined and are such that conditions (1), (2), (3) and (5) hold for all of them. Consider all the pairs \((D, f)\) where \(D\in\cat{D}_n\) and \(f\colon A\twoheadrightarrow\phi_n(D)\) is an epimorphism in \(\cat{A}\) for some \(A\in\cat{A}\); we index those pairs by successive successor ordinals\footnote{To fully justify this step one can first observe that the collection of pairs \((D, f)\) described is a (small) set because \(\cat{A}\) is a small category and then apply the Well-Ordering Theorem to impose a well-order on it. In this way we obtain the needed indexation. Also notice that we \emph{do not} use limit ordinals to index any pair.} starting from 1 (0 will be handled differently). We then construct, by transfinite induction, another sequence of posets \(\cat{D}_n^0\subseteq\ldots\subseteq\cat{D}_n^\alpha\subseteq\ldots\) up to the supremum of the ordinals used as indexes and a corresponding sequence of functors \(\fun{\phi_n^\alpha}{\cat{D}_n^\alpha}{\cat{A}}\) such that
+  \begin{enumerate}[label=(\alph*)]
+  \item \(\cat{D}_n^\alpha\) is a meet-semilattice,
+  \item if \(\beta\leq\alpha\) then \(\phi_n^\alpha\upharpoonright\cat{D}_n^\beta = \phi_n^\beta\),
+  \item for every arrow \(d\in\cat{D}_n^\alpha\) the image \(\phi_n^\alpha(d)\in\cat{A}\) is epi,
+  \item if \(\alpha\) indexes the pair \((D,\epi{f}{A}{\phi_n(D)})\) then there is an arrow \(d\in\cat{D}_n^\alpha\) such that \(\phi_n^\alpha(d) = f\).
+  \end{enumerate}
+  As before we shall define \(\cat{D}_{n+1}=\bigcup_\alpha\cat{D}_n^\alpha\) and \(\phi_{n+1}\) to be the extension of all the \(\phi_n^\alpha\). This construction ensures that \(\cat{D}_{n+1}\) satisfies conditions (1), (2), (3) and (5). It just remains to prove that we can indeed find such a sequence.
+
+  First we set \((\cat{D}_n^0, \phi_n^0) = (\cat{D}_n, \phi_n)\); this pair satisfies (a) and (c) because \(\cat{D}_n\) satisfies (1) and (3), while (b) and (d) are trivially satisfied.
+
+  If \(\beta\) is a limit ordinal we set \(\cat{D}_n^\beta=\bigcup_{\alpha<\beta}\cat{D}_n^\alpha\) and extend the \(\phi_n^\alpha\) to \(\phi_n^\beta\) as before. Clearly \((\cat{D}_n^\beta,\phi_n^\beta)\) satisfies conditions (a), (b) and (c) because the same conditions are satisfied for all \((\cat{D}_n^\alpha, \phi_n^\alpha)\) with \(\alpha<\beta\) while (d) is trivially satisfied.
+
+  Finally if \((\cat{D}_n^0,\phi_n^0),\ldots,(\cat{D}_n^\alpha,\phi_n^\alpha)\) have been defined, satisfy (a), (b), (c), (d), and \(\alpha+1\) indexes the pair \((D, f)\) we consider the initial segment \(\downarrow D = \{D'\in\cat{D}_n^\alpha\colon D'\leq D\}\) and perform the disjoint union \(\cat{D}_n^\alpha\amalg\downarrow D\); we will write \(D'^*\) for the copy of \(D'\in\cat{D}_n^\alpha\) that lies in \(\downarrow D\), if any. On the two components of the disjoint union we leave the original ordering, but we impose \(D'^*\leq D'\) for all \(D'\in{}\downarrow D\); this is enough to generate a poset structure on \(\cat{D}_n^\alpha\amalg\downarrow D\). We set \(\cat{D}_n^{\alpha+1} = \cat{D}_n^\alpha\amalg\downarrow D\).
+
+  \begin{figure*}
+    \begin{center}
+      \begin{tikzpicture}[scale=2]
+        \filldraw (0, 1) -- (2, 1) circle (1pt) node[above] {\(D'^*\)} -- (3, 1) circle (1pt) node[above] {\(D^*\)};
+        \filldraw (0, 0) -- (2, 0) circle (1pt) node[below] {\(D'\)}   -- (3, 0) circle (1pt) node[below] {\(D\)} -- (4, 0);
+        \draw (5, 0) node {\(\cat{D}_n^\alpha\)};
+        \draw (5, 1) node {\(\downarrow D\)};
+        \draw[->] (2, .8) -- (2, .2);
+        \draw[->] (3, .8) -- (3, .2);
+      \end{tikzpicture}
+    \end{center}
+    \captionsetup{labelformat=empty}
+    \caption{\small A depiction of the poset \(\cat{D}_n^\alpha\amalg\downarrow D\). Keep in mind that the posets are drawn as linear orders so that the picture does not become too complicated but, generally speaking, \emph{they are not}.}
+  \end{figure*}
+
+  It is immediate that \(\cat{D}_n^{\alpha +1}\) is a meet-semilattice: both \(\cat{D}_n^\alpha\) and \(\downarrow D\) are meet-semilattices thus the meet of two elements of \(\cat{D}_n^{\alpha+1}\) that lie both in one component is simply the meet of the two elements in that component; the mixed case is handled by computing the meet of the two in \(\cat{D}_n^\alpha\) and then taking the copy of the result in \(\downarrow D\). This shows that (a) holds for \(\cat{D}_n^{\alpha+1}\).
+
+  We need to define a functor \(\fun{\phi_n^{\alpha+1}}{\cat{D}_n^{\alpha+1}}{\cat{A}}\); in order for condition (b) to hold we are forced to have \(\phi_n^{\alpha+1}\) mimic \(\phi_n^\alpha\)  on the component \(\cat{D}_n^\alpha\) of \(\cat{D}_n^{\alpha+1}\). We can then set \(\phi_n^{\alpha+1}(D^*) = A\) and \(\phi_n^{\alpha+1}(D^*\leq D) = f\); this takes care of condition (d). Given \(D'\in{}\downarrow D\) we set \(\phi_n^{\alpha+1}(D'^*)\) to be the object obtained via the following pullback (Diagram \ref{diagram:foo}).
+  \begin{figure}[h]
+    \begin{center}
+      \begin{tikzcd}[sep=huge]
+        \phi_n^{\alpha+1}(D'^*) \ar[r, two heads, "u"] \ar[d, two heads, "v"] & A \ar[d, two heads, "f"]\\
+        \phi_n^\alpha(D') \ar[r, two heads, "\phi_n^\alpha(D'\leq D)"] & \phi_n^\alpha(D) = \phi_n(D)
+      \end{tikzcd}
+    \end{center}
+    \caption{}
+    \label{diagram:foo}
+  \end{figure}\\
+  \noindent Moreover observing that \(A = \phi_n^{\alpha+1}(D^*)\) and that \(\phi_n^\alpha(D') = \phi_n^{\alpha+1}(D')\) we set \(\phi_n^{\alpha+1}(D'^*\leq D^*) = u\) and \(\phi_n^{\alpha+1}(D'^*\leq D') = v\).
+
+  Now if \(D'\leq D''\) and \(D',D''\in{}\downarrow D\) consider Diagram \ref{diagram:bar} where the left and right squares are pullbacks by construction.
+  \begin{figure}[h]
+    \begin{center}
+      \begin{tikzcd}[sep=huge]
+        P \ar[d, two heads, "x"] \ar[r, two heads, "y"] & \phi_n^{\alpha+1}(D''^*) \ar[d, two heads, ""] \ar[r, two heads, ""] & A \ar[d, two heads, "f"]\\
+        \phi_n^\alpha(D') \ar[r, two heads, "\phi_n^\alpha(D'\leq D'')"] & \phi_n^\alpha(D'') \ar[r, two heads, "\phi_n^\alpha(D''\leq D)"] & \phi_n(D) = \phi_n^\alpha(D)
+      \end{tikzcd}
+    \end{center}
+    \caption{}
+    \label{diagram:bar}
+  \end{figure}
+  By the pullback lemma the outer square is also a pullback. By functoriality of \(\phi_n^\alpha\) the lower composite is just \(\phi_n^\alpha(D'\leq D)\) so, by the above discussion, we have \(P = \phi_n^{\alpha + 1}(D'^*)\) and \(x = \phi_n^{\alpha+1}(D'^*\leq D')\). We thus set \(\phi_n^{\alpha+1}(D'^*\leq D''^*) = y\).
+  
+  The last case is that of arrows of the form \(D'^*\leq D''\) for \(D'\in{}\downarrow D\) and \(D'\leq D''\). But we can simply set
+  \begin{equation*}
+    \phi_n^{\alpha+1}(D'^*\leq D'') = \phi_n^{\alpha+1}(D'\leq D'')\circ\phi_n^{\alpha+1}(D'^*\leq D')
+  \end{equation*}
+  since \(\phi_n^{\alpha+1}(D'^*\leq D')\) has already been defined and \(\phi_n^{\alpha+1}=\phi_n^\alpha\) over \(\cat{D}_n^\alpha\).
+
+  The construction of \(\phi_n^{\alpha + 1}\) is finally complete and moreover \(\phi_n^{\alpha+1}(d)\) is epi for every arrow \(d\in\cat{D}_n^{\alpha+1}\) because \(\phi_n^{\alpha+1}\) extends \(\phi_n^\alpha\) (for which condition (c) holds at this stage of the induction) and every arrow in the previous diagrams is an epimorphism by Proposition \ref{prop:pullback_of_epi}. The pair \((\cat{D}_n^{\alpha+1},\phi_n^{\alpha+1})\) thus satisfies conditions (a), (b), (c) and (d).
+
+  The last thing we need to prove is that condition (4) holds. The construction of the poset \(\cat{D}_1\) is indexed by all the pairs \((*, f)\) with \(\epi{f}{A}{\phi_0(*)}\) epimorphism; but by construction \(\phi_0(*) = {\bf 0}\) and thus there is only one such \(f\) for every \(A\in\cat{A}\) because \({\bf 0}\) is both initial and final. By condition (d) for every \(A\in\cat{A}\) the poset \(\cat{D}_1\) will contain an element \(D\) such that \(\phi_1(D) = A\) and this is exactly (4).
+\end{proof}
+
+We shall now prove some additional properties of the pair \((\cat{D},\phi)\) just constructed; such properties will then be used to turn the embedding \(U\) in a fully faithful exact embedding in \(\catname{Mod}_R\), for a suitable ring \(R\).
+
+\begin{lemma}
+  \label{lemma:finite_segment}
+  Given \(D_1,D_2\in\cat{D}\) the segment \([D_1, D_2] = \{D\in\cat{D}\colon D_1\leq D\leq D_2\}\) is always finite.
+\end{lemma}
+
+\begin{proof}
+  Recall that \(\cat{D}\) is the union of all the \(\cat{D}_0\subseteq\cat{D}_1\subseteq\ldots\) that are constructed by induction. In turn each \(\cat{D}_{n+1}\) is also the union of a sequence \(\cat{D}_n^0\subseteq\cat{D}_n^1\subseteq\ldots\) that is constructed by (transfinite) induction. This means that \(D_1\) and \(D_2\) must be introduced at some point of the construction of those sequences; we will prove that
+  \begin{enumerate}[label=(\arabic*)]
+  \item at that level \([D_1, D_2]\) is finite,
+  \item the segment \([D_1, D_2]\) remains unchanged at all further levels.
+  \end{enumerate}
+  Condition (1) holds trivially for \(\cat{D}_0=\{*\}\). Now let's assume that (1) holds for \(\cat{D}_n^\alpha\) and consider \(D_1,D_2\in\cat{D}_n^{\alpha}\); by construction in \(\cat{D}_n^{\alpha+1}\) one never has \(D'\leq D^*\) for a new \(D^*\) and an old \(D'\) (the poset ``grows downwards''), so \([D_1, D_2]\) remains unchanged in the step from \(\alpha\) to \(\alpha + 1\).
+
+  If instead \(D_1, D_2\not\in\cat{D}_n^\alpha\) then they are part of the second component of \(\cat{D}_n^{\alpha+1}\) thus we have \(D_1 = D^*\) and \(D_2 = D'^*\) for appropriate \(D, D'\in\cat{D}_n^\alpha\). The segment \([D, D']\) is finite by inductive hypothesis and thus is \([D^*, D'^*] = [D_1, D_2]\) because they are isomorphic.
+
+  The case of \(D_1\in\cat{D}_n^\alpha\) and \(D_2\not\in\cat{D}_n^\alpha\) results in an empty segment (as before no new element can be bigger than an old one); so the final case to analyze is that of \(D_1\not\in\cat{D}_n^\alpha\) and \(D_2\in\cat{D}_n^\alpha\). This means that there is a \(D\in\cat{D}_n^\alpha\) such that \(D_1 = D^*\) so \([D_1, D_2] = [D^*, D_2^*]\cup[D, D_2]\) and both are finite by induction.
+
+  We have that (1) and (2) remain valid at each successor step but they obviously hold at each limit step too and thus the proof is complete.
+\end{proof}
+
+\begin{lemma}
+  \label{lemma:limit_factorization_is_epi}
+  Given \(D_1\leq D_2\) in \(\cat{D}\) the factorization arrow
+  \begin{equation*}
+    \begin{tikzcd}[sep=huge]
+      \phi(D_1) \ar[r, ""] & \displaystyle\lim_{D_1<D\leq D_2}\phi(D)
+    \end{tikzcd}
+  \end{equation*}
+  is always epi.
+\end{lemma}
+
+\begin{proof}
+  First we should clarify that such factorization actually exists. The segment \([D_1, D_2]\) is a poset and \(D_1\) is its initial object so we have a arrow \(\phi(D_1\leq D)\) for every \(D\in[D_1, D_2]\). Moreover \([D_1, D_2]\) is finite by Lemma \ref{lemma:finite_segment} and \(\cat{A}\) is finitely complete because it is abelian (Proposition \ref{prop:completeness}) so \(\lim_{D_1<D\leq D_2}\phi(D)\) exists and \((\phi(D_1), \phi(D_1\leq D)_{D_1<D\leq D_2})\) is a cone on \(\phi\) (restricted to the \(D_1<D\leq D_2\)). By the definition of limit we obtain a unique factorization \(\phi(D_1)\to\lim_{D_1<D\leq D_2}\phi(D)\) as in the Lemma's statement.
+
+  We proceed by induction on the level at which \(D_1\) is introduced. We already observed (in the proof of Lemma \ref{lemma:finite_segment}) that, when moving from a level of the construction to the next, new objects are never bigger than the ones we already had and so when \(D_1\) is introduced \(D_2\) and all the \(D\) such that \(D_1<D\leq D_2\) exist as well.
+
+  If \(D_1\in\cat{D}_0\) then, since \(\cat{D}_0 = \{*\}\), we have \(D_2 = D_1 = *\) and thus the limit is the limit of an empty diagram i.e. the final object {\bf 0}. The factorization in the Lemma's statement is thus the unique arrow from \(\phi(D_1) = {\bf 0}\) to \({\bf 0}\) that is the identity on the zero object of \(\cat{A}\); clearly an epimorphism.
+
+  In our construction an object is never introduced at a limit step so we only need to consider the case in which \(D_1\) is added when \(\cat{D}_n^{\alpha + 1}\) is constructed. There will thus be a \(D_0\in\cat{D}_n^\alpha\) such that \(D_1 = D_0^*\) while for the object \(D_2\) we have two cases: either \(D_2\in\cat{D}_n^\alpha\) (if \(D_2\) already exists when \(D_1\) is added) or \(D_2\not\in\cat{D}_n^\alpha\) (if \(D_2\) is ``new'' as well).
+
+  If \(D_1 = D_2\) (so \(D_2\not\in\cat{D}_n^\alpha\)) then the limit is again the limit of an empty diagram; thus the zero object \({\bf 0}\). The factorization in the Lemma's statement this time is a zero arrow to \({\bf 0}\) that is epi because \({\bf 0}\) is terminal.
+
+  If \(D_1 \not= D_2\) and \(D_2\not\in\cat{D}_n^\alpha\) then \(D_2 = D_{00}^*\) for an appropriate \(D_{00}\in\cat{D}_n^\alpha\). Consider Diagram \ref{diagram:three_squares} for all \(D_0<D\leq D_{00}\) where we use the letter \(p\), with the appropriate subscript, for the projections of the two limits involved.
+  \begin{figure}[h]
+    \begin{center}
+      \begin{tikzcd}[sep=huge]
+        \displaystyle\phi(D_0^*) \ar[dr, phantom, "(1)" description] \ar[d, ""] \ar[r, two heads, "f^*"] & \displaystyle\lim_{D_0<D\leq D_{00}}\phi(D^*) \ar[d, ""] \ar[r, "p_{D^*}"] \ar[dr, phantom, "(2)" description] &
+        \displaystyle\phi(D^*) \ar[r, "\phi(D^*\leq D_{00}^*)"] \ar[d, ""]\ar[dr, phantom, "(3)" description] & \displaystyle\phi(D_{00}^*) \ar[d, ""]\\
+        \displaystyle\phi(D_0) \ar[r, two heads, "f"] & \displaystyle\lim_{D_0<D\leq D_{00}}\phi(D) \ar[r, "p_D"] & \phi(D) \ar[r, "\phi(D\leq D_{00})"] & \phi(D_{00})
+      \end{tikzcd}
+    \end{center}
+    \caption{}
+    \label{diagram:three_squares}
+  \end{figure}
+  By construction of \((\cat{D},\phi)\) the squares (3) are pullbacks. By definition of limit \(\phi(D\leq D_{00})\circ p_D = p_{D_{00}}\) and \(\phi(D^*\leq D_{00}^*)\circ p_{D^*} = p_{D_{00}^*}\) so the perimeter of the rectangle composed of the squares (2) and (3) is the same for all \(D_0<D\leq D_{00}\). This rectangle is the limit of the pullbacks (3) so, by interchange of limits (Proposition \ref{prop:interchange_of_limits}), it is itself a pullback. Again by construction of \((\cat{D}, \phi)\) the outer rectangle is a pullback and thus the square (1) is a pullback by the Pullback Lemma. By inductive hypothesis \(f\), the factorization, is epi and so, by Proposition \ref{prop:pullback_of_epi}, \(f^*\) is epi as well.
+
+  The last case is that of \(D_1 = D_0^*\) as before and \(D_2\in\cat{D}_n^\alpha\); suppose that \(\alpha + 1\) indexes the pair \((\overline{D}, \overline{f})\). If \(\overline{D} = D_0\) then \(\{D\colon D_1<D\leq D_2\} = [\overline{D},D_2]\) so it has an initial object \(\overline{D}\); the inclusion of \(\{{\bf 0}\}\) (the subcategory of only the initial object \({\bf 0}\)) in \([\overline{D}, D_2]\) is a final functor by \cite[Proposition 2.11.4]{handbook1} and thus the limit of \(\phi\) is just \(\phi(\overline{D})\). In this case the factorization of the Lemma's statement is just \(\overline{f}\) that is epi by the details of the construction.
+
+  On the other hand it is also possible that \(D_0 < \overline{D}\) (equivalently \(D_1 = D_0^* < \overline{D}^*\)) and \(D_2\in\cat{D}_n^\alpha\). Let \(D_3 = D_2\land\overline{D}\) be a third element of \(\cat{D}_n^\alpha\); if \(D_1<D\leq D_2\) then since \(D_1\leq \overline{D}^*<\overline{D}\) we obtain \(D_1\leq\overline{D}\land D\leq\overline{D}\land D_2 = D_3\) that in turn gives us that \(\{D\colon D_1<D\leq D_3\}\) is an initial segment of \(\{D\colon D_1<D\leq D_2\}\). The inclusion functor of the first in the second is final because it satisfies the sufficient condition given by \cite[Proposition 2.11.2]{handbook1} so it is sufficient to compute the limit of \(\phi\) over this first initial segment; we wish to prove that the limit is \(\phi(D_1)\)\footnote{One may wonder why such a construction is employed. The advantage that it offers is that in \(\{D\colon D_1<D\leq D_3\}\) every element in the component \(\cat{D}_n^\alpha\) has a double in the other component \(\downarrow\overline{D}\); this is not guaranteed to happen in \(\{D\colon D_1<D\leq D_2\}\).}.
+  More precisely we want to prove that \(\left(\phi(D_1), \phi(D_1\leq D)_{D_1< D\leq D_3}\right)\) is a universal cone on \(\phi\) so let \(\left(A, (f_D\colon A\to D)_{D_1<D\leq D_3}\right)\) be another cone on \(\phi\) and consider Diagram \ref{diagram:f_cone} where the right bottom square is a pullback by definition of \((\cat{D}, \phi)\).
+  \begin{figure}[h]
+    \begin{center}
+      \begin{tikzcd}[sep=huge]
+        A \ar[rd, dashed, "f" description] \ar[ddr, bend right, "f_{D_0}"] \ar[rrd, bend left, "f_{D_3^*}"] & & \\
+        & \phi(D_0^*) \ar[d, ""] \ar[r, ""] & \phi(D_3^*) \ar[d, ""]\\
+        & \phi(D_0) \ar[r, ""] & \phi(D_3)
+      \end{tikzcd}
+    \end{center}
+    \caption{}
+    \label{diagram:f_cone}
+  \end{figure}
+
+  The outer square commutes by the definition of cone:
+  \begin{align*}
+    \phi(D_3^*\leq D_3)\circ f_{D_3^*} = f_{D_3}\\
+    \phi(D_0\leq D_3)\circ f_{D_0} = f_{D_3}
+  \end{align*}
+  and so we obtain \(\fun{f}{A}{\phi(D_0^*)}\) as factorization through the pullback. We will now prove that such \(f\) does not factor only \(f_{D_3^*}\) and \(f_{D_0}\) but every projection of the cone \(A\); thus establishing the universality of the cone \(\phi(D_1)\).
+
+  Fix a \(D\) such that \(D_1< D\leq D_3\). When \(D\in\cat{D}_n^\alpha\) then \(D_0\leq D\) and so by using the factorization introduced above and the definition of a cone one obtains
+  \begin{align*}
+    \phi(D_0^*\leq D)\circ f &= \phi(D_0\leq D)\circ\phi(D_0^*\leq D_0)\circ f\\
+                             &= \phi(D_0\leq D)\circ f_{D_0}\\
+                             &= f_D
+  \end{align*}
+  so this case is solved. On the other hand when \(D\not\in\cat{D}_n^\alpha\) there is a \(D'\in\cat{D}_n^\alpha\) such that \(D = D'^*\); moreover this \(D'\) is such that \(D_0^*\leq D_0\leq D'\leq D_3\). Consider Diagram \ref{diagram:last_one} where the squares are again pullbacks by construction; we are interested in proving that the triangle \((*)\) commutes. By the following computations
+  \begin{align*}
+    \phi(D'^*\leq D_3^*)\circ\phi(D_0^*\leq D'^*)\circ f &= \phi(D_0^*\leq D_3^*)\circ f\\
+                                                         &= f_{D_3^*}\\
+                                                         &= \phi(D'^*\leq D_3^*)\circ f_{D'^*}
+  \end{align*}
+  \begin{align*}
+    \phi(D'^*\leq D')\circ\phi(D_0^*\leq D'^*)\circ f &= \phi(D_0\leq D')\circ\phi(D_0^*\leq D_0)\circ f\\
+                                                      &= \phi(D_0\leq D')\circ f_{D_0}\\
+                                                      &= f_{D'}\\
+                                                      &= \phi(D'^*\leq D')\circ f_{D'^*}
+  \end{align*}
+  we obtain that \(f_{D'^*}\) and \(\phi(D_0^*\leq D'^*)\circ f\) both factorize the same cone on the pullback that is the rightmost bottom square; thus are equal.
+
+  \begin{figure}[h]
+    \begin{center}
+      \begin{tikzcd}[sep=huge]
+        A \ar[ddr, bend right, "f_{D_0}"] \ar[rd, dashed, "f" description] \ar[drr, bend left, "f_{D'^*}"] \ar[drrr, bend left, "f_{D_3^*}"] \ar[drr, phantom, "(*)"]& & &\\
+        & \phi(D_0^*) \ar[r, ""] \ar[d, ""] & \phi(D'^*) \ar[r, ""] \ar[d, ""] & \phi(D_3^*) \ar[d, ""]\\
+        & \phi(D_0) \ar[r, ""] & \phi(D') \ar[r, ""] & \phi(D_3)
+      \end{tikzcd}
+    \end{center}
+    \caption{}
+    \label{diagram:last_one}
+  \end{figure}
+  
+  Finally we have that \(\lim_{D_1<D\leq D_2}\phi(D) = \phi(D_1)\) so the factorization \(\phi(D_1)\to\lim_{D_1<D\leq D_2}\phi(D)\) in the Lemma's statement is obviously the identity \(1_{\phi(D_1)}\) that is epi.
+\end{proof}
+
+\begin{lemma}
+  \label{lemma:third_lemma}
+  Consider an element \(D_0\in\cat{D}\) and a functor \(\fun{\Gamma}{\downarrow D_0}{\cat{A}}\) such that for every \(D_1\leq D_2\leq D_0\) the factorization
+  \begin{equation*}
+    \begin{tikzcd}[sep=huge]
+      \Gamma(D_1) \ar[r, ""] & \displaystyle\lim_{D_1\leq D\leq D_2}\Gamma(D)
+    \end{tikzcd}
+  \end{equation*}
+  is an epimorphism. Consider then an exact functor \(\fun{F}{\cat{A}}{\catname{Ab}}\) and a natural transformation \(\nat{\alpha_{D_0}}{\homset{\cat{A}}{\Gamma(D_0)}{-}}{F}\). Then \(\alpha_{D_0}\) can be written as the composite
+  \begin{equation*}
+    \begin{tikzcd}[sep=huge]
+      \homset{\cat{A}}{\Gamma(D_0)}{-} \ar[r, "s_{D_0}"] & \displaystyle\colim_{D\leq D_0}\homset{\cat{A}}{\Gamma(D)}{-} \ar[r, "\alpha"] & F
+    \end{tikzcd}
+  \end{equation*}
+  with \(s_{D_0}\) injection of the colimit and \(\alpha\) another natural transformation.
+\end{lemma}
+
+\begin{proof}
+  Let \(\mathcal{S}\) be the set of all pairs \((S, (\alpha_D)_{D\in S})\) where \(S\) is a final segment of \(\downarrow D_0\) and the \(\nat{\alpha_D}{\homset{\cat{A}}{\Gamma(D)}{-}}{F}\) are natural transformations that constitute a cocone for the functor \(\yo^*\circ\Gamma\) restricted to all the \(D\) in \(S\). We endow \({\cal S}\) with a poset structure by imposing \((S, (\alpha_D)_{D\in S}) \leq (S', (\alpha'_D)_{D\in S'})\) if and only if \(S\subseteq S'\) and \(\alpha'_D = \alpha_D\) for all \(D\in S\). Given a chain in \(\mathcal{S}\) we can take its union as an upper bound and so, by Zorn's Lemma, we know \({\cal S}\) has a maximal; let it be \((\overline{S}, (\alpha_D)_{D\in\overline{S}})\). If we are able to show that \(\overline{S} = \downarrow D_0\) then the natural transformations \(\alpha_D\) for \(D\leq D_0\) will form a cocone on \(\yo^*\circ\Gamma\); the unique factorization through the colimit will then provide the natural transformation \(\alpha\) as in the Lemma's thesis.
+
+  By contradiction let's assume \(\overline{S}\not=\downarrow D_0\) i.e. there is \(D_1\not\in\overline{S}\) such that \(D_1\leq D_0\). The segment \([D_1, D_0]\) is finite by Lemma \ref{lemma:finite_segment} so the sub-order \(\{D\in[D_1, D_0]\colon D\not\in\overline{S}\}\) is finite as well; let then \(D_2\) be one of its maximals, this element is such that every \(D\) for which \(D_2<D\leq D_0\) holds is an element of \(\overline{S}\).
+
+  The Yoneda Lemma (\ref{lemma:additive_yoneda_lemma}) ensures that the natural transformations \(\alpha_D\) from \(\homset{\cat{A}}{\Gamma(D)}{-}\) to \(F\) for \(D_2<D\leq D_0\) correspond to a family of elements \(a_D\in F(\Gamma(D))\) and moreover this correspondence is natural in \(D\): if \(D\leq D'\) Diagram \ref{diagram:y1} commutes. By chasing \(\alpha_D\) around the diagram we obtain \(F(\Gamma(D\leq D'))(a_D) = a_{D'}\)  and thus if we take the limit of \(F\circ\Gamma\) the family \((a_D)_{D_2<D\leq D_0}\) will correspond to a single element \(a\in\lim_{D_2<D\leq D_0}F(\Gamma(D))\)\footnote{Recall that the limit of a functor \(\fun{F}{\cat{C}}{\catname{Set}}\) is the subset of \(\prod_{C\in\cat{C}}F(C)\) composed of all the sequences \((x_C)_{C\in\cat{C}}\) such that for every \(C\in\cat{C}\) and every arrow arrow \(\fun{f}{C}{C'}\) in \(\cat{C}\) we have \(F(f)(x_C)=x_{C'}\). And that limits in \(\catname{Ab}\) are calculated as in \(\catname{Set}\) (see Proposition \ref{prop:ab_forgetful}).}; but \(F\) is left-exact, thus preserves finite limits, so \(a\in\lim_{D_2<D\leq D_0}F(\Gamma(D)) = F(\lim_{D_2<D\leq D_0}\Gamma(D))\).
+  \begin{figure}[h]
+    \begin{center}
+      \begin{tikzcd}[column sep=3cm, row sep=1.5cm]
+        \nathom{\homset{\cat{A}}{\Gamma(D)}{-}}{F} \ar[r, "\precomp{\homset{\cat{A}}{\Gamma(D\leq D')}{-}}"] \ar[d, "\theta_{F, D}"]& 
+        \nathom{\homset{\cat{A}}{\Gamma(D')}{-}}{F} \ar[d, "\theta_{F, D'}"]\\
+        F(\Gamma(D)) \ar[r, "F(\Gamma(D\leq D'))"] & F(\Gamma(D'))\\
+        \alpha_D \ar[r, maps to, ""] \ar[d, maps to, ""] & \alpha_{D'} \ar[d, maps to, ""]\\
+        a_D \ar[r, maps to,  ""] & a_{D'}
+      \end{tikzcd}
+    \end{center}
+    \caption{}
+    \label{diagram:y1}
+  \end{figure}
+
+  By hypothesis the factorization \(\fun{\beta}{\Gamma(D_2)}{\lim_{D_2<D\leq D_0}\Gamma(D)}\), obtained as discussed in the proof of Lemma \ref{lemma:limit_factorization_is_epi}, is epi and \(F\) is exact thus preserves epimorphisms via Proposition \ref{prop:left_condition}. It follows that \(\fun{F(\beta)}{F(\Gamma(D_2))}{F(\lim_{D_2<D\leq D_0}\Gamma(D))}\) is surjective and therefore there is an element \(a_{D_2}\in F(\Gamma(D_2))\) such that \(F(\beta)(a_{D_2}) = a\). For any \(D_2<D\leq D_0\) we have
+  \begin{align*}
+    F(\Gamma(D_2\leq D))(a_{D_2}) &= F(p_D\circ\beta)(a_{D_2})\\
+                                  &= F(p_D)(F(\beta)(a_{D_2}))\\
+                                  &= F(p_D)(a)\\
+                                  &= a_D
+  \end{align*}
+  where \(p_D\) are the projections of the limit and so, since \(F\) preserves this limit, \(F(p_D)\) are the projections of \(F(\lim_{D_2<D\leq D_0}\Gamma(D)))\). Again by the Yoneda Lemma \(a_{D_2}\in F(\Gamma(D_2))\) corresponds to \(\nat{\alpha_{D_2}}{\homset{\cat{A}}{\Gamma(D_2)}{-}}{F}\) and by the naturality in \(D\) we obtain Diagram \ref{diagram:y2}.
+    \begin{figure}[h]
+    \begin{center}
+      \begin{tikzcd}[column sep=3cm, row sep=1.5cm]
+        F(\Gamma(D_2)) \ar[r, "F(\Gamma(D_2\leq D))"] \ar[d, "\theta_{F, D_2}"] & F(\Gamma(D)) \ar[d, "\theta_{F, D}"]\\
+        \nathom{\homset{\cat{A}}{\Gamma(D_2)}{-}}{F} \ar[r, "\precomp{\homset{\cat{A}}{\Gamma(D_2\leq D)}{-}}"] & \nathom{\homset{\cat{A}}{\Gamma(D)}{-}}{F}
+      \end{tikzcd}
+    \end{center}
+    \caption{}
+    \label{diagram:y2}
+  \end{figure}
+  By the above computation we have that \((\theta_{F, D}\circ F(\Gamma(D_2\leq D)))(a_{D_2}) = \alpha_D\) and so, by chasing \(a_{D_2}\) on the other path in the diagram (the ``down then right'' composite) we obtain \(\alpha_D = \alpha_{D_2}\circ\homset{\cat{A}}{\Gamma(D_2\leq D)}{-}\). But since \(D_2\not\in\overline{S}\) we can now strictly extend \((\overline{S}, (\alpha_D)_{D\in\overline{S}})\) to \((\overline{S}\cup\{D_2\}, (\alpha_D)_{D\in\overline{S}\cup D_2})\) because we have just proved that the new injection \(\alpha_{D_2}\) makes all the needed triangles commute. This is a contradiction with the maximality of \((\overline{S}, (\alpha_D)_{D\in\overline{S}})\) and thus \(\overline{S}=\downarrow D_0\).
+\end{proof}
+
+\begin{theorem}[Mitchell's Embedding Theorem]
+  \label{teo:mitchell}
+  Every small abelian category admits a full, faithful and exact embedding in \(\catname{Mod}_R\), the category of left modules over a ring \(R\).
+\end{theorem}
+
+\begin{proof}
+  The proof is divided in four steps.\\
+
+  \noindent\emph{Step 1: construction of the embedding}.\\
+
+  \noindent Let \(\fun{U}{\cat{A}}{\catname{Ab}}\) be the faithful and exact embedding of Theoreem \ref{teo:faithful_embedding} and recall from Proposition \ref{prop:category_of_additive_functors} that \(\add{\cat{A}}{\catname{Ab}}\) is preadditive. The subcategory composed of \(U\) and all the natural transformations in \(\nathom{U}{U}\) is a preadditive category with a single object, thus it is a ring (as observed in Example \ref{ex:ring_preadditive}). Let \(R\) be \(\nathom{U}{U}\).
+
+  Given \(A\in\cat{A}\) we define a scalar multiplication on \(U(A)\) as follows.
+  \fundef{\cdot}{R\times U(A)}{U(A)}{(r, x)}{r_A(x)}
+  Now since \(r_A\) is a group homomorphism (it is, by definition, a map in \(\catname{Ab}\)) and addition on \(R = \nathom{U}{U}\) is defined pointwise (because so is in \(\add{\cat{A}}{\catname{Ab}}\)) we get that \(U(A)\) has been endowed with an \(R\)-module structure. The following computation shows that if \(\fun{f}{A}{B}\) is an arrow in \(\cat{A}\) then \(\fun{U(f)}{U(A)}{U(B)}\) is an \(R\)-linear map with respect to the newly introduced \(R\)-module structure: if \(x\in U(A)\) then
+  \begin{equation*}
+    U(f)(r\cdot x) = U(f)(r_A(x)) = r_B(U(f)(x)) = r\cdot U(f)(x).
+  \end{equation*}
+
+  Now let \(\fun{\Phi}{\catname{Mod}_R}{\catname{Ab}}\) be the forgetful functor that forgets the module structure. We have that our embedding \(U\) factors through \(\catname{Mod}_R\) via a new functor \(\fun{V}{\cat{A}}{\catname{Mod}_R}\) as follows
+  \begin{equation*}
+    \begin{tikzcd}[sep=huge]
+      \cat{A} \ar[r, "V"] & \catname{Mod}_R \ar[r, "\Phi"] & \catname{Ab}.
+    \end{tikzcd}
+  \end{equation*}
+  Since \(U\) is faithful so is \(V\) and since limits and colimits are calculated in the same way in \(\catname{Ab}\) and \(\catname{Mod}_R\) (see Proposition \ref{prop:mod_ab_limits_colimits}) exactness of \(U\) implies exactness of \(V\) via Proposition \ref{prop:characterization_of_exact_functors}. If we succeed in showing that \(V\) is also full then the proof is complete.\\
+
+  \noindent\emph{Step 2: canonical presentation of representable functors}.\\
+
+  \noindent Given an object \(A\in\cat{A}\) and the zero arrow \(0_{A\to{\bf 0}}\) we consider the unique element \(*\) of \(\cat{D}_0\) and the index \(\alpha + 1\) that corresponds to the pair \((*, 0_{A\to{\bf 0}})\) in the construction of \(\cat{D}_1\) (see proof of Theorem \ref{teo:faithful_embedding}). Following the construction \(\cat{D}_0^{\alpha+1}\) is obtained by ``duplication'' of \(\downarrow *\) that in this case is \(\cat{D}_0^\alpha\) itself; let \(\delta_A\) be the copy of \(*\) introduced at this step so that one has \(\phi(\delta_A) = A\) and \(\phi(\delta_A\leq *) = 0_{A\to{\bf 0}}\).
+
+  For every \(D,D'\in\cat{D}\) such that \(D\leq D'\leq\delta_A\) consider Diagram \ref{diagram:define_pi} where \((u_D, v_D)\) is the kernel pair of \(\phi(D\leq\delta_A)\) i.e. the pullback of \(\phi(D\leq\delta_A)\) along itself.
+  \begin{figure}[h]
+    \begin{center}
+      \begin{tikzcd}[sep=huge]
+        \pi(D) \ar[r, shift left = 1, "u_D"] \ar[r, shift right = 1, "v_D"'] \ar[d, "\pi(D\leq D')"'] &
+        \phi(D) \ar[r, two heads, "\phi(D\leq\delta_A)"] \ar[d, "\phi(D\leq D')"] &
+        \phi(\delta_A) = A \ar[d, "1_A"]\\
+        \pi(D') \ar[r, shift left = 1, "u_{D'}"] \ar[r, shift right = 1, "v_{D'}"'] &
+        \phi(D') \ar[r, two heads, "\phi(D'\leq\delta_A)"] &
+        \phi(\delta_A) = A
+      \end{tikzcd}
+    \end{center}
+    \caption{}
+    \label{diagram:define_pi}
+  \end{figure}
+  \noindent By functoriality of \(\phi\) the right square commutes; from this fact we obtain
+  \begin{align*}
+    \phi(D'\leq\delta_A)\circ\phi(D\leq D')\circ u_D &= 1_A\circ\phi(D\leq\delta_A)\circ u_D\\
+                                                     &= 1_A\circ\phi(D\leq\delta_A)\circ v_D\\
+                                                     &= \phi(D'\leq\delta_A)\circ\phi(D\leq D')\circ v_D
+  \end{align*}
+  and so there is a unique factorization \(\pi(D\leq D')\) through the kernel pair of \(\phi(D'\leq\delta_A)\). This defines a functor \(\fun{\pi}{\downarrow\delta_A}{\cat{A}}\).
+
+  We now recall that \(\phi(D\leq\delta_A)\) is epi by construction of \(\phi\) and thus is a cokernel because \(\cat{A}\) is abelian, but cokernels are coequalizers and if a coequalizer has a kernel pair then it is the coequalizer of its own kernel pair; we thus conclude that \(\phi(D\leq\delta_A)\) is the coequalizer of the pair \((u_D, v_D)\). Now if we apply \(\yo^*\) to the top line of Diagram \ref{diagram:define_pi} we obtain
+  \begin{equation*}
+    \begin{tikzcd}[sep=3cm]
+      \homset{\cat{A}}{\pi(D)}{-} &
+      \homset{\cat{A}}{\phi(D)}{-} \ar[l, shift right = 1.5, "\homset{\cat{A}}{u_D}{-}"'] \ar[l, shift left = 1.5, "\homset{\cat{A}}{v_D}{-}"] &
+      \homset{\cat{A}}{A}{-} \ar[l, tail, "\homset{\cat{A}}{\phi(D'\leq\delta_A)}{-}"]
+    \end{tikzcd}
+  \end{equation*}
+  in \(\add{\cat{A}}{\catname{Ab}}\). This is an equalizer because it is known that the covariant Yoneda Embedding preserves limits and thus the contravariant version \(\yo^*\) transforms colimits in limits (in this particular case, coequalizers in equalizers). By computing the colimit on each piece of the diagram for \(D\leq\delta_A\) and \(D\in\cat{D}\) one has
+  \begin{equation*}
+    \begin{tikzcd}[sep=3cm]
+      P &
+      U \ar[l, shift right = 1.5, "u"'] \ar[l, shift left = 1.5, "v"] &
+      \homset{\cat{A}}{A}{-} \ar[l, tail, "w"]
+    \end{tikzcd}
+  \end{equation*}
+  The colimit of the central term really is \(U\) because we're computing it over an initial segment \(\downarrow\delta_A\) of \(\cat{D}\) and the inclusion is a final functor. On the right side we're computing a constant filtered colimit so we obtain the same functor we started with. By Proposition \ref{prop:limits_and_filtered_colimits} filtered colimits commute with equalizers in \(\catname{Ab}\) and thus \(w =\ker(u, v) \).\\
+
+  \noindent\emph{Step 3: \(\pi\) satisfies the hypothesis of Lemma \ref{lemma:third_lemma}}.\\
+
+  \noindent Consider \(D_1\leq D_2\leq\delta_A\); then
+  \begin{equation*}
+    \begin{tikzcd}[sep=3cm]
+      \displaystyle\lim_{D_1<D\leq D_2}\pi(D) \ar[r, shift left = 1.5, "\lim u_D"] \ar[r, shift right = 1.5, "\lim v_D"']&
+      \displaystyle\lim_{D_1<D\leq D_2}\phi(D) \ar[r, "l"] &
+      A
+    \end{tikzcd},
+  \end{equation*}
+  obtained by taking the ``piece by piece'' limit for \(D_1<D\leq D_2\) of the top line in Diagram \ref{diagram:define_pi}, is a kernel pair by Proposition \ref{prop:interchange_of_limits}. Now consider Diagram \ref{diagram:tris} where all the squares are pullbacks and the factorization \(\fun{m}{\phi(D_1)}{\lim_{D_1<D\leq D_2}\phi(D)}\) is epi by Lemma \ref{lemma:limit_factorization_is_epi}.
+  \begin{figure}[h]
+    \begin{center}
+      \begin{tikzcd}[sep=huge]
+        \pi(D_1) \ar[r ,two heads, "a"] \ar[d, two heads, "a'"'] & \bullet \ar[r, "c"] \ar[d, two heads, "b"] & \phi(D_1) \ar[d, two heads, "m"]\\
+        \bullet \ar[r, two heads, "b'"] \ar[d, "c'"'] & \displaystyle\lim_{D_1<D\leq D_2}\pi(D) \ar[d, "\lim v_D"] \ar[r, "\lim u_D"] & \displaystyle\lim_{D_1<D\leq D_2}\phi(D) \ar[d, "l"]\\
+        \phi(D_1) \ar[r, two heads, "m"] & \displaystyle\lim_{D_1<D\leq D_2}\phi(D) \ar[r, "l"] & A
+      \end{tikzcd}
+    \end{center}
+    \caption{}
+    \label{diagram:tris}
+  \end{figure}
+
+  \noindent Now, with \(p_D\) projections of \(\lim_{D_1<D\leq D_2}\phi(D)\), by using the fact that \(m\) and \(l\) are factorizations and recalling that \(A =\phi(\delta_A)\) one obtains
+  \begin{align*}
+    l\circ m &= \phi(D\leq\delta_A)\circ p_D\circ m\\
+             &= \phi(D\leq\delta_A)\circ\phi(D_1\leq D)\\
+             &= \phi(D_1\leq\delta_A)    
+  \end{align*}
+  from which follows that the outer square is the pullback (more precisely the kernel pair) that defines \(\pi(D_1)\); particularly we have, referring back to Diagram \ref{diagram:define_pi}, \(c\circ a = u_{D_1}\) and \(c'\circ a' = v_{D_1}\). By applying Proposition \ref{prop:pullback_of_epi} we deduce that the upper left square is made entirely of epimorphisms and thus so is the diagonal. If we can prove that this diagonal is the factorization \(\pi(D_1)\to\lim_{D_1<D\leq D_2}\pi(D)\) then the hypothesis of Lemma \ref{lemma:third_lemma} hold for \(\pi\).
+
+  Let's prove that \(q_D\circ b\circ a = \pi(D_1\leq D)\) where \(q_D\) are the projections of \(\lim_{D_1<D\leq D_2}\pi(D)\); let \(p_D\) denote the projections of \(\lim_{D_1<D\leq D_2}\phi(D)\) (as before) and consider the following:
+  \begin{align*}
+    u_D\circ q_D\circ b\circ a &= p_D\circ\lim u_D\circ b\circ a\\
+                               &= p_D\circ m\circ c\circ a\\
+                               &= \phi(D_1\leq D)\circ u_{D_1}\\
+                               &= u_D\circ\pi(D_1\leq D).
+  \end{align*}
+  The same computations can be performed on the other side of the diagram so that one obtains \(v_D\circ q_D\circ b\circ a = v_D\circ\pi(D_1\leq D)\) as well. This shows that \(q_D\circ b\circ a = \pi(D_1\leq D)\) i.e. that the diagonal of the upper left square really is the needed factorization.\\
+
+  \noindent\emph{Step 4: V is full}.\\
+
+  \noindent Choose \(A,B\in\cat{A}\) and a group homomorphism \(\fun{\varphi}{U(A)}{U(B)}\) that is also an \(R\)-linear map with respect to the structure introduced at Step 1. The monomorphism \(w\colon\homset{\cat{A}}{A}{-}\rightarrowtail U\) of Step 2 corresponds via the Yoneda Lemma to an element \(a = w_A(1_A)\in U(A)\); so \(\varphi(a)\in U(B)\) in turn corresponds to a natural transformation \(\nat{\beta}{\homset{\cat{A}}{B}{-}}{U}\) of components defined by \(\beta_C(g) = U(g)(\varphi(a))\) for all \(C\in\cat{A}\) and \(g\in\homset{\cat{A}}{B}{C}\). Finally consider Diagram \ref{diagram:facto}; we recall that \(w = \ker(u, v)\) and thus if \(u\circ\beta = v\circ\beta\) then we obtain a factorization of \(\beta\) through \(w\) that will have the form \(\homset{\cat{A}}{f}{-}\) for some \(\fun{f}{A}{B}\).
+
+  \begin{figure}[ht]
+    \begin{center}
+      \begin{tikzcd}[sep=huge]
+        P \ar[r, bend left = 60, "t"] & U \ar[l, shift right = 1.5, "u"'] \ar[l, shift left = 1.5, "v"] & \homset{\cat{A}}{A}{-} \ar[l, tail, "w"']\\
+        & \homset{\cat{A}}{B}{-} \ar[u, "\beta"] \ar[ur, dashed, "\homset{\cat{A}}{f}{-}"'] &
+      \end{tikzcd}
+    \end{center}
+    \caption{}
+    \label{diagram:facto}
+  \end{figure}
+
+  Suppose toward a contradiction that \(u\circ\beta\not= v\circ\beta\). Since \(U(B) = \colim_{D\leq\delta_B}\homset{\cat{A}}{\phi(D)}{B}\) the element \(\varphi(a)\in U(B)\) can be represented by an arrow \(\fun{x}{\phi(D)}{B}\) for an appropriate \(D\leq\delta_B\). 
+
+  One now has that \(x\circ u_D\not=x\circ v_D\). Absurdly suppose that \(x\circ u_D = x\circ v_D\) and let \(s_D\) be the injection \(\homset{\cat{A}}{\pi(D)}{B}\to P(B)\) and \(s'_D\) the injection \(\homset{\cat{A}}{\phi(D)}{B}\to U(B)\). One thus obtains
+  \begin{gather*}
+    s_D(x\circ u_D) = s_D(\homset{\cat{A}}{u_D}{B}(x)) = u_B(s'_D(x)) = u_B(\varphi(a)),\\
+    s_D(x\circ v_D) = s_D(\homset{\cat{A}}{v_D}{B}(x)) = v_B(s'_D(x)) = v_B(\varphi(a)).
+  \end{gather*}
+  Now by naturality (in the functorial variable) of the Yoneda Lemma we obtain Diagram \ref{diagram:y3}. Chasing \(\beta\) through the two down-right composites we obtain \(u_B(\varphi(a))\) and \(v_B(\varphi(a))\) that are equal by the previous relations and the absurd assumption; since \(\theta_{P,B}\) is a bijection their coimages in \(\nathom{\homset{\cat{A}}{B}{-}}{P}\) are equal as well. Since the diagram commutes those coimages are \(u\circ\beta\) and \(v\circ\beta\) that are not equal by our first absurd hypothesis. By contradiction \(x\circ u_D\not= x\circ v_D\).
+  \begin{figure}[ht]
+    \begin{center}
+      \begin{tikzcd}[column sep=3cm, row sep=1.5cm]
+        \nathom{\homset{\cat{A}}{B}{-}}{U} \ar[d, "\theta_{U,B}"] \ar[r, shift left = 1.5, "\postcomp{u}"] \ar[r, shift right = 1.5, "\postcomp{v}"'] &
+        \nathom{\homset{\cat{A}}{B}{-}}{P} \ar[d, "\theta_{P, B}"]\\
+        U(B) \ar[r, shift left = 1.5, "u_B"] \ar[r, shift right = 1.5, "v_B"'] & P(B)
+      \end{tikzcd}
+    \end{center}
+    \caption{}
+    \label{diagram:y3}
+  \end{figure}
+
+  Moreover it is also the case that \(s_D\circ\homset{\cat{A}}{x\circ u_D}{-} = u\circ\beta\) (see left triangle of Diagram \ref{diagram:two_triangles}) where \(\nat{s_D}{\homset{\cat{A}}{\pi(D)}{-}}{P}\) is now the injection of the colimit (of functors) \(P\). To prove this we shall prove that the natural transformations are equal component by component; thus, fixed \(C\in\cat{A}\), we want to prove that \(u_C\circ\beta_C = (s_D)_C\circ\precomp{(x\circ u_D)}\). For \(g\in\cat{A}(B, C)\) one has that Diagram \ref{diagram:s} commutes; where \(\nat{s'_D}{\homset{\cat{A}}{\phi(D)}{-}}{U}\) is an injection of \(U\).
+  \begin{figure}[ht]
+    \begin{center}
+      \begin{tikzcd}[sep=huge]
+        U(B) \ar[r, "U(g)"] & U(C) \ar[r, "u_C"] & P(C)\\
+        \homset{\cat{A}}{\phi(D)}{B} \ar[u, "(s'_D)_B"] \ar[r, "\postcomp{g}"] &
+        \homset{\cat{A}}{\phi(D)}{C} \ar[u, "(s'_D)_C"] \ar[r, "\precomp{u_D}"] &
+        \homset{\cat{A}}{\pi(D)}{C} \ar[u, "(s_D)_C"]
+      \end{tikzcd}
+    \end{center}
+    \caption{}
+    \label{diagram:s}
+  \end{figure}
+
+  \noindent The following computations are thus justified.
+  \begin{align*}
+    u_C(\beta_C(g)) &= u_C(U(g)(\varphi(a)))\\
+                    &= u_C(U(g)((s'_D)_B(x)))\\
+                    &= (u_C\circ U(g)\circ (s'_D)_B))(x)\\
+                    &= ((s_D)_C\circ \precomp{u_D}\circ \postcomp{g})(x)\\
+                    &= (s_D)_C(\precomp{(x\circ u_D)}(g))
+  \end{align*}
+  And so \(s_D\circ\homset{\cat{A}}{x\circ u_D}{-} = u\circ\beta\). The same can be repeated substituting \(v\) for \(u\) and \(v_D\) for \(u_D\) thus leading us to Diagram \ref{diagram:two_triangles} where the mono \(\nat{w'}{\homset{\cat{A}}{\pi(D)}{-}}{U}\) is obtained from Step 2 by setting \(A = \pi(D)\). Moreover \(\pi\) satisfies the hypothesis of Lemma \ref{lemma:third_lemma} by Step 3 and thus there is a natural transformation \(\nat{t}{P}{U}\) such that \(t\circ s_D = w'\).
+
+  \begin{figure}
+    \begin{center}
+      \begin{tikzcd}[sep=3cm]
+        \homset{\cat{A}}{B}{-} \ar[r, shift left = 1.5, "u\circ\beta"] \ar[r, shift right = 1.5, "v\circ\beta"']
+        \ar[dr, shift left = 1.5, "\homset{\cat{A}}{x\circ u_D}{-}"] \ar[dr, shift right = 1.5, "\homset{\cat{A}}{x\circ v_D}{-}"'] &
+        P \ar[r, dashed, "t"]& U\\
+        & \homset{\cat{A}}{\pi(D)}{-} \ar[u, "s_D"] \ar[ur, tail, "w'"]&
+      \end{tikzcd}
+    \end{center}
+    \caption{}
+    \label{diagram:two_triangles}
+  \end{figure}
+
+  It is now the case that
+  \begin{equation*}
+    \tag{\(*\)}
+    t\circ u\circ\beta = w'\circ\homset{\cat{A}}{x\circ u_D}{-} \not= w'\circ\homset{\cat{A}}{x\circ v_D}{-} = t\circ v\circ\beta
+  \end{equation*}
+  since \(x\circ u_D\not= x\circ v_D\) implies \(\homset{\cat{A}}{x\circ u_D}{-}\not=\homset{\cat{A}}{x\circ v_D}{-}\) and \(w'\) is mono. Moreover since \(t\circ u\) and \(t\circ v\) are natural transformations from \(U\) to \(U\) they are elements of the ring \(R = \nathom{U}{U}\) of Step 1. For all \(C\in\cat{A}\) and \(\fun{g}{B}{C}\) the maps \(\varphi\) and \(U(g)\) are \(R\)-linear and thus
+  \begin{align*}
+    (t_C\circ u_C\circ \beta_C)(g) &= ((t\circ u)_C\circ U(g)\circ\varphi)(a)\\
+                                   &= (U(g)\circ(t\circ u)_B\circ\varphi)(a)\\
+                                   &= (U(g)\circ\varphi\circ(t\circ u)_A)(a)\\
+                                   &= (U(g)\circ\varphi\circ t_A\circ u_A\circ w_A)(1_A)\\
+                                   &= (U(g)\circ\varphi\circ t_A\circ v_A\circ w_A)(1_A)\\
+                                   &= (U(g)\circ\varphi\circ (t\circ v)_A)(a)\\
+                                   &= (U(g)\circ(t\circ v)_B\circ\varphi)(a)\\
+                                   &= ((t\circ v)_C\circ U(g)\circ\varphi)(a)\\
+                                   &= (t_C\circ v_C\circ \beta_C)(g).
+  \end{align*}
+  But this shows that \(t\circ u\circ \beta = t\circ v\circ \beta\); a contradiction with \((*)\).
+
+  So we have obtained a morphism \(\fun{f}{A}{B}\) such that \(\homset{\cat{A}}{f}{-}\circ w = \beta\); to complete the proof we will show that \(\varphi = U(f)\). Fix an element \(x\in U(A)\), by the Yoneda Lemma \(x\) is associated with a natural transformation \(\nat{\chi}{\homset{\cat{A}}{A}{-}}{U}\). Consider also the natural transformation \(\nat{w}{\homset{\cat{A}}{A}{-}}{U}\) of Step 2 that corresponds to an element of \(U(A)\) by Yoneda; this last element is represented by an arrow \(\fun{y}{\phi(D)}{A}\) (as before). The situation is represented in Diagram \ref{diagram:chi}.
+
+  \begin{figure}
+    \begin{center}
+      \begin{tikzcd}[sep=3cm]
+        U & \homset{\cat{A}}{\phi(D)}{-} \ar[l, "\zeta"] \ar[d, "s_D"]\\
+        \homset{\cat{A}}{A}{-} \ar[u, "\chi"] \ar[ur, tail, "\homset{\cat{A}}{y}{-}" near start] \ar[r, tail, "w"] &
+        U \ar[lu, dashed, "r"' near start]
+      \end{tikzcd}
+    \end{center}
+    \caption{}
+    \label{diagram:chi}
+  \end{figure}
+
+  Since \(s_D\circ\homset{\cat{A}}{y}{-} = w\) and \(w\) is mono \(\homset{\cat{A}}{y}{-}\) must be mono too. So if we have two arrow \(\fun{p, q}{A}{B}\) then
+  \begin{equation*}
+    \homset{\cat{A}}{y}{-}\circ\homset{\cat{A}}{p}{-} = \homset{\cat{A}}{y}{-}\circ\homset{\cat{A}}{q}{-}
+  \end{equation*}
+  implies \(\homset{\cat{A}}{p}{-} = \homset{\cat{A}}{q}{-}\) that in turn implies \(p = q\). In other words \(p\circ y = q\circ y\) implies \(p = q\) so \(y\) is actually an epimorphism. By exactness of \(U\) it follows that \(U(y)\) is an epimorphism as well, but \(U(y)\in\catname{Ab}\), and thus \(U(y)\) is a surjection from \(U(\phi(D))\) to \(U(A)\).
+
+  Now it is possible to chose a \(z\in U(\phi(D))\) such that \(U(y)(z) = x\) and let \(\nat{\zeta}{\homset{\cat{A}}{\phi(D)}{-}}{U}\) be the corresponding natural transformation given by Yoneda. By naturality of the Yoneda Lemma we obtain the following commutative square
+  \begin{figure}[ht]
+    \begin{center}
+      \begin{tikzcd}[column sep=3cm, row sep=1.5cm]
+        \nathom{\homset{\cat{A}}{\phi(D)}{-}}{U} \ar[r, "\precomp{\homset{\cat{A}}{y}{-}}"] & \nathom{\homset{\cat{A}}{A}{-}}{U}\\
+        U(\phi(D)) \ar[u, "\theta_{U,\phi(D)}"] \ar[r, "U(y)"] & U(A) \ar[u, "\theta_{U, A}"']
+      \end{tikzcd}
+    \end{center}
+    \captionsetup{labelformat=empty}
+  \end{figure}
+  in which chasing \(z\in U(\phi(D))\) through the two possible paths reveals that \(\zeta\circ\homset{\cat{A}}{y}{-} = \chi\). Now by Lemma \ref{lemma:limit_factorization_is_epi} and Theorem \ref{teo:faithful_embedding} the functors \(\phi\) (restricted to \(\downarrow D\)) and \(U\) satisfy the hypothesis of Lemma \ref{lemma:third_lemma} thus there is a natural transformation \(\nat{r}{U}{U}\) such that \(r\circ s_D = \zeta\) (and this completes Diagram \ref{diagram:chi}). Moreover one also has
+  \begin{equation*}
+    r\circ w = r\circ s_D\circ\homset{\cat{A}}{y}{-} = \zeta\circ\homset{\cat{A}}{y}{-} = \chi.
+  \end{equation*}
+
+  Finally since \(\varphi\) is an \(R\)-linear map and \(r\in R = \nathom{U}{U}\) we have
+  \begin{align*}
+    \varphi(x) &= \varphi(\chi_A(1_A))\\
+               &= \varphi(r_A\circ w_A(1_A))\\
+               &= r_B\circ\varphi(w_A(1_A))\\
+               &= r_B\circ\varphi(a)\\
+               &= r_B\circ\beta_B(1_B)\\
+               &= (r_B\circ w_B\circ \homset{\cat{A}}{f}{-}_B)(1_B)\\
+               &= \chi_B(f)\\
+               &= U(f)(x).
+  \end{align*}
+  This last calculation shows that \(\varphi = U(f)\) thus \(V\) is a full functor.
+\end{proof}
+
+\begin{remark}
+  \label{rem:final_remark}
+  Since the embedding \(\fun{V}{\cat{A}}{\catname{Mod}_R}\) is fully faithful it reflects isomorphisms, \(V\) is also exact so it preserves finite limits and colimits and \(\cat{A}\) is finitely complete and cocomplete; thus \(V\) reflects finite limits and colimits (see \cite[Proposition 2.9.7]{handbook1}). Particularly it reflects monomorphisms and epimorphisms, thus the construction of epi-mono factorizations (and exact sequences).
+\end{remark}
+

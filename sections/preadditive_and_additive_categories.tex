@@ -1,0 +1,284 @@
+\newpage
+\section{Preadditive and additive categories}
+\label{sec:preadditive}
+\begin{definition}
+  \label{def:zero_object}
+  A {\bf zero object} of a category \(\cat{C}\) is an object \({\bf 0}\) of \(\cat{C}\)	that is both initial and terminal.
+\end{definition}
+
+\begin{proposition}
+  \label{prop:zero_object_uniqueness}
+  If a zero object \({\bf 0}\) exists then it is unique up to isomorphism.
+\end{proposition}
+
+\begin{proof}
+  Let \({\bf 0'}\) be another zero object; then the unique arrows \({\bf 0}\to{\bf 0'}, {\bf 0}'\to{\bf 0}\) are mutually inverse since there is only one \({\bf 0}\to{\bf 0}\) arrow (that is \(1_{\bf 0}\)) and only one \({\bf 0'}\to{\bf 0'}\) arrow (that is \(1_{\bf 0'}\)).
+\end{proof}
+
+\begin{definition}
+  \label{def:zero_arrow}
+  In a category \(\cat{C}\) with a zero object \({\bf 0}\) an arrow \(f\colon A\to B\) that factors through \({\bf 0}\) is called a {\bf zero arrow} or a {\bf zero morphism}.
+\end{definition}
+
+\begin{proposition}
+  \label{prop:existence_of_zero_arrows}
+  In a category \(\cat{C}\) with a zero object \({\bf 0}\) given two objects \(A,B\) there is always exactly one zero arrow between them.
+\end{proposition}
+
+\begin{proof}
+  The desired arrow is obtained by composing the unique arrows \(A\to{\bf 0}\) and \({\bf 0}\to B\). And is thus unique.
+\end{proof}
+
+\begin{notation}
+  \label{notation:zero_arrows}
+  We denote the zero arrow from \(A\) to \(B\) with \(0_{A\to B}\). However it is usually clear from the context what the domain and codomain of a zero arrow are so we will dispose of the subscript most of the times.
+\end{notation}
+
+\begin{remark}
+  \label{remark:composition_with_zero_arrows}
+  The composition of \(\fun{f}{A}{B}\) with the zero arrow \(0_{B\to C}\) is the zero arrow \(0_{A\to C}\). Indeed we have \(0_{B\to C}\circ f=0_{{\bf 0}\to C}\circ0_{B\to{\bf 0}}\circ f\), so \(0_{B\to C}\circ f\) factors through \({\bf 0}\) and is thus a zero arrow, by Proposition \ref{prop:existence_of_zero_arrows} it must be \(0_{A\to C}\). Similarly we have \(f\circ0_{C\to A}=0_{C\to B}\); dropping the subscripts we write \(0\circ f = 0\) and \(f\circ 0 = 0\).
+\end{remark}
+
+\begin{definition}
+  \label{def:kernel}
+  let \(\cat{C}\) be a category with a zero object \({\bf 0}\). We define the {\bf kernel} of an arrow \(f\colon A\to B\), when it exists, as the equalizer of \(f\) and \(0\colon A\to B\); dually we define the {\bf cokernel} of \(f\) as the coequalizer of \(f\) and \(0\).
+\end{definition}
+
+\begin{notation}
+  \label{not:ker_coker}
+  We write \(\ker(f, g)\) for the equalizer of \(f\) and \(g\) (when it exists) and \(\ker(f)\) for the kernel of \(f\); similarly we write \(\coker(f, g)\) for the equalizer of \(f\) and \(g\) and \(\coker(f)\) for the cokernel of \(f\).
+\end{notation}
+
+\begin{proposition}
+  \label{prop:precomposition_with_mono}
+  In a category \(\cat{C}\) with a zero object \({\bf 0}\) consider a monic arrow \(f\). If \(f\circ g = 0\) for some \(g\), then \(g = 0\).
+\end{proposition}
+
+\begin{proof}
+  From Remark \ref{remark:composition_with_zero_arrows} we have \(f\circ0 = 0\) so \(f\circ g = 0 = f\circ 0\) and since \(f\) is monic then \(g=0\).
+\end{proof}
+
+\begin{proposition}
+  \label{prop:the_ker_of_a_mono_is_zero}
+  In a category \(\cat{C}\) with a zero object \({\bf 0}\) consider a monic arrow \(f\colon A\to B\); then the kernel of \(f\) is the zero arrow \({\bf 0}\to A\).
+\end{proposition}
+
+\begin{proof}
+  Again \(f\circ0 = 0\) from Remark \ref{remark:composition_with_zero_arrows}. Now let \(g\) be an arrow such that \(f\circ g = 0\); from Proposition \ref{prop:precomposition_with_mono} we have \(g = 0\) and so \(g\) factors uniquely through \({\bf 0}\to A\); so \({\bf 0}\to A\) is the kernel of \(f\).
+\end{proof}
+
+\begin{proposition}
+  \label{prop:kernel_of_zero_arrow}
+  In a category \(\cat{C}\) with a zero object \({\bf 0}\) the kernel of a zero arrow \(0\colon A\to B\) is the identity \(1_A\) on \(A\).
+\end{proposition}
+
+\begin{proof}
+  We have \(0\circ 1_A = 0\); now let \(g\colon X\to A\) be an arrow such that \(0\circ g = 0\). It is clear that there is a unique factorization of \(g\) through \(A\) that is \(g\) itself. This proves that \(1_A\) is the kernel of \(0\).
+\end{proof}
+
+\begin{definition}
+  \label{def:preadditive_category}
+  A {\bf preadditive category} is a category \(\cat{C}\) such that every hom-set \(\cat{C}(A, B)\) is an abelian group (that we will thus write additively) in such a way that the composition \(\circ\colon \cat{C}(A, B)\times\cat{C}(B, C)\to\cat{C}(A, C)\) is a group homomorphism in two variables for every choice of \(A,B,C\in\cat{C}\) (we also say that for every triple \(A,B,C\in\cat{C}\) the composition is bilinear).
+\end{definition}
+
+\begin{remark}
+  \label{remark:dual_of_a_preadditive_category}
+  The dual of a preadditive category is again preadditive.
+\end{remark}
+
+\begin{example}
+  \label{ex:preadditive_category}
+  The first and arguably most important example of preadditive category is the category of abelian groups \(\catname{Ab}\). Given two abelian groups \(A,B\) and two group homomorphisms \(f,g\colon A\to B\) we can define their sum as \(f + g\colon A\to B\) by setting \((f+g)(x) = f(x) + g(x)\) for every \(x\in A\). It is easily verified that \(f+g\) is again a group homomorphism, that the map that sends every element of \(A\) to the identity element of \(B\) is the identity element of \(\catname{Ab}(A, B)\) and that the composition of homomorphisms behave as expected. The same pointwise construction works for categories of left (or right) modules over a ring \(R\) as well.
+\end{example}
+
+\begin{example}
+  \label{ex:ring_preadditive}
+  Given a ring \(R\) we can see it as a preadditive category \(\cat{R}\) with a single object \(*\) and \(\cat{R}(*,*)=R\). Composition of arrows is just the product of the ring and the sum of arrows is the sum of the ring. Conversely a preadditive category \(\cat{R}\) with a single object yields a ring \(R\).
+\end{example}
+
+\begin{proposition}
+  \label{prop:existence_of_zero_object}
+  For a preadditive category \(\cat{C}\) the following are equivalent:
+  \begin{enumerate}[label=(\arabic*)]
+  \item \(\cat{C}\) has an initial object,
+  \item \(\cat{C}\) has a final object,
+  \item \(\cat{C}\) has a zero object.
+  \end{enumerate}
+  When any of the above hold then the identity elements of the hom-sets (as groups) are the zero morphisms.
+\end{proposition}
+
+\begin{proof}
+  \((3) \Rightarrow (1)\) and \((3) \Rightarrow (2)\) are obvious from the definition of a zero object. By duality it is sufficient to prove only that \((1) \Rightarrow (3)\).
+
+  Let \({\bf 0}\) be the initial object of \(\cat{C}\), we will show that it is also final. Since \({\bf 0}\) is initial we have \(\cat{C}({\bf 0},{\bf 0})=\{1_{\bf 0}\}\) and thus \(1_{\bf 0}\) is the identity element of the group \(\cat{C}({\bf 0},{\bf 0})\). Given \(C\in\cat{C}\) and \(f\in\cat{C}(C,{\bf 0})\) we have that \(1_{\bf 0}\circ f\) must be the identity element of \(\cat{C}(C, {\bf 0})\) because \(-\circ f\) is a group homomorphism (\(\cat{C}\) is preadditive); but \(1_{\bf 0}\circ f = f\) so \(f\) is the identity element of \(\cat{C}(C, {\bf 0})\) as well. By the uniqueness of the identity in a group we conclude that \(\cat{C}(C, {\bf 0})\) is a singleton and thus that \({\bf 0}\) is final.
+
+  Assuming a zero object \({\bf 0}\) we now prove that the zero arrows are the identity elements of the hom-sets. For any two objects \(A,B\in\cat{C}\) the zero morphism \(0\colon A\to B\) is just the composition \(A\to{\bf 0}\to B\) of two arrows that are the identity elements of their respective hom-sets (because, from previous discussion, those hom-sets are singletons); so bilinearity of the composition immediately reveals that \(0\colon A\to B\) is the identity element of \(\cat{C}(A,B)\).
+\end{proof}
+
+\begin{remark}
+  The category \(\catname{Ring}\) of rings and ring homomorphisms is not preadditive since it has both a final object (the trivial ring \(\{0\}\)) and an initial one (the ring of integers \({\mathbb Z}\)) but the two are not isomorphic, so \(\catname{Ring}\) has no zero object. The poset \(({\mathbb N}, \leq)\) regarded as a category has an initial object \(0\) but no final one, so it can't be preadditive.
+\end{remark}
+
+\begin{notation}
+  \label{not:matrix_product}
+  Suppose the product \(A\times B\) of \(A\) and \(B\) in a category \(\cat{C}\) exists and consider a cone \((C, f, g)\) with \(f\colon C\to A, g\colon C\to B\). Since \(A\times B\) is a product we know that there is a unique map \(m\colon C\to A\times B\) such that \(f=p_A\circ m\) and \(g = p_B\circ m\). We will here denote \(m\) with \(\vvectormini{f}{g}\) as in diagram \ref{diagram:product}; this notation will be fully justified once additive categories are introduced.
+
+  \begin{figure}
+    \input{diagrams/product.tex}
+    \caption{}
+    \label{diagram:product}
+  \end{figure}
+\end{notation}
+
+\begin{remark}
+  \label{remark:product_property}
+  If \(A\times B\) is a product with projections \(p_A\) and \(p_B\) and we have two arrows \(f,g\colon X\to A\times B\) such that \(p_A\circ f = p_A\circ g\) and \(p_B\circ f = p_B\circ g\) then \(f = g\). This simple result follows from the uniqueness of the factorization through the product. In the following proofs the use of this property of products to show that two arrows are the same is a very common pattern.
+\end{remark}
+
+\begin{proposition}
+  \label{prop:existence_of_products}
+  For a preadditive category \(\cat{C}\) the following are equivalent:
+  \begin{enumerate}[label=(\arabic*)]
+  \item the product \((P, p_A, p_B)\) of \(A\) and \(B\) exists,
+  \item the coproduct \((P, s_A, s_B)\) of \(A\) and \(B\) exists,
+  \item there is an object \(P\) equipped with four arrows \(p_A,p_B,s_A,s_B\) where \(p_X\colon P\to X\) and \(s_X\colon X\to P\) for \(X=A,B\) in such a way that:
+    \begin{itemize}
+    \item \(p_A\circ s_A = 1_A\) and \(p_B\circ s_B = 1_B\),
+    \item \(s_A\circ p_B = 0\) and \(s_B\circ p_A = 0\),
+    \item \((s_A\circ p_A) + (s_B\circ p_B) = 1_P\).
+    \end{itemize}
+  \end{enumerate}
+  When any of the above hold then we also have:
+  \[s_A=\ker(p_B), s_B=\ker(p_A), p_A=\coker(s_B), p_B=\coker(s_A).\]
+\end{proposition}
+
+\begin{proof}
+  By duality it is sufficient to prove that \((1) \Leftrightarrow (3)\).\\
+
+  Suppose \((1)\) and define \(s_A=\vvectormini{1_A}{0}\) and \(s_B=\vvectormini{0}{1_B}\). We get
+  \begin{align*}
+    p_A\circ(s_A\circ p_A + s_B\circ p_B) = (1_A\circ p_A) + 0 = p_A\circ 1_P \\
+    p_B\circ(s_A\circ p_A + s_B\circ p_B) = 0 + (1_B\circ p_B) = p_B\circ 1_P
+  \end{align*}
+  and so from \ref{remark:product_property} we get that \(s_A\circ p_A + s_B\circ p_B = 1_P\).
+
+  Now, given condition \((3)\), consider two morphisms \(f\colon C\to A\) and \(g\colon C\to B\). We define \(h= s_A\circ f + s_B\circ g\colon C\to P\) and prove that it is a unique factorization for \(f\) and \(g\) through \(P\). We have
+  \begin{align*}
+    p_A\circ h = p_A\circ(s_A\circ f + s_B\circ g) = 1_A\circ f + 0\circ g = f\\
+    p_B\circ h = p_B\circ(s_A\circ f + s_B\circ g) = 0\circ f + 1_B\circ g = g
+  \end{align*}
+  so \(h\) is a factorization of \(f\) and \(g\) through the product. Now suppose that \(h':C\to P\) is another arrow such that \(p_A\circ h' = f\) and \(p_B\circ h' = g\). We have
+  \begin{align*}
+    h' & = 1_P\circ h'\\
+       &= (s_A\circ p_A + s_B\circ p_B)\circ h'\\
+       & = s_A\circ p_A\circ h' + s_B\circ p_B\circ h' \\
+       & = s_A\circ f + s_B\circ g = h
+  \end{align*}
+  and so \((P,p_A,p_B)\) is the product of \(A\) and \(B\).
+
+  Finally we want to prove that \(s_A=\ker(p_B)\) assuming any of the conditions above. From \((3)\) we have that \(p_B\circ s_A = 0\); let \(x\colon C\to P\) be an arrow such that \(p_B\circ x = 0\). From the following and \ref{remark:product_property} it is clear that \(p_A\circ x\) is a factorization of \(x\) through \(s_A\):
+  \begin{gather*}
+    p_A\circ s_A\circ(p_A\circ x) = p_A\circ x\\
+    p_B\circ s_A\circ(p_A\circ x) = 0 \circ p_A\circ x = 0 = p_B\circ x
+  \end{gather*}
+  The uniqueness of this factorization is obtained by observing that \(s_A\) is monic (since \(p_A\circ s_A = 1_A\)) and thus \(s_A=\ker(p_B)\). The other three relations follow similarly and by duality.
+\end{proof}
+
+\begin{remark}
+  From Proposition \ref{prop:existence_of_products} it follows that \(\catname{Grp}\) is not a preadditive category. The binary product of two groups \(G,H\in\catname{Grp}\) is their Cartesian product \(G\times H\) while the binary coproduct of \(G\) and \(H\) is the free product \(G*H\). If \(G,H\) are nontrivial finite groups then \(G\times H\) is again finite but \(G*H\) is infinite and thus \(G\times H\not\cong G*H\); this shows that Proposition \ref{prop:existence_of_products} does not hold and hence \(\catname{Grp}\) cannot be preadditive.
+\end{remark}
+
+\begin{definition}
+  \label{def:biproduct}
+  In a preadditive category a quintuple \((P, p_A, p_B, s_A, s_B)\) as in Proposition \ref{prop:existence_of_products} is called the {\bf biproduct} of \(A\) and \(B\) and is usually denoted with \(A\oplus B\).
+\end{definition}
+
+\begin{definition}
+  \label{def:additive_category}
+  A preadditive category \(\cat{C}\) is said to be {\bf additive} if it has a zero object and all biproducts.
+\end{definition}
+
+Particularly in an additive category zero arrows are the identity elements of the hom-sets and we can freely use all the relations given by Proposition \ref{prop:existence_of_products}. This two things together allow us to prove the following, surprising, result.
+
+\begin{proposition}
+  \label{prop:uniqueness_of_additive_structure}
+  On a category \(\cat{C}\) two additive structures are necessarily isomorphic.
+\end{proposition}
+
+\begin{proof}
+  Let \(\cat{C}\) be endowed with an additive structure and \(C\) be an object of \(\cat{C}\); we consider the diagonal \(\Delta_C=\vvectormini{1_C}{1_C}\) and the difference of projections \(\sigma_C= p_1-p_2:C\oplus C\to C\); we shall prove that \(\sigma_C = \coker(\Delta_C)\). We have
+  \begin{gather*}
+    \sigma_C\circ\Delta_C = (p_1-p_2)\circ\Delta_C = (p_1\circ\Delta_C) - (p_2\circ\Delta_C) = 1_C - 1_C = 0
+  \end{gather*}
+  and from the following we also have that \(\Delta_C = s_1+s_2\):
+  \begin{align*}
+    p_1\circ(s_1+s_2) = (p_1\circ s_1) + (p_1\circ s_2) = 1_C\\
+    p_2\circ(s_1+s_2) = (p_2\circ s_1) + (p_2\circ s_2) = 1_C
+  \end{align*}
+  Now let \(f:C\oplus C\to D\) be an arrow such that \(f\circ\Delta_C= 0\); we observe that
+  \begin{gather*}
+    (f\circ s_1) + (f\circ s_2) = f\circ(s_1+s_2) = f\circ\Delta_C = 0
+  \end{gather*}
+  Then \(g=f\circ s_1\) is a factorization of \(f\) through \(\sigma_C\):
+  \begin{align*}
+    g\circ\sigma_C &= f\circ s_1 \circ (p_1 - p_2)\\
+                   &= (f\circ s_1\circ p_1) - (f\circ s_1\circ p_2)\\
+                   &= (f\circ s_1\circ p_1) + (f\circ s_2\circ p_2)\\
+                   &= f\circ(s_1\circ p_1 + s_2\circ p_2) = f
+  \end{align*}
+  Moreover this factorization is unique: if \(g'\colon C\to D\) is such that \(g'\circ\sigma_C = f\) then we have
+  \begin{align*}
+    g' &= (g'\circ 1_C) - (g'\circ 0)\\
+       &= (g'\circ p_1\circ s_1) - (g'\circ p_2\circ s_1)\\
+       &= g'\circ (p_1-p_2)\circ s_1\\
+       &= g'\circ\sigma_C\circ s_1 =  f\circ s_1 = g
+  \end{align*}
+  and so \(\sigma_C=\coker(\Delta_C)\). This fact shows that the value of the difference \(p_1-p_2\) is not arbitrary, but it's determined up to isomorphism by the limit-colimit structure of \(\cat{C}\). It is now easy to show that the same holds for any difference: let \(a,b:A\to C\) be arrows and \(\vvectormini{a}{b}\) their factorization through \(C\oplus C\); we have
+  \begin{align*}
+    \tag{\(*\)}
+    a-b = \left(p_1\circ\vvector{a}{b}\right) - \left(p_2\circ\vvector{a}{b}\right) = (p_1 - p_2)\circ\vvector{a}{b} = \sigma_C\circ\vvector{a}{b}
+  \end{align*}
+  and thus also the difference \(a-b\) is determined up to isomorphism by the limit-colimit structure of \(\cat{C}\). We already know from Proposition \ref{prop:existence_of_zero_object} that the identity elements of the hom-sets in an additive category are the zero arrows  and thus the proof is complete.
+\end{proof}
+
+This last proof, particularly the relation \((*)\), will be of considerable importance when we will endow every abelian category with an additive structure.
+
+\begin{proposition}
+  \label{prop:kernels_in_preadditive_category}
+  In a preadditive category \(\cat{C}\), given two arrows \(f,g\colon A\to B\) the following are equivalent:
+  \begin{enumerate}[label=(\arabic*)]
+  \item \(\ker(f,g)\) exists,
+  \item \(\ker(f-g)\) exists,
+  \item \(\ker(g-f)\) exists.
+  \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+  \(\ker(f,g) = \ker(g, f)\) so it is sufficient to prove the equivalence of \((1)\) and \((2)\). Given a morphisms \(x\colon X\to A\) we have
+  \begin{align*}
+    f\circ x = g\circ x \Leftrightarrow (f - g)\circ x = 0
+  \end{align*}
+  from which \((1)\Leftrightarrow(2)\) follows immediately.
+\end{proof}
+
+\begin{notation}
+  \label{not:matrices}
+  Given four objects \(A_1,A_2,B_1,B_2\) and an arrow \(f\colon A_1\oplus A_2\to B_1\oplus B_2\) in an additive category \(\cat{C}\) we have that the arrow \(f\) is uniquely identified by the four morphisms \(f_{ij}\colon A_j\to B_i\) for \(i,j=1,2\) such that \(f_{ij}=p_i\circ f\circ s_j\) where the \(p_i\) are the projections of \(B_1\oplus B_2\) and the \(s_j\) are the injections of \(A_1\oplus A_2\). It is now possible to write \(f\) as a matrix
+  \begin{align*}
+    \begin{pmatrix}
+      f_{11} & f_{12}\\
+      f_{21} & f_{22}
+    \end{pmatrix}
+  \end{align*}
+  This notation can clearly be used for \(n\)-ary products as well. Moreover if we consider arrows \(f\colon A\to B\) and \(g\colon A\to C\) we can consider Notation \ref{not:matrix_product} as a particular instance of this more general matrix notation (here the matrix becomes a vector written vertically); dually for arrows \(f\colon B\to A\) and \(g\colon C\to A\) we write the factorization through \(B\oplus C\) as \(\hvectormini{f}{g}\colon B\oplus C\to A\).
+\end{notation}
+
+\begin{remark}
+  \label{remark:matrix_operations}
+  The following two properties justify the choice of arranging the arrows \(f_{ij}\) in a matrix.
+  \begin{enumerate}[label=(\arabic*)]
+  \item Given arrows \(f\colon A_1\oplus A_2\to B_1\oplus B_2\) and \(g\colon B_1\oplus B_2\to C_1\oplus C_2\) the matrix representation of \(g\circ f\) is exactly the product of the matrices representing \(f\) and \(g\).
+  \item Given arrows \(f,g\colon A_1\oplus A_2\to B_1\oplus B_2\) the matrix that represents \(f + g\) is exactly the sum of the matrices that represent \(f\) and \(g\).
+  \end{enumerate}
+\end{remark}
+

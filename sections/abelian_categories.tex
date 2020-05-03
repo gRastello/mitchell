@@ -1,0 +1,336 @@
+\newpage
+\section{Abelian categories}
+\label{sec:abelian}
+\begin{definition}
+  \label{def:abelian_category}
+  A category \(\cat{C}\) is {\bf abelian} if:
+  \begin{enumerate}[label=(\arabic*)]
+  \item has a zero object \({\bf 0}\),
+  \item every pair of objects of \(\cat{C}\) has product and coproduct,
+  \item every arrow in \(\cat{C}\) has a kernel and a cokernel,
+  \item every mono in \(\cat{C}\) is the kernel of some arrow and every epi in \(\cat{C}\) is the cokernel of some arrow.
+  \end{enumerate}
+\end{definition}
+
+\begin{remark}
+  The notion of abelian category is autodual.
+\end{remark}
+
+\begin{example}
+  \label{ex:ab_is_abelian}
+  \(\catname{Ab}\), the category \(\catname{Mod}_R\) of left R-modules over a ring \(R\) (as well as the category of right-modules over \(R\)) are abelian categories. Indeed the goal behind Definition \ref{def:abelian_category} is that of capturing the fundamental properties of \(\catname{Ab}\) and, more generally, \(\catname{Mod}_R\).
+\end{example}
+
+\begin{proposition}
+  \label{prop:iso_mono_epi}
+  In an abelian category \(\cat{C}\) an arrow \(f\) is an isomorphism if and only if is both epic and monic.
+\end{proposition}
+
+\begin{proof}
+  If \(f\) is an isomorphism then \(f\) is both split monic and split epic and thus both monic and epic. On the other hand suppose \(f\) is both monic and epic; since \(\cat{C}\) is abelian there is an arrow \(g\) such that \(f = \ker(g)\). From this last fact we get \(g\circ f = 0\) and so \(g = 0\) because \(f\) is also epic. Finally we have that \(f\) is the kernel of a zero arrow and thus by Proposition \ref{prop:kernel_of_zero_arrow} is an isomorphism.
+\end{proof}
+
+\begin{remark}
+  The category \(\catname{Ring}\) of rings and rings homomorphisms is not abelian since the inclusion of \(\mathbb{Z}\) in \(\mathbb{Q}\) is both epic and monic, but clearly not an isomorphism.
+\end{remark}
+
+\begin{proposition}
+  \label{prop:existence_of_intersection }
+  In an abelian category \(\cat{C}\) given two monomorphisms \(a,b\) with codomain \(C\) their pullback always exists.
+\end{proposition}
+
+\begin{figure}
+  \input{diagrams/intersection.tex}
+  \caption{}
+  \label{diagram:intersection}
+\end{figure}
+
+\begin{proof}
+  With reference to Diagram \ref{diagram:intersection} consider two monomorphisms \(a\colon A\rightarrowtail C,b\colon B\rightarrowtail C\); since \(\cat{C}\) is abelian there are morphisms \(f\colon C\to D,g\colon C\to E\) such that \(a=\ker(f)\) and \(b=\ker(g)\); let's also consider the arrow \(k=\ker\vvectormini{f}{g}\). We have that \(f\circ k = p_D\circ\vvectormini{f}{g}\circ k = 0\) so \(k\) factors as \(k = a\circ a'\) because \(a=\ker(f)\); in the same way we obtain \(k = b'\circ b\). We now want to prove that \(\ker\vvectormini{f}{g}\) together with the arrows \(a'\) and \(b'\) is the pullback of the pair \((a, b)\). Given arrows \(u,v\) such that \(a\circ u = b\circ v\) we get \(f\circ b\circ v = f\circ a\circ u = 0\) and since \(a=\ker(f)\) we obtain that there is a unique \(w\) such that \(k\circ w = b\circ v\). Now \(b\circ v = k\circ w = b\circ b'\circ w\) implies \(b'\circ w = v\) since \(b\) is monic. Similarly one has \(a\circ u = b\circ v = k\circ w = a\circ a' \circ w\) and thus \(u=a'\circ w\) because \(a\) is also monic. To prove the uniqueness of this factorization suppose that \(w'\) is an arrow such that \(u = a'\circ w'\) and \(v = b'\circ w'\), using the factorization through \(w\) we have:
+  \begin{align*}
+    k\circ w' = a\circ a'\circ w' = a\circ u = a\circ a'\circ w = k\circ w
+  \end{align*}
+  and thus \(w = w'\) because \(k\) is monic.
+\end{proof}
+
+\begin{proposition}
+  \label{prop:completeness}
+  An abelian category \(\cat{C}\) is finitely complete and finitely cocomplete.
+\end{proposition}
+
+\begin{proof}
+  By duality it suffice to prove that \(\cat{C}\) is finitely complete. We know from  \cite[Proposition 2.8.2]{handbook1} that a category is finitely complete if and only if it has a terminal object, all binary products and all equalizers. \(\cat{C}\) is abelian and thus we just need to prove that it has all the equalizers.
+
+  Let \(f,g:A\to B\) be arrows in \(\cat{C}\); we consider \(\vvectormini{1_A}{f}\), \(\vvectormini{1_A}{g}\), that are monic since they compose with \(p_A\) to give \(1_A\), and their pullback \((P, u, v)\). We have the following:
+  \begin{gather*}
+    u = 1_A\circ u = p_A\circ\vvector{1_A}{f}\circ u = p_A\circ\vvector{1_A}{g}\circ v = 1_A\circ v = v\\
+    f\circ u = p_B\circ\vvector{1_A}{f}\circ u = p_B\circ\vvector{1_A}{g}\circ v = g\circ v = g\circ u
+  \end{gather*}
+  so \(u = v\) and \(f\circ u =g\circ u\). We now want to prove that \(u\) is really the equalizer of \(f\) and \(g\). With reference to diagram \ref{diagram:equalizers} suppose \(x:X\to A\) is an arrow such that \(f\circ x = g\circ x\); we consider the cone \((X,x,x)\) and thus obtain a unique factorization of \(x\) through \(u\). This proves that \(u=\ker(f, g)\).
+  \begin{figure}[h]
+    \input{diagrams/equalizers.tex}
+    \caption{}
+    \label{diagram:equalizers}
+  \end{figure}
+\end{proof}
+
+\begin{proposition}
+  \label{prop:mono_characterization}
+  For a morphism \(f\colon A\to B\) in an abelian category \(\cat{C}\) the following conditions are equivalent:
+  \begin{enumerate}[label=(\arabic*)]
+  \item \(f\) is monic,
+  \item \(\ker(f)=0\),
+  \item for every \(g:C\to A\) we have \(f\circ g = 0\Rightarrow g = 0\).
+  \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+  \((1)\Rightarrow(2)\) is exactly Proposition \ref{prop:the_ker_of_a_mono_is_zero} while \((1)\Rightarrow(3)\) is exactly Proposition \ref{prop:precomposition_with_mono}.
+
+  To prove that \((2)\) implies \((1)\) we consider \(u,v\) such that \(f\circ u = f\circ v\) and prove that \(u = v\); we refer to Diagram \ref{diagram:mono}. Let \(q=\coker(u,v)\) (since \(\cat{C}\) is finitely cocomplete for \ref{prop:completeness}), \(q\) is epic and so there is an arrow \(w\) such that \(q = \coker(w)\). Since \(f\circ u = f\circ v\) then \(f\) factors uniquely as \(f = m\circ q\) through \(q = \coker(u, v)\). We now have \(f\circ w = m\circ q\circ w = m\circ 0 = 0\) so \(w\) factors uniquely as \(w=k\circ n\) through \(k = \ker(f)\); but we have that \(\ker(f) = 0\) so \(w = 0\) and finally since \(q = \coker(0)\), by Proposition \ref{prop:kernel_of_zero_arrow}, \(q\) is an isomorphism. Particularly \(q\) is monic and thus \(q\circ u =q\circ v\Rightarrow u = v\).
+  
+  To prove that \((3)\) implies \((2)\) we start with the trivial observation that \(f\circ 0_{{\bf 0}\to A} = 0_{{\bf 0}\to B}\) where \(f\colon A\to B\). Now if \(g\colon C\to A\) is such that \(f\circ g = 0_{C\to B}\) then by \((3)\) \(g = 0_{C\to A}\) and thus factors uniquely through \(0_{{\bf 0}\to A}\). This proves that \(\ker(f) = 0_{{\bf 0}\to A}\).
+  \begin{figure}[h]
+    \input{diagrams/mono.tex}
+    \caption{}
+    \label{diagram:mono}
+  \end{figure}
+\end{proof}
+
+\begin{theorem}[epi-mono factorization]
+  \label{teo:epi_mono_factorization}
+  Every morphism \(f\) in an abelian category can be factored uniquely (up to isomorphism) as \(f = i\circ p\) with \(i\) monic and \(p\) epic. Moreover we have that \(i = \ker(\coker(f))\) and \(p = \coker(\ker(f))\).
+\end{theorem}
+
+\begin{figure}[h]
+  \input{diagrams/factorization.tex}
+  \caption{}
+  \label{diagram:factorization}
+\end{figure}
+
+\begin{proof}
+  With reference to diagram \ref{diagram:factorization} we define \(k = \ker(f)\) and \(p = \coker(k)\). Since \(f\circ k = 0\), because \(k = \ker(f)\), \(f\) must factor as \(f = i\circ p\) through the cokernel \(p\) of \(k\). We now wish to prove that \(i\) is monic.
+
+  Let \(x\) be an arrow such that \(i\circ x = 0\); if we can prove that \(x = 0\) then, by Proposition \ref{prop:mono_characterization}, \(i\) must be monic. Now \(i\circ x = 0\) immediately gives us the factorization \(i = r\circ q\) through \(q = \coker(x)\). Moreover \(q\circ p\) is the composition of two epimorphisms and thus is again an epimorphism, since we're in an abelian category there exists an arrow \(h\) such that \(q\circ p = \coker(h)\). From
+  \begin{align*}
+    f\circ h = i\circ p\circ h = r\circ q\circ p\circ h = r\circ 0 = 0
+  \end{align*}
+  we obtain that \(h\) factors as \(h = k\circ l\) since \(k = \ker(f)\). Now \(p\circ h = p\circ k\circ l = 0\circ l = 0\) since \(p=\coker(k)\) and thus \(p\) factors uniquely through \(\coker(h) = q\circ p\) and we get \(p = s\circ(q\circ p)\). From this last relation and the fact that \(p\) is epic we obtain \(s\circ q = 1\) thus \(q\) is a monomorphism so from \(q\circ x = 0\) we obtain \(x = 0\).
+
+  The uniqueness of the factorization \(f = i\circ p\) follows from \cite[4.4.5]{handbook1} and \cite[4.3.6]{handbook1}. By duality \(f\) can be factored also as \(f = i'\circ p'\) where we have that \(i' = \ker(\coker(f))\) and that \(p'\) is epi. The uniqueness states that those two factorizations are isomorphic and this concludes the proof.
+\end{proof}
+
+\begin{corollary}
+  \label{cor:mono_kernel_cokernel_epi_cokernel_kernel}
+  In an abelian category the following hold:
+  \begin{enumerate}[label=(\arabic*)]
+  \item every monomorphism is the kernel of its cokernel,
+  \item every epimorphism is the cokernel of its kernel.  
+  \end{enumerate}
+\end{corollary}
+
+\begin{proof}
+  Let \(f\) be an epimorphism; by Theorem \ref{teo:epi_mono_factorization} it can be factored as \(f=i\circ p\) with \(i\) monomorphism and \(p = \coker(\ker(f))\). Now since \(f\) is epic \(i\) must be too and thus \(i\) is an isomorphism by Proposition \ref{prop:iso_mono_epi}; finally we have \(f= \coker(\ker(f))\). By duality we obtain (1). 
+\end{proof}
+
+\begin{proposition}
+  \label{prop:pullback_of_epi}
+  In an abelian category \(\cat{C}\) monomorphisms are pushout-stable i.e. the pushout of a monic arrow is again a monic arrow. By duality epimorphisms are pullback-stable i.e. the pullback of an epi arrow is again an epi arrow.
+\end{proposition}
+
+\begin{figure}
+  \input{diagrams/pushepi.tex}
+  \caption{}
+  \label{diagram:pushepi}
+\end{figure}
+
+\begin{proof}
+  As in Diagram \ref{diagram:pushepi} let \(g\) be mono and \(f\) an arbitrary arrow. Considering the biproduct \(B\oplus C\) we define
+  \begin{equation*}
+    l = \vvector{-f}{g} = 1_{B\oplus C}\circ\vvector{-f}{g} = \hvector{s_B}{s_C}\circ\vvector{-f}{g} = -(s_B\circ f) + (s_C\circ g).
+  \end{equation*}
+  We also set \(p = \coker(l)\), \(h = p\circ s_C\) and \(k = p\circ s_B\). We shall prove that the pair \((h, k)\) is the pushout of \((g, f)\). First we observe that
+  \begin{align*}
+    (h\circ g) - (k\circ f) &= (p\circ s_C \circ g) - (p\circ s_B\circ f)\\
+                            &= p\circ((s_C\circ g) - (s_B\circ f))\\
+                            &= p\circ l = 0
+  \end{align*}
+  and thus \(h\circ g = k\circ f\). Now let \(\fun{m}{B}{M}\) and \(\fun{n}{C}{M}\) be arrows such that \(m\circ f = n\circ g\) and consider the codiagonal morphism \(\fun{\hvectormini{m}{n}}{B\oplus C}{M}\); we have that
+  \begin{align*}
+    \hvector{m}{n}\circ l = \hvector{m}{n}\circ\vvector{-f}{g} = -(m\circ f) + (n\circ g) = 0
+  \end{align*}
+  and thus, since \(p\) is the cokernel of \(l\), \(\hvectormini{m}{n} = d\circ p\) for a unique arrow \(\fun{d}{D}{M}\). But now
+  \begin{align*}
+    d\circ k &= d\circ p\circ s_B = \hvectormini{m}{n}\circ s_B = m\\
+    d\circ h &= d\circ p\circ s_C = \hvectormini{m}{n}\circ s_C = n
+  \end{align*}
+  and so \(d\) is the unique arrow that factorizes the cocone \((m, n)\). We finally have that \((k, h)\) is the pushout of \((g, f)\).
+
+  Now to prove that \(k\) is mono we shall first prove that \(l\) is. Let \(\fun{x}{X}{A}\) be an arrow such that \(l\circ x = 0\). We immediately have that
+  \begin{align*}
+    0 = p_C\circ 0 &= p_C\circ l\circ x\\
+                   &= p_C\circ(-(s_B\circ f) + (s_C\circ g))\circ x\\
+                   &= g\circ x
+  \end{align*}
+  and thus \(x = 0\) because \(g\) is monic. By Proposition \ref{prop:mono_characterization} we confirm that \(l\) is mono and thus \(l = \ker(\coker(l)) = \ker(p)\) by Corollary \ref{cor:mono_kernel_cokernel_epi_cokernel_kernel}.
+
+  Finally let \(\fun{y}{Y}{B}\) be an arrow such that \(k\circ y = 0\). We have that \(p\circ s_B\circ y = k\circ y = 0\) by our definition of \(p\) and thus \(s_B\circ y = l\circ z\) for a unique \(\fun{z}{Y}{A}\) since \(l\) is the kernel of \(p\). Now
+  \begin{equation*}
+    g\circ z = p_C\circ\vvector{-f}{g}\circ z = p_C\circ l\circ z = p_C\circ s_B\circ y = 0
+  \end{equation*}
+  and thus \(z = 0\) because \(g\) is a monomorphism by assumption. Now since \(s_B\) is mono and \(s_B\circ y = l\circ z = 0\) we obtain \(y = 0\) and finally, by Proposition \ref{prop:mono_characterization} again, that \(k\) is mono.
+\end{proof}
+
+\begin{lemma}
+  \label{lemma:difference_lemma}
+  Let \(\cat{C}\) be an abelian category, \(A\in\cat{C}\) one of its objects, \(\Delta = \vvectormini{1_A}{1_A}\colon A\to A\times A\) and \(q = \coker(\Delta)\colon A\times A\to Q\); then \(A\cong Q\).
+\end{lemma}
+
+\begin{figure}[h]
+  \input{diagrams/lemma1.tex}
+  \caption{}
+  \label{diagram:lemma1}
+\end{figure}
+
+\begin{proof}
+  With reference to diagram \ref{diagram:lemma1} we define \(r = q\circ\vvectormini{1_A}{0}\) and prove that it is an isomorphism.
+
+  Since \(\Delta\) is monic \(\Delta = \ker(\coker(\Delta)) = \ker(q)\). Via Notation \ref{not:matrix_product} we have \(p_1\circ\vvectormini{1_A}{0} = 1_A\) and \(p_2\circ\vvectormini{0}{1_A} = 1_A\) so \(p_1\) and \(p_2\) are epic while \(\vvectormini{1_A}{0}\) and \(\vvectormini{0}{1_A}\) are monic. Again via Notation \ref{not:matrix_product} we have \(p_2\circ\vvectormini{1_A}{0} = 0\) and, if \(p_2\circ v = 0\) for some arrow \(v\), then \(\vvectormini{1_A}{0}\circ(p_1\circ v) = v\) because:
+  \begin{gather*}
+    p_1\circ\vvector{1_A}{0}\circ(p_1\circ v) = p_1\circ v\\
+    p_2\circ\vvector{1_A}{0}\circ(p_1\circ v) = 0\circ(p_1\circ v) = 0 = p_2\circ v
+  \end{gather*}
+  and this factorization is unique because \(\vvectormini{1_A}{0}\) is monic. With this we have established that \(\vvectormini{1_A}{0} = \ker(p_2)\) and with an analogue argument that \(\vvectormini{0}{1_A} = \ker(p_1)\). Finally since \(p_1\) is epic \(p_1 = \coker(\ker(p_1)) = \coker\vvectormini{0}{1_A}\) and similarly \(p_2 = \coker(\ker(p_2)) = \coker\vvectormini{1_A}{0}\).
+
+  We prove that \(r\) is monic by Proposition \ref{prop:mono_characterization}. Let \(x\) be an arrow such that \(r\circ x = 0\). \(0 = r\circ x = q\circ\vvectormini{1_A}{0}\circ x\), \(\Delta = \ker(q)\) so we have the factorization \(\vvectormini{1_A}{0}\circ x =\Delta\circ y\); now \(y = p_2\circ\Delta\circ y = p_2\circ\vvectormini{1_A}{0}\circ x = 0\) so since \(\vvectormini{1_A}{0}\) is monic we have that \(x = 0\) and so \(r\) is monic.
+
+  We prove that \(r\) is epic by the dual of Proposition \ref{prop:mono_characterization}. Let \(z\) be an arrow such that \(z\circ r = 0\). \(0 = z\circ r = z\circ q\circ\vvectormini{1_A}{0}\), \(p_2=\coker\vvectormini{1_A}{0}\) so we have the factorization \(z\circ q = t\circ p_2\); we now have \(t = t\circ p_2\circ\Delta = z\circ q\circ\Delta = z\circ 0 = 0\) because \(\Delta = \ker(q)\). Finally \(z\circ q = t\circ p_2 = 0\circ p_2 = 0\) and since \(q\) is epic \(z = 0\); this proves that \(r\) is epic and by Proposition \ref{prop:iso_mono_epi} that it is an isomorphism.
+\end{proof}
+
+\begin{definition}
+  \label{def:difference_on_abelian_categories}
+  Consider two arrows \(f,g\colon B\to A\) in an abelian category \(\cat{C}\). Using the notation of Lemma \ref{lemma:difference_lemma} we define a new arrow
+  \begin{align*}
+    \sigma_A\colon A\times A\overset{q}{\longrightarrow}Q\overset{r^{-1}}{\longrightarrow}A
+  \end{align*}
+  and call it {\bf difference} on \(A\). This arrow allows us to define the difference of two morphisms \(f,g\colon B\to A\) in the following way
+  \begin{align*}
+    f-g\colon B\overset{\vvectormini{f}{g}}{\longrightarrow} A\times A\overset{\sigma_A}{\longrightarrow} A
+  \end{align*}
+  And now the sum of two morphisms can be defined as \(f + g = f - (0 - g)\).
+\end{definition}
+
+\begin{remark}
+  \label{rem:additive_structure}
+  Notice that this last definition is not arbitrary but mirrors exactly what happens in an additive category; see proof of Proposition \ref{prop:uniqueness_of_additive_structure}, marked relation.
+\end{remark}
+
+\begin{remark}
+  \label{remark:product_of_morphisms}
+  Given an arrow \(f\colon A\to B\) we define \(f\times f = \vvectormini{f\circ p_1}{f\circ p_2}\colon A\times A\to B\times B\) where \(p_1\) and \(p_2\) are the projections of the product \(A\times A\). With this notation, via Remark \ref{remark:product_property}, we obtain the following:
+  \begin{enumerate}[label=(\arabic*)]
+  \item given \(f,g\colon A\to B\) and \(h\colon B\to C\) then \((h\times h)\circ\vvectormini{f}{g} = \vvectormini{h\circ f}{h\circ g}\),
+  \item given \(f,g\colon A\to B\) and \(h\colon C\to A\) then \(\vvectormini{f}{g}\circ h = \vvectormini{f\circ h}{g\circ h}\).
+  \end{enumerate}
+  These two facts will be used to prove the next two results.
+\end{remark}
+
+\begin{lemma}
+  \label{lemma:sigma_lemma}
+  In an abelian category if \(f\colon B\to A\) then \(f\circ\sigma_B = \sigma_A\circ(f\times f)\).
+\end{lemma}
+
+\begin{figure}[h]
+  \input{diagrams/sigma.tex}
+  \caption{}
+  \label{diagram:sigma}
+\end{figure}
+
+\begin{proof}
+  We reference diagram \ref{diagram:sigma} and start with the observation that:
+  \begin{align*}
+    \sigma_A\circ(f\times f)\circ\Delta_B = \sigma_A\circ\Delta_A\circ f = 0\circ f = 0
+  \end{align*}
+  because \(\sigma_A\cong\coker(\Delta_A)\) from definition \ref{def:difference_on_abelian_categories}. This gives us the unique factorization \(\sigma_A\circ(f\times f) = g\circ\sigma_B\) because \(\sigma_B\cong\coker(\Delta_B)\); to complete the proof we will show that \(f = g\).
+
+  From the proof of Lemma \ref{lemma:difference_lemma} we have \(r = q\circ\vvectormini{1_A}{0}\) so we get that \(\sigma_A\circ\vvectormini{1_A}{0} = r^{-1}\circ q\circ\vvectormini{1_A}{0} = r^{-1}\circ r = 1_A\); similarly \(\sigma_B\circ\vvectormini{1_B}{0} = 1_B\).
+  From Remark \ref{remark:product_of_morphisms} we have
+  \begin{align*}
+    (f\times f)\circ\vvector{1_B}{0} = \vvector{f\circ 1_B}{0} = \vvector{1_A\circ f}{0} = \vvector{1_A}{0}\circ f
+  \end{align*}
+  and finally
+  \begin{align*}
+    g = g\circ\sigma_B\circ\vvector{1_B}{0} = \sigma_A\circ(f\times f)\circ\vvector{1_B}{0} = \sigma_A\circ\vvector{1_A}{0}\circ f = f
+  \end{align*}
+\end{proof}
+
+\begin{theorem}[additivity of abelian categories]
+  \label{teo:additivity_of_abelian_categories}
+  Every abelian category is additive.
+\end{theorem}
+
+\begin{figure}[h]
+  \input{diagrams/abelian_additivity.tex}
+  \caption{}
+  \label{diagram:abelian_additivity}
+\end{figure}
+
+
+\begin{proof}
+  By applying Lemma \ref{lemma:sigma_lemma} with \(B = A\times A\) and \(f = p_i\) for \(i = 1,2\) we obtain the diagram on the left in Diagram \ref{diagram:abelian_additivity}, if instead we apply it with \(B=A\times A\) but \(f=\sigma_A\) we get the diagram on the right.
+
+  Given four morphisms \(a,b,c,d\colon C\to A\) from Definition \ref{def:difference_on_abelian_categories} we have:
+  \begin{gather*}
+    \vvector{a}{b}-\vvector{c}{d} = \sigma_{A\times A}\circ\vvectorfour{a}{b}{c}{d}
+  \end{gather*}
+  From the left diagram:
+  \begin{gather*}
+    p_1\circ\sigma_{A\times A}\circ\vvectorfour{a}{b}{c}{d} = \sigma_A\circ(p_1\times p_1)\circ\vvectorfour{a}{b}{c}{d} = \sigma_A\circ\vvector{a}{c} = a - c\\
+    p_2\circ\sigma_{A\times A}\circ\vvectorfour{a}{b}{c}{d} = \sigma_A\circ(p_2\times p_2)\circ\vvectorfour{a}{b}{c}{d} = \sigma_A\circ\vvector{b}{d} = b - d
+  \end{gather*}
+  so by Remark \ref{remark:product_property} we obtain \(\vvectormini{a}{b}-\vvectormini{c}{d} = \vvectormini{a - c}{b - d}\). From this last fact and the diagram on the right we obtain
+  \begin{align*}
+    (a - c)-(b - d) &= \sigma_A\circ\vvectormini{a - c}{b - d} = \sigma_A\circ\left(\vvectormini{a}{b}-\vvectormini{c}{d}\right)\\
+                        &= \sigma_A\circ\sigma_{A\times A}\circ\vvectorfour{a}{b}{c}{d}\\
+                        &= \sigma_A\circ(\sigma_A\times\sigma_A)\circ\vvectorfour{a}{b}{c}{d}\\
+                        &= \sigma_A\circ\vvector{a - b}{c - d} = (a - b)-(c - d)
+  \end{align*}
+  In the proof of Lemma \ref{lemma:sigma_lemma} we showed that \(\sigma_A\circ\vvectormini{1_A}{0}=1_A\) and this implies that given \(a\colon C\to A\) we have \(a - 0 = \sigma_A\circ\vvectormini{a}{0}=\sigma_A\circ\vvectormini{1_A}{0}\circ a = a\), similarly from \(\sigma_A\circ\Delta_A = 0\) we obtain \(a - a =\sigma_A\circ\vvectormini{a}{a} = \sigma_A\circ\Delta_A\circ a = 0\); this gives us inverses and the identity element of \(\cat{C}(C, A)\). Finally using the relation \((a - c) - (b - d) = (a - b) - (c - d)\) we can prove commutativity and associativity of the sum in \(\cat{C}(C, A)\); thus that it is an abelian group.
+  \begin{align}
+    (0 - b) - c &= (0 - b) - (c - 0) = (0 - c) - (b - 0) = (0 - c) - b\\
+    0 - (0 - d) &= (d - d) - (0 - d) = (d - 0) - (d - d) = (d - 0) - 0 = d\\
+    b + c       &= b - (0 - c) \eqtext{(2)} (0 - (0 - b)) - (0 - c)\nonumber\\
+                &= (0 - 0) - ((0 - b) - c) \eqtext{(1)} (0 - 0) - ((0 - c) -b))\nonumber\\
+                &= (0 - (0 -c)) - (0 - b) \eqtext{(2)} c - (0 - b) = c + b\nonumber\\
+    b + (0 - c) &= b - (0 - (0 - c)) \eqtext{(2)} b - c\\
+    b + (0 - b) &\eqtext{(3)} b - b = 0\nonumber\\
+    0 - (c - d) &= (0 - 0) - (c - d) = (0 - c) - (0 - d) = (0 - c) + d\\
+    0 - (c + d) &= 0 - (c - (0 - d)) \eqtext{(4)} (0 - c) + (0 - d) \eqtext{(3)} (0 - c) - d\\
+    (a - b) + d &= (a - b) - (0 - d) = (a - 0) - (b - d) = a - (b - d)\\
+    (a + b) + d &= (a - (0 - b)) + d \eqtext{(6)} a - ((0 - b) - d) \eqtext{(5)} a - (0 - (b + d))\nonumber\\
+                &= a + (b + d)\nonumber\\
+    0 + a       &= 0 - (0 - a) = a\nonumber
+  \end{align}
+  Lastly we need to prove that the composition of arrows is a group homomorphism in both variables:
+  \begin{itemize}
+  \item given \(x\colon X\to C\) we have
+    \begin{align*}
+      (a - b)\circ x = \sigma_A\circ\vvector{a}{b}\circ x = \sigma_A\circ\vvector{a\circ x}{b\circ x} = (a\circ x) - (b\circ x),
+    \end{align*}
+  \item given \(y\colon A\to Y\), by using Lemma \ref{lemma:sigma_lemma} again, we have
+    \begin{align*}
+      y\circ(a - b) &= y\circ\sigma_A\circ\vvector{a}{b} = \sigma_Y\circ(y\times y)\circ\vvector{a}{b}\\
+                    &= \sigma_Y\circ\vvector{y\circ a}{y\circ b} = (y\circ a) - (y\circ b),
+    \end{align*}
+  \end{itemize}
+  and this completes the proof.
+\end{proof}
+
+\begin{corollary}
+  \label{corollary:ab_additive}
+  \(\catname{Ab}\) and \(\catname{Mod}_R\) are additive categories and the sum of morphisms is defined pointwise.
+\end{corollary}
+
+\begin{proof}
+  \(\catname{Ab}\) and \(\catname{Mod}_R\) are abelian categories and thus, from Theorem \ref{teo:additivity_of_abelian_categories}, are additive as well. Moreover we know from Example \ref{ex:preadditive_category} that the pointwise sum of morphisms is a valid additive structure on both categories; by Proposition \ref{prop:uniqueness_of_additive_structure} it must be unique.
+\end{proof}

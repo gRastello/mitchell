@@ -1,0 +1,173 @@
+\newpage
+\section{Exact sequences and exact functors}
+\label{sec:exact}
+\begin{definition}
+  \label{def:exact_sequence}
+  In an abelian category a pair of composable arrows \(\fun{f}{A}{B},\fun{g}{B}{C}\) is an {\bf exact sequence} when the image of \(f\) is the kernel of \(g\).
+\end{definition}
+
+\begin{figure}[h]
+  \input{diagrams/exact_sequence.tex}
+  \caption{(here \(I\) and \(J\) are the images of \(f\) and \(g\)).}
+  \label{diagram:exact_sequence}
+\end{figure}
+
+\begin{lemma}
+  \label{lemma:ker}
+  With reference to Diagram \ref{diagram:exact_sequence} \(\ker(g) = \ker(q)\) and \(\im(f) = \im(i)\).
+\end{lemma}
+
+\begin{proof}
+  We prove only that \(\ker(g) = \ker(q)\) as \(\im(f) = \im(i)\) is obtained similarly. First let's notice that \(g\circ\ker(g) = 0\) so \(j\circ q\circ\ker(g) = 0\) and thus \(q\circ\ker(g) = 0\) because \(j\) is a monomorphism. We shall now prove that \(\ker(g)\) factorizes uniquely any arrow \(x\) such that \(q\circ x = 0\). If this last relation holds we obtain \(j\circ q\circ x = j\circ 0\) and thus \(g\circ x = 0\); a unique factorization of \(x\) through \(ker(g)\) exists from the definition of kernel.
+\end{proof}
+
+\begin{proposition}
+  \label{prop:characterization_of_exact_sequences}
+  Consider Diagram \ref{diagram:exact_sequence}. The following conditions are equivalent:
+  \begin{enumerate}[label=(\arabic*)]
+  \item \((f, g)\) is an exact sequence,
+  \item \((i, g)\) is an exact sequence,
+  \item \((f, q)\) is an exact sequence,
+  \item \((i, q)\) is an exact sequence.
+  \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+  The result follows immediately from Lemma \ref{lemma:ker}.
+\end{proof}
+
+\begin{remark}
+  \label{rem:coexact_sequences}
+  The concept of an exact sequence is autodual.
+\end{remark}
+
+\begin{proof}
+  We have that \((f, g)\) is {\bf coexact} in an abelian category \(\cat{C}\) if \((\op{g}, \op{f})\) is exact in \(\op{\cat{C}}\). From Proposition \ref{prop:characterization_of_exact_sequences} this is equivalent to the condition \(\op{q} = \ker(\op{i})\) (again referencing Diagram \ref{diagram:exact_sequence}) that is in turn equivalent to \(q = \coker(i)\). Now recall that \(i\) is mono and thus, by Corollary \ref{cor:mono_kernel_cokernel_epi_cokernel_kernel}, \(i=\ker(\coker(i)) = \ker(q)\); this proves that \((f, g)\) is exact by Proposition \ref{prop:characterization_of_exact_sequences}. Dually if \((f, g)\) is exact then it is also coexact.
+\end{proof}
+
+\begin{definition}
+  \label{def:longer_exact_sequence}
+  An arbitrarily long (finite or infinite) sequence of composable morphisms in an abelian category is called {\bf exact} if every pair of consecutive morphisms is exact.
+\end{definition}
+
+\begin{proposition}
+  \label{prop:sequences_with_zero}
+  In an abelian category the following hold.
+  \begin{enumerate}[label=(\arabic*)]
+  \item \begin{tikzcd}[sep=small]{\bf 0} \ar[r, ""] & A \ar[r, "f"] & B\end{tikzcd} is exact if and only if \(f\) is mono,
+  \item \begin{tikzcd}[sep=small]B \ar[r, "g"] & A \ar[r, ""] & {\bf 0}\end{tikzcd} is exact if and only if \(g\) is epi,
+  \item \begin{tikzcd}[sep=small]{\bf 0} \ar[r, ""] & A \ar[r, "f"] & B \ar[r, "g"] & C\end{tikzcd} is exact if and only if \(f = \ker(g)\),
+  \item \begin{tikzcd}[sep=small]C \ar[r, "g"] & B \ar[r, "f"] & A \ar[r, ""] & {\bf 0}\end{tikzcd} is exact if and only if \(f = \coker(g)\).
+  \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+  By duality it is sufficient to prove (1) and (3) only.
+
+  Since \({\bf 0}\) is terminal \begin{tikzcd}[sep=small]{\bf 0} \ar[r, ""] & A\end{tikzcd} is monic so \begin{tikzcd}[sep=small]{\bf 0} \ar[r, ""] & A \ar[r, "f"] & C\end{tikzcd} is exact if and only if \(\ker(f) = 0\) but this is equivalent to saying that \(f\) is monic by Proposition \ref{prop:mono_characterization} thus (1) holds.
+
+  Now if \begin{tikzcd}{\bf 0} \ar[r, ""] & A \ar[r, "f"] & B \ar[r, "g"] & C\end{tikzcd} is exact in particular we have that \((0_{{\bf 0}\to A}, f)\) and \((f, g)\) are exact. By (1) we have that \(f\) is mono and thus, since a mono image factors as itself, \(f = \ker(g)\). On the other hand if \(f = \ker(g)\) then \(f\) is mono and the pair \((f, g)\) is obviously exact; from (1) follows that the pair \((0_{{\bf 0}\to A})\) is exact too and thus the whole sequence is.
+\end{proof}
+
+\begin{definition}
+  \label{def:short_exact_sequence}
+  In an abelian category an exact sequence of the form \begin{tikzcd}[sep=small]{\bf 0} \ar[r, ""] & A \ar[r, "f"] & B \ar[r, "g"] & C \ar[r, ""] & {\bf 0}\end{tikzcd} is called a {\bf short-exact sequence}.
+\end{definition}
+
+\begin{proposition}
+  \label{prop:short_exact_sequences_equivalences}
+  For a short exact sequence as in Definition \ref{def:short_exact_sequence} the following are equivalent.
+  \begin{enumerate}[label=(\arabic*)]
+  \item There is an arrow \(s\colon C\to B\) such that \(g\circ s = 1_C\),
+  \item there is an arrow \(r\colon B\to A\) such that \(r\circ f = 1_A\),
+  \item there are arrows \(s\colon C\to B\) and \(r\colon B\to A\) such that \((B, r, g, f, s)\) is the biproduct of \(A\) and \(C\).
+  \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+  By duality is sufficient to prove that (1) is equivalent to (3).
+
+  If (3) holds then (1) holds by the definition of biproduct (see also Proposition \ref{prop:existence_of_products}).
+
+  Assume (1). We observe that \(g\circ(1_B - s\circ g) = g - g = 0\) and that, by Proposition \ref{prop:sequences_with_zero}, \(f = \ker(g)\); we thus obtain a factorization \(1_B-s\circ g = f\circ r\) for a unique arrow \(r\colon B\to A\). Now, since \(g\circ f = 0\) by exactness of \((f, g)\), we have that
+  \begin{gather*}
+    f\circ r\circ f = (1_B - s\circ g)\circ f = f - s\circ g\circ f = f = f\circ 1_A
+  \end{gather*}
+  and, since \(f\) is mono by Proposition \ref{prop:sequences_with_zero} again, we obtain \(r\circ f = 1_A\). Finally we obtain
+  \begin{gather*}
+    f\circ r\circ s = (1_B - s\circ g)\circ s = s - s\circ g\circ s = s - s = 0
+  \end{gather*}
+  from which \(r\circ s = 0\) (again because \(f\) is monic); moreover \(1_B - s\circ g = f\circ r\) gives us \(f\circ r + s\circ g = 1_B\). This proves, by Definition \ref{def:biproduct}, that \(B\) is really the biproduct of \(A\) and \(C\).
+\end{proof}
+
+\begin{definition}
+  \label{def:split_exact_sequence}
+  In an abelian category an exact sequence that respects one of the conditions of Proposition \ref{prop:short_exact_sequences_equivalences} is said to be a {\bf split-exact} sequence.
+\end{definition}
+
+\begin{definition}
+  \label{def:exact_functor}
+  Let \(\fun{F}{\cat{A}}{\cat{B}}\) be an additive functor between two abelian categories. We say that \(F\) is {\bf left-exact} if it preserves exact sequences of the form \begin{tikzcd}[sep=small]{\bf 0} \ar[r, ""] & A \ar[r, ""] & B \ar[r, ""] & C\end{tikzcd}, that it is {\bf right-exact} if it preserves exact sequences of the form \begin{tikzcd}[sep=small]A \ar[r, ""] & B \ar[r, ""] & C \ar[r, ""] & {\bf 0}\end{tikzcd} and that it is {\bf exact} if it preserves exact sequences of the form \begin{tikzcd}[sep=small]{\bf 0} \ar[r, ""] & A \ar[r, ""] & B \ar[r, ""] & C \ar[r, ""] & {\bf 0}\end{tikzcd}.
+\end{definition}
+
+\begin{remark}
+  \label{rem:left_preserve_kernels}
+  A functor is exact if and only if it is both right-exact and left-exact. By Proposition \ref{prop:sequences_with_zero} a left-exact functor preserves kernels, and a right-exact functor preserves cokernels.
+\end{remark}
+
+\begin{example}
+  \label{ex:exact_example}
+  The representable functors \(\homset{\cat{A}}{A}{-}\) from an abelian category \(\cat{A}\) to \(\catname{Ab}\) are left-exact. A proof of this fact can be found in the proof of Lemma \ref{lemma:left_exactness_of_U}.
+\end{example}
+
+\begin{proposition}
+  \label{prop:characterization_of_exact_functors}
+  For an additive functor \(\fun{F}{\cat{A}}{\cat{B}}\) between abelian categories the following equivalences hold.
+  \begin{enumerate}[label=(\arabic*)]
+  \item \(F\) is left-exact if and only if it preserves finite limits,
+  \item \(F\) is right-exact if and only if it preserves finite colimits,
+  \item \(F\) is exact if and only if it preserves finite limits and finite colimits.
+  \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+  By Remark \ref{rem:left_preserve_kernels}, point (1) and point (2)  we immediately obtain (3); by duality it is then sufficient to prove only (1).
+
+  Suppose \(F\) preserves finite limits. Then \(F\) preserves kernels and thus by Proposition \ref{prop:sequences_with_zero} (equivalence (3)) is left-exact.
+
+  Now suppose that \(F\) is left-exact; by Remark \ref{rem:left_preserve_kernels} we know that \(F\) preserves kernels and since \(F\) is additive it preserves finite products by Proposition \ref{prop:additive_criteria}. In a preadditive category \(\ker(f, g) = \ker(f - g)\) (Proposition \ref{prop:kernels_in_preadditive_category}); \(\cat{A}, \cat{B}\) are abelian, thus preadditive, and so \(F\) preserves equalizers as well. By \cite[2.9.2]{handbook1} \(F\) preserves finite limits.
+\end{proof}
+
+Looking back at the previous definitions one might wonder why exact functors aren't simply functors that preserve exact sequences in the sense of Definition \ref{def:exact_sequence}. The following result shows that this idea and the chosen definition are equivalent.
+
+\begin{proposition}
+  \label{prop:exact_functor_preserves_exact_sequences}
+  Given an additive functor \(\fun{F}{\cat{A}}{\cat{B}}\) between two abelian categories the following conditions are equivalent.
+  \begin{enumerate}[label=(\arabic*)]
+  \item \(F\) is exact,
+  \item \(F\) preserves all exact sequences.
+  \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+  The implication (2)\(\Rightarrow\)(1) is obvious. To prove the converse let \((f, g)\) be an exact sequence in \(\cat{A}\) and consider once again the epi-mono factorizations of \(f\) and \(g\) as in Diagram \ref{diagram:exact_sequence}. From Remark \ref{rem:left_preserve_kernels} we immediately obtain that \(F\) preserves both kernels and cokernels and thus it preserves monomorphisms and epimorphisms (because, by definition of abelian category, they are respectively kernels and cokernels); this shows that the epi-mono factorizations of \(f\) and \(g\) are preserved by \(F\). Finally from Proposition \ref{prop:characterization_of_exact_sequences} we know \((i, q)\) is an exact sequence so \(i = \ker(q)\) and thus \(F(i) = F(\ker(q)) = \ker(F(q))\). This proves that the pair \((F(i), F(q))\) is exact and thus \((F(f), F(g))\) is.
+\end{proof}
+
+\begin{proposition}
+  \label{prop:left_condition}
+  For a left-exact functor \(\fun{F}{\cat{A}}{\cat{B}}\) the following are equivalent.
+  \begin{enumerate}[label=(\arabic*)]
+  \item \(F\) is exact,
+  \item \(F\) preserves epimorphisms.
+  \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+  If \(F\) is exact then by Remark \ref{rem:left_preserve_kernels} it preserves cokernels and thus epimorphisms because in an abelian category every epimorphism is a cokernel.
+
+  Now let's assume that \(F\) preserves epis and consider an exact sequence
+  \[\begin{tikzcd}{\bf 0} \ar[r, ""] & A \ar[r, "\alpha"] & B \ar[r, "\beta"] & C \ar[r, ""] & {\bf 0}\end{tikzcd}\]
+  in \(\cat{A}\). By applying \(F\) we obtain a sequence 
+  \[\begin{tikzcd}{\bf 0} \ar[r, ""] & F(A) \ar[r, "F(\alpha)"] & F(B) \ar[r, "F(\beta)"] & F(C) \ar[r, ""] & {\bf 0}\end{tikzcd}\]
+  in \(\cat{B}\). Since \(F\) is left-exact the first two pairs of arrows in this last sequence are exact, we just need to show that also the pair \((F(\beta), 0_{F(C)\to{\bf 0}})\) is. Since \((\beta, 0_{C\to{\bf 0}})\) is exact in \(A\) we obtain that \(\beta\) is epi by Proposition \ref{prop:sequences_with_zero} and since \(F\) preserves epimorphisms \(F(\beta)\) must be epi as well. But now by Proposition \ref{prop:sequences_with_zero} again we obtain the exactness of \((F(\beta), 0_{F(C)\to{\bf 0}})\) and thus \(F\) is exact.
+\end{proof}
