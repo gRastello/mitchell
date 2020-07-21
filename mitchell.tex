@@ -1,13 +1,19 @@
-\documentclass[12pt, letter paper, english, reqno]{article}
-% \usepackage[left=3.75cm, right=3.75cm, top=3cm, bottom=3cm]{geometry}
+\documentclass[12pt, english, reqno]{article}
+\usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 
-\setlength{\evensidemargin}{0.1in}
-\setlength{\oddsidemargin}{0.1in}
-\setlength{\textwidth}{6.3in}
-\setlength{\topmargin}{0.0in}
-\setlength{\textheight}{8.5in}
-\setlength{\headheight}{0in}
+% Stylistic points.
+\usepackage{geometry}
+\geometry{
+  a4paper,
+  right=2.5cm,
+  left=2.5cm,
+  top=2.5cm,
+  bottom=2.5cm,
+  %showframe,
+}
+
+\usepackage{mathpazo} % Math Palatino font.
 
 % Hyperlinks.
 \usepackage{xcolor}
@@ -133,6 +139,7 @@ I might decide to include them in a later version of the notes, but this is very
 Basically anyone that has the same degree of knowledge of category theory that I had back in September 2019.
 Namely people that are comfortable with the notions of: categories, functors, natural transformations and (co)limits.
 In this last requirement I include the definition of (co)limits and all the standard ones (initial/terminal objects, products/coproducs, pullbacks/pushouts, equalizers/coequalizers).
+Moreover one should know what groups, abelian groups, rings and modules are, but nothing more than the mere definitions are needed.
 
 \medskip\noindent\emph{A word on section 6.}
 The sixth and last section was initially intended to be a brief example of application of Mitchell's Embdedding Theorem.
